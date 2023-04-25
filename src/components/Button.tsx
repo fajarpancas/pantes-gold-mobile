@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {scale} from '../services/Scale';
 import Colors from '../themes/Colors';
 import GlobalStyles from '../themes/GlobalStyles';
@@ -8,6 +8,7 @@ type ButtonProps = {
   title: string;
   onPress?: () => void;
   disabled?: boolean;
+  color?: string;
 };
 
 const styles = StyleSheet.create({
@@ -23,10 +24,11 @@ const styles = StyleSheet.create({
 });
 
 const Button = (props: ButtonProps) => {
-  const {title, onPress, disabled} = props;
+  const {title, onPress, disabled, color} = props;
   const isDisable = disabled || false;
   return (
-    <Pressable
+    <TouchableOpacity
+      activeOpacity={0.8}
       onPress={onPress}
       disabled={isDisable}
       style={[
@@ -35,11 +37,13 @@ const Button = (props: ButtonProps) => {
         {
           backgroundColor: isDisable
             ? Colors.disableButton
+            : color
+            ? color
             : Colors.activeButton,
         },
       ]}>
       <Text style={styles.title}>{title || 'Title'}</Text>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

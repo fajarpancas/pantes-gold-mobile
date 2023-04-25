@@ -13,6 +13,7 @@ const AuthNavigation = () => {
     <Stack.Navigator
       screenOptions={{
         freezeOnBlur: true,
+        headerShown: false,
       }}>
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} />

@@ -2,7 +2,7 @@ import produce from 'immer';
 import SessionModel from '../../models/SessionModel';
 import {authStore} from '../auth/AuthStore';
 import {userStore} from '../user/UserStore';
-import {sessionStore} from '../session/SessionStore';
+import {sessionStore} from './SessionStore';
 
 const SessionActions = (set: any) => {
   return {
