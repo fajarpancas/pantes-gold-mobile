@@ -1,12 +1,12 @@
-package com.vsboilerplatev2.modules;
+package com.pantesrequest.modules;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
-import com.vsboilerplatev2.modules.constanthelper.ConstantHelperModule;
-import com.vsboilerplatev2.modules.splashscreen.SplashScreenModule;
+import com.pantesrequest.modules.constanthelper.ConstantHelperModule;
+import com.pantesrequest.modules.splashscreen.SplashScreenModule;
 
 import java.util.ArrayList;
 import java.util.Collections;

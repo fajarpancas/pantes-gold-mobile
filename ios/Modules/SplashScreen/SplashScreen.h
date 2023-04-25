@@ -1,8 +1,8 @@
 //
 //  SplashScreen.h
-//  VsBoilerPlateV2
+//  PantesRequest
 //
-//  Created by Rahmat Zulfikri on 10/02/23.
+//  Created by Fajar Panca on 10/04/23.
 //
 
 #import <React/RCTBridgeModule.h>

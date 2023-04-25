@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface VsBoilerPlateV2Tests : XCTestCase
+@interface PantesRequestTests : XCTestCase
 
 @end
 
-@implementation VsBoilerPlateV2Tests
+@implementation PantesRequestTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL (^)(UIView *view))test
 {

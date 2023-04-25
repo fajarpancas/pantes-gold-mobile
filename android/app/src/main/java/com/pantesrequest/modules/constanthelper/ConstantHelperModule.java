@@ -1,9 +1,9 @@
-package com.vsboilerplatev2.modules.constanthelper;
+package com.pantesrequest.modules.constanthelper;
 
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.vsboilerplatev2.BuildConfig;
+import com.pantesrequest.BuildConfig;
 
 public class ConstantHelperModule extends ReactContextBaseJavaModule {
   public ConstantHelperModule(ReactApplicationContext reactContext) {

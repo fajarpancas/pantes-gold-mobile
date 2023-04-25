@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* VsBoilerPlateV2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* VsBoilerPlateV2Tests.m */; };
-		0C80B921A6F3F58F76C31292 /* libPods-VsBoilerPlateV2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-VsBoilerPlateV2.a */; };
+		00E356F31AD99517003FC87E /* PantesRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PantesRequestTests.m */; };
+		0C80B921A6F3F58F76C31292 /* libPods-PantesRequest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-PantesRequest.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		44BC83DC299644CE00A0D306 /* SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BC83DB299644CE00A0D306 /* SplashScreen.m */; };
 		44BC83DE299644F200A0D306 /* ConstantHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BC83DD299644F200A0D306 /* ConstantHelper.m */; };
-		7699B88040F8A987B510C191 /* libPods-VsBoilerPlateV2-VsBoilerPlateV2Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-VsBoilerPlateV2-VsBoilerPlateV2Tests.a */; };
+		7699B88040F8A987B510C191 /* libPods-PantesRequest-PantesRequestTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-PantesRequest-PantesRequestTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -24,33 +24,33 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = VsBoilerPlateV2;
+			remoteInfo = PantesRequest;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* VsBoilerPlateV2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VsBoilerPlateV2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* PantesRequestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PantesRequestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* VsBoilerPlateV2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VsBoilerPlateV2Tests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* Debug - VsBoilerPlateV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Debug - VsBoilerPlateV2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = VsBoilerPlateV2/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = VsBoilerPlateV2/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = VsBoilerPlateV2/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = VsBoilerPlateV2/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = VsBoilerPlateV2/main.m; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-VsBoilerPlateV2-VsBoilerPlateV2Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VsBoilerPlateV2-VsBoilerPlateV2Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		39F0DC23CF891CBBA0206D9D /* Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests.staging.xcconfig"; path = "Target Support Files/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests.staging.xcconfig"; sourceTree = "<group>"; };
-		3B4392A12AC88292D35C810B /* Pods-VsBoilerPlateV2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VsBoilerPlateV2.debug.xcconfig"; path = "Target Support Files/Pods-VsBoilerPlateV2/Pods-VsBoilerPlateV2.debug.xcconfig"; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* PantesRequestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PantesRequestTests.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* Debug - PantesRequest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Debug - PantesRequest.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = PantesRequest/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = PantesRequest/AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = PantesRequest/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = PantesRequest/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = PantesRequest/main.m; sourceTree = "<group>"; };
+		19F6CBCC0A4E27FBF8BF4A61 /* libPods-PantesRequest-PantesRequestTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PantesRequest-PantesRequestTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		39F0DC23CF891CBBA0206D9D /* Pods-PantesRequest-PantesRequestTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PantesRequest-PantesRequestTests.staging.xcconfig"; path = "Target Support Files/Pods-PantesRequest-PantesRequestTests/Pods-PantesRequest-PantesRequestTests.staging.xcconfig"; sourceTree = "<group>"; };
+		3B4392A12AC88292D35C810B /* Pods-PantesRequest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PantesRequest.debug.xcconfig"; path = "Target Support Files/Pods-PantesRequest/Pods-PantesRequest.debug.xcconfig"; sourceTree = "<group>"; };
 		44BC83DB299644CE00A0D306 /* SplashScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SplashScreen.m; sourceTree = "<group>"; };
 		44BC83DD299644F200A0D306 /* ConstantHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConstantHelper.m; sourceTree = "<group>"; };
 		44BC83DF29964AA400A0D306 /* ConstantHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConstantHelper.h; sourceTree = "<group>"; };
 		44BC83E029964B8300A0D306 /* SplashScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplashScreen.h; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-VsBoilerPlateV2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VsBoilerPlateV2.release.xcconfig"; path = "Target Support Files/Pods-VsBoilerPlateV2/Pods-VsBoilerPlateV2.release.xcconfig"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests.debug.xcconfig"; path = "Target Support Files/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-VsBoilerPlateV2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VsBoilerPlateV2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		664F0D2A53AE29E5463B3A86 /* Pods-VsBoilerPlateV2.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VsBoilerPlateV2.staging.xcconfig"; path = "Target Support Files/Pods-VsBoilerPlateV2/Pods-VsBoilerPlateV2.staging.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = VsBoilerPlateV2/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests.release.xcconfig"; path = "Target Support Files/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests.release.xcconfig"; sourceTree = "<group>"; };
+		5709B34CF0A7D63546082F79 /* Pods-PantesRequest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PantesRequest.release.xcconfig"; path = "Target Support Files/Pods-PantesRequest/Pods-PantesRequest.release.xcconfig"; sourceTree = "<group>"; };
+		5B7EB9410499542E8C5724F5 /* Pods-PantesRequest-PantesRequestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PantesRequest-PantesRequestTests.debug.xcconfig"; path = "Target Support Files/Pods-PantesRequest-PantesRequestTests/Pods-PantesRequest-PantesRequestTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5DCACB8F33CDC322A6C60F78 /* libPods-PantesRequest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PantesRequest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		664F0D2A53AE29E5463B3A86 /* Pods-PantesRequest.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PantesRequest.staging.xcconfig"; path = "Target Support Files/Pods-PantesRequest/Pods-PantesRequest.staging.xcconfig"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = PantesRequest/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		89C6BE57DB24E9ADA2F236DE /* Pods-PantesRequest-PantesRequestTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PantesRequest-PantesRequestTests.release.xcconfig"; path = "Target Support Files/Pods-PantesRequest-PantesRequestTests/Pods-PantesRequest-PantesRequestTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-VsBoilerPlateV2-VsBoilerPlateV2Tests.a in Frameworks */,
+				7699B88040F8A987B510C191 /* libPods-PantesRequest-PantesRequestTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,20 +67,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-VsBoilerPlateV2.a in Frameworks */,
+				0C80B921A6F3F58F76C31292 /* libPods-PantesRequest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* VsBoilerPlateV2Tests */ = {
+		00E356EF1AD99517003FC87E /* PantesRequestTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* VsBoilerPlateV2Tests.m */,
+				00E356F21AD99517003FC87E /* PantesRequestTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = VsBoilerPlateV2Tests;
+			path = PantesRequestTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -91,7 +91,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* VsBoilerPlateV2 */ = {
+		13B07FAE1A68108700A75B9A /* PantesRequest */ = {
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -101,15 +101,15 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = VsBoilerPlateV2;
+			name = PantesRequest;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-VsBoilerPlateV2.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-VsBoilerPlateV2-VsBoilerPlateV2Tests.a */,
+				5DCACB8F33CDC322A6C60F78 /* libPods-PantesRequest.a */,
+				19F6CBCC0A4E27FBF8BF4A61 /* libPods-PantesRequest-PantesRequestTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -152,9 +152,9 @@
 			isa = PBXGroup;
 			children = (
 				44BC83D82996438E00A0D306 /* Modules */,
-				13B07FAE1A68108700A75B9A /* VsBoilerPlateV2 */,
+				13B07FAE1A68108700A75B9A /* PantesRequest */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* VsBoilerPlateV2Tests */,
+				00E356EF1AD99517003FC87E /* PantesRequestTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
@@ -167,8 +167,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* Debug - VsBoilerPlateV2.app */,
-				00E356EE1AD99517003FC87E /* VsBoilerPlateV2Tests.xctest */,
+				13B07F961A680F5B00A75B9A /* Debug - PantesRequest.app */,
+				00E356EE1AD99517003FC87E /* PantesRequestTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -176,12 +176,12 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-VsBoilerPlateV2.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-VsBoilerPlateV2.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests.release.xcconfig */,
-				664F0D2A53AE29E5463B3A86 /* Pods-VsBoilerPlateV2.staging.xcconfig */,
-				39F0DC23CF891CBBA0206D9D /* Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests.staging.xcconfig */,
+				3B4392A12AC88292D35C810B /* Pods-PantesRequest.debug.xcconfig */,
+				5709B34CF0A7D63546082F79 /* Pods-PantesRequest.release.xcconfig */,
+				5B7EB9410499542E8C5724F5 /* Pods-PantesRequest-PantesRequestTests.debug.xcconfig */,
+				89C6BE57DB24E9ADA2F236DE /* Pods-PantesRequest-PantesRequestTests.release.xcconfig */,
+				664F0D2A53AE29E5463B3A86 /* Pods-PantesRequest.staging.xcconfig */,
+				39F0DC23CF891CBBA0206D9D /* Pods-PantesRequest-PantesRequestTests.staging.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -189,9 +189,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* VsBoilerPlateV2Tests */ = {
+		00E356ED1AD99517003FC87E /* PantesRequestTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "VsBoilerPlateV2Tests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "PantesRequestTests" */;
 			buildPhases = (
 				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -205,14 +205,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = VsBoilerPlateV2Tests;
-			productName = VsBoilerPlateV2Tests;
-			productReference = 00E356EE1AD99517003FC87E /* VsBoilerPlateV2Tests.xctest */;
+			name = PantesRequestTests;
+			productName = PantesRequestTests;
+			productReference = 00E356EE1AD99517003FC87E /* PantesRequestTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* VsBoilerPlateV2 */ = {
+		13B07F861A680F5B00A75B9A /* PantesRequest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "VsBoilerPlateV2" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "PantesRequest" */;
 			buildPhases = (
 				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -227,9 +227,9 @@
 			);
 			dependencies = (
 			);
-			name = VsBoilerPlateV2;
-			productName = VsBoilerPlateV2;
-			productReference = 13B07F961A680F5B00A75B9A /* Debug - VsBoilerPlateV2.app */;
+			name = PantesRequest;
+			productName = PantesRequest;
+			productReference = 13B07F961A680F5B00A75B9A /* Debug - PantesRequest.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -249,7 +249,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "VsBoilerPlateV2" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "PantesRequest" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -262,8 +262,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* VsBoilerPlateV2 */,
-				00E356ED1AD99517003FC87E /* VsBoilerPlateV2Tests */,
+				13B07F861A680F5B00A75B9A /* PantesRequest */,
+				00E356ED1AD99517003FC87E /* PantesRequestTests */,
 			);
 		};
 /* End PBXProject section */
@@ -310,15 +310,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VsBoilerPlateV2/Pods-VsBoilerPlateV2-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PantesRequest/Pods-PantesRequest-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VsBoilerPlateV2/Pods-VsBoilerPlateV2-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PantesRequest/Pods-PantesRequest-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VsBoilerPlateV2/Pods-VsBoilerPlateV2-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PantesRequest/Pods-PantesRequest-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
@@ -336,7 +336,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-PantesRequest-PantesRequestTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -358,7 +358,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-VsBoilerPlateV2-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-PantesRequest-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -371,15 +371,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PantesRequest-PantesRequestTests/Pods-PantesRequest-PantesRequestTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PantesRequest-PantesRequestTests/Pods-PantesRequest-PantesRequestTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PantesRequest-PantesRequestTests/Pods-PantesRequest-PantesRequestTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
@@ -388,15 +388,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VsBoilerPlateV2/Pods-VsBoilerPlateV2-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PantesRequest/Pods-PantesRequest-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VsBoilerPlateV2/Pods-VsBoilerPlateV2-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PantesRequest/Pods-PantesRequest-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VsBoilerPlateV2/Pods-VsBoilerPlateV2-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PantesRequest/Pods-PantesRequest-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
@@ -405,15 +405,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PantesRequest-PantesRequestTests/Pods-PantesRequest-PantesRequestTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-PantesRequest-PantesRequestTests/Pods-PantesRequest-PantesRequestTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests/Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PantesRequest-PantesRequestTests/Pods-PantesRequest-PantesRequestTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -442,7 +442,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* VsBoilerPlateV2Tests.m in Sources */,
+				00E356F31AD99517003FC87E /* PantesRequestTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,7 +462,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* VsBoilerPlateV2 */;
+			target = 13B07F861A680F5B00A75B9A /* PantesRequest */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -470,14 +470,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests.debug.xcconfig */;
+			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-PantesRequest-PantesRequestTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = VsBoilerPlateV2Tests/Info.plist;
+				INFOPLIST_FILE = PantesRequestTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -491,17 +491,17 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VsBoilerPlateV2.app/VsBoilerPlateV2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PantesRequest.app/PantesRequest";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests.release.xcconfig */;
+			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-PantesRequest-PantesRequestTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = VsBoilerPlateV2Tests/Info.plist;
+				INFOPLIST_FILE = PantesRequestTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -515,13 +515,13 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VsBoilerPlateV2.app/VsBoilerPlateV2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PantesRequest.app/PantesRequest";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-VsBoilerPlateV2.debug.xcconfig */;
+			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-PantesRequest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BASE_URL = "https://reqres.in/";
@@ -531,7 +531,7 @@
 				DEVELOPMENT_TEAM = DCTSY42T2N;
 				ENABLE_BITCODE = NO;
 				ENVIRONTMENT = DEBUG;
-				INFOPLIST_FILE = VsBoilerPlateV2/Info.plist;
+				INFOPLIST_FILE = PantesRequest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -542,8 +542,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.vsboilerplatev2.staging;
-				PRODUCT_NAME = "Debug - VsBoilerPlateV2";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pantesrequest.staging;
+				PRODUCT_NAME = "Debug - PantesRequest";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -552,7 +552,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-VsBoilerPlateV2.release.xcconfig */;
+			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-PantesRequest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BASE_URL = "https://reqres.in/";
@@ -561,7 +561,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DCTSY42T2N;
 				ENVIRONTMENT = PRODUCTION;
-				INFOPLIST_FILE = VsBoilerPlateV2/Info.plist;
+				INFOPLIST_FILE = PantesRequest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -572,8 +572,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.vsboilerplatev2;
-				PRODUCT_NAME = VsBoilerPlateV2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pantesrequest;
+				PRODUCT_NAME = PantesRequest;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -638,7 +638,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				PRODUCT_NAME = "Staging - VSBoilerplateV2";
+				PRODUCT_NAME = "Staging - Pantes Request";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -647,7 +647,7 @@
 		};
 		44BC83D62996429200A0D306 /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 664F0D2A53AE29E5463B3A86 /* Pods-VsBoilerPlateV2.staging.xcconfig */;
+			baseConfigurationReference = 664F0D2A53AE29E5463B3A86 /* Pods-PantesRequest.staging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BASE_URL = "https://reqres.in/";
@@ -656,7 +656,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DCTSY42T2N;
 				ENVIRONTMENT = STAGING;
-				INFOPLIST_FILE = VsBoilerPlateV2/Info.plist;
+				INFOPLIST_FILE = PantesRequest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -667,8 +667,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.vsboilerplatev2.staging;
-				PRODUCT_NAME = "Staging - VsBoilerPlateV2";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pantesrequest.staging;
+				PRODUCT_NAME = "Staging - PantesRequest";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -676,11 +676,11 @@
 		};
 		44BC83D72996429200A0D306 /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 39F0DC23CF891CBBA0206D9D /* Pods-VsBoilerPlateV2-VsBoilerPlateV2Tests.staging.xcconfig */;
+			baseConfigurationReference = 39F0DC23CF891CBBA0206D9D /* Pods-PantesRequest-PantesRequestTests.staging.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = VsBoilerPlateV2Tests/Info.plist;
+				INFOPLIST_FILE = PantesRequestTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -694,7 +694,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VsBoilerPlateV2.app/VsBoilerPlateV2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PantesRequest.app/PantesRequest";
 			};
 			name = Staging;
 		};
@@ -765,7 +765,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				PRODUCT_NAME = "Debug - VSBoilerplateV2";
+				PRODUCT_NAME = "Debug - Pantes Request";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 			};
@@ -830,7 +830,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				PRODUCT_NAME = VSBoilerplateV2;
+				PRODUCT_NAME = Pantes Request;
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -840,7 +840,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "VsBoilerPlateV2Tests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "PantesRequestTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -850,7 +850,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "VsBoilerPlateV2" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "PantesRequest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -860,7 +860,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "VsBoilerPlateV2" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "PantesRequest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

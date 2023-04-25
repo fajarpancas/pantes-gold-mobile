@@ -1,10 +1,10 @@
-package com.vsboilerplatev2.modules.splashscreen;
+package com.pantesrequest.modules.splashscreen;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Build;
 
-import com.vsboilerplatev2.R;
+import com.pantesrequest.R;
 
 import java.lang.ref.WeakReference;
 

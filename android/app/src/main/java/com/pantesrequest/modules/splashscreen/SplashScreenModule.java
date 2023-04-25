@@ -1,4 +1,4 @@
-package com.vsboilerplatev2.modules.splashscreen;
+package com.pantesrequest.modules.splashscreen;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;

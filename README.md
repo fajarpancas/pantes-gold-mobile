@@ -39,7 +39,7 @@ This is new boilerplate of VirtualSpirit Mobile.
 
 This project provide three environtment, the environtment will be using any constant that set in native way. check doc below `How to set Constant & env` for more detail.
 
-1. `Debug` For android you can run `npx react-native run-android`. For IOS open Xcode then select schema with name equal to project name `VsBoilerPlateV2`
+1. `Debug` For android you can run `npx react-native run-android`. For IOS open Xcode then select schema with name equal to project name `Pantes Request`
 2. `Staging` For android you can run `npx react-native run-android --variant=ReleaseStaging`. For IOS open Xcode then select schema that start with name `Staging - ...`
 3. `Production` For android you can run `npx react-native run-android --variant=Release`. For IOS open Xcode then select schema that start with name `Production - ...`
 
@@ -60,7 +60,7 @@ check listed file below
 
 check this in the xcode project
 
-1. select `the project (VsBoilerPlateV2)` -> select targets `VsBoilerPlateV2` -> choose tab `Build Settings` -> scroll to `User-Defined`
+1. select `the project (Pantes Request)` -> select targets `Pantes Request` -> choose tab `Build Settings` -> scroll to `User-Defined`
 2. open `Info.Plist` file
 
 ### Javascript

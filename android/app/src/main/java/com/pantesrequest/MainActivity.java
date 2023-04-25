@@ -1,11 +1,11 @@
-package com.vsboilerplatev2;
+package com.pantesrequest;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
 
-import com.vsboilerplatev2.modules.splashscreen.SplashScreen;
+import com.pantesrequest.modules.splashscreen.SplashScreen;
 
 public class MainActivity extends ReactActivity {
 
@@ -16,7 +16,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "VsBoilerPlateV2";
+    return "PantesRequest";
   }
 
   /**
