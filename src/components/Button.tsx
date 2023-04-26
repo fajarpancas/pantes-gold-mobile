@@ -1,14 +1,17 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {scale} from '../services/Scale';
 import Colors from '../themes/Colors';
 import GlobalStyles from '../themes/GlobalStyles';
+import Text from './Text';
 
 type ButtonProps = {
   title: string;
   onPress?: () => void;
   disabled?: boolean;
   color?: string;
+  border?: string;
+  titleColor?: string;
 };
 
 const styles = StyleSheet.create({
@@ -16,15 +19,10 @@ const styles = StyleSheet.create({
     height: scale(45),
     borderRadius: scale(10),
   },
-  title: {
-    color: Colors.white,
-    fontSize: scale(15),
-    fontWeight: '700',
-  },
 });
 
 const Button = (props: ButtonProps) => {
-  const {title, onPress, disabled, color} = props;
+  const {title, onPress, disabled, color, border, titleColor} = props;
   const isDisable = disabled || false;
   return (
     <TouchableOpacity
@@ -40,9 +38,13 @@ const Button = (props: ButtonProps) => {
             : color
             ? color
             : Colors.activeButton,
+          borderColor: border,
+          borderWidth: border ? 1 : 0,
         },
       ]}>
-      <Text style={styles.title}>{title || 'Title'}</Text>
+      <Text size={15} family="semiBold" color={titleColor || Colors.white}>
+        {title || 'Title'}
+      </Text>
     </TouchableOpacity>
   );
 };

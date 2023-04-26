@@ -1,8 +1,8 @@
 const type = {
-  regular: 'Regular',
-  medium: 'Medium',
-  semibold: 'SemiBold',
-  bold: 'Bold',
+  regular: 'Manrope-Regular',
+  medium: 'Manrope-Medium',
+  semibold: 'Manrope-SemiBold',
+  bold: 'Manrope-Bold',
 };
 
 export default {

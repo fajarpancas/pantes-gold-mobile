@@ -5,7 +5,17 @@ export const HomeScreen = register({
   name: 'HomeScreen',
 });
 
-export const MoreScreen = register({
-  loader: () => require('../../screens/main/MoreScreen'),
-  name: 'MoreScreen',
+export const CartScreen = register({
+  loader: () => require('../../screens/main/CartScreen'),
+  name: 'CartScreen',
+});
+
+export const AddOrderScreen = register({
+  loader: () => require('../../screens/main/AddOrderScreen'),
+  name: 'AddOrderScreen',
+});
+
+export const OrderScreen = register({
+  loader: () => require('../../screens/main/OrderScreen'),
+  name: 'OrderScreen',
 });

@@ -11,6 +11,11 @@ const Colors = {
   primary: '#006C4B',
   placeholder: '#636C72',
   error: '#FF9494',
+  greenlight: '#BEFFDC',
+  yellow: '#FFF2AD',
+  red: '#FFDAD6',
+  outlineBase: '#70797340',
+  greenBg: '#eef6f6',
 };
 
 export default Colors;

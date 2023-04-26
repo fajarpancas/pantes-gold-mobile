@@ -7,11 +7,14 @@ export type AuthStackParams = {
 
 export type MainTabParams = {
   HomeScreen: undefined;
-  MoreScreen: undefined;
+  AddOrder: undefined;
+  CartScreen: undefined;
 };
 
 export type MainStackParams = {
   Main: undefined;
+  AddOrderScreen: undefined;
+  OrderScreen: undefined;
 };
 
 type RootParamList = ReactNavigation.RootParamList;

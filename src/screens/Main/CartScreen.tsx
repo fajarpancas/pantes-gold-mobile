@@ -4,7 +4,7 @@ import Button from '../../components/Button';
 import {sessionStore} from '../../stores/session/SessionStore';
 import GlobalStyles from '../../themes/GlobalStyles';
 
-class MoreScreen extends React.PureComponent {
+class CartScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     this.onPressLogout = this.onPressLogout.bind(this);
@@ -23,4 +23,4 @@ class MoreScreen extends React.PureComponent {
   }
 }
 
-export default MoreScreen;
+export default CartScreen;

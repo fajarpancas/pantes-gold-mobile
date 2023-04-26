@@ -10,7 +10,7 @@ type props = {
 
 const LabelTextInput: React.FC<props> = ({label, color, size}) => {
   return (
-    <Text color={color ?? Colors.fontBlack} size={size ?? 14}>
+    <Text family="semiBold" color={color ?? Colors.fontBlack} size={size ?? 14}>
       {label}
     </Text>
   );
