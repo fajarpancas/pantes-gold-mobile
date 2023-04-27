@@ -4,6 +4,7 @@ import {MainStackParams} from '../models/NavigationModel';
 import MainTab from './MainTab';
 import {
   AddOrderScreen,
+  OfferDetailScreen,
   OrderScreen,
 } from '../services/bundle_splitter/MainRegistration';
 
@@ -31,6 +32,11 @@ const MainNavigation = () => {
         name="AddOrderScreen"
         component={AddOrderScreen}
         options={{title: 'Pesan', headerShadowVisible: false}}
+      />
+      <Stack.Screen
+        name="OfferDetailScreen"
+        component={OfferDetailScreen}
+        options={{title: 'Penawaran', headerShadowVisible: false}}
       />
     </Stack.Navigator>
   );

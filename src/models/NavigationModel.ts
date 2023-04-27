@@ -15,6 +15,7 @@ export type MainStackParams = {
   Main: undefined;
   AddOrderScreen: undefined;
   OrderScreen: undefined;
+  OfferDetailScreen: undefined;
 };
 
 type RootParamList = ReactNavigation.RootParamList;

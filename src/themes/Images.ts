@@ -7,6 +7,7 @@ const Images = {
   iconCamera: require('../images/ic_camera.png'),
   iconMinus: require('../images/ic_minus.png'),
   iconPlus: require('../images/ic_plus.png'),
+  iconCheckCircle: require('../images/ic_check_circle.png'),
 
   // menu
   iconHome: require('../images/menu/home.png'),

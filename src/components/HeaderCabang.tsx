@@ -6,7 +6,9 @@ import {scale} from '../services/Scale';
 const HeaderCabang: React.FC = () => {
   return (
     <View style={styles.cabangPadding}>
-      <Text size={16}>Cabang Sindang Laut</Text>
+      <Text size={16} family="bold">
+        Cabang Sindang Laut
+      </Text>
     </View>
   );
 };

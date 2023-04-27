@@ -91,7 +91,7 @@ const MainTab = () => {
                 <View style={styles.justifyCenter}>
                   <Image source={Images.iconCartFilled} style={styles.icon} />
                   <Text family="semiBold" color={Colors.primary} size={11.67}>
-                    Account
+                    Keranjang
                   </Text>
                 </View>
               );
@@ -101,7 +101,7 @@ const MainTab = () => {
             <View style={styles.justifyCenter}>
               <Image source={Images.iconCart} style={styles.icon} />
               <Text family="regular" color={Colors.fontBlack} size={11.67}>
-                Account
+                Keranjang
               </Text>
             </View>
           );

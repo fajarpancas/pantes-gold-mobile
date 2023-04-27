@@ -3,7 +3,6 @@ import {
   Image,
   ImageBackground,
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -12,12 +11,10 @@ import {
 } from 'react-native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthStackParams} from '../../models/NavigationModel';
-import GlobalStyles from '../../themes/GlobalStyles';
 import {scale} from '../../services/Scale';
 import Button from '../../components/Button';
 import Spacer from '../../components/Spacer';
 import NavigationServices from '../../services/NavigationServices';
-import {authStore} from '../../stores/auth/AuthStore';
 import LabelTextInput from '../../components/LabelTextInput';
 import {Formik} from 'formik';
 import * as Yup from 'yup';

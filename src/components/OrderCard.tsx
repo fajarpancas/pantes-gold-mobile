@@ -49,7 +49,7 @@ const OrderCard: React.FC<Props> = ({item, onPress}) => {
       <Spacer height={4} />
 
       <View style={[getStyles(), styles.statusWrapper]}>
-        <Text>{item?.status}</Text>
+        <Text family="bold">{item?.status}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   statusWrapper: {
     borderRadius: scale(100),
-    paddingVertical: scale(3),
+    paddingVertical: scale(4),
     justifyContent: 'center',
     alignItems: 'center',
   },

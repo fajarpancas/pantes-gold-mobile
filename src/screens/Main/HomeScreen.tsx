@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StatusBar, StyleSheet, TouchableOpacity, View} from 'react-native';
 import Colors from '../../themes/Colors';
 import Spacer from '../../components/Spacer';
 import OrderCard from '../../components/OrderCard';
@@ -65,14 +65,18 @@ class HomeScreen extends React.PureComponent {
   render(): React.ReactNode {
     return (
       <View style={styles.container}>
+        <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
+
         <HeaderCabang />
         <Spacer height={30} />
         {dummy?.length && (
           <>
             <View style={[styles.padding20, styles.flexRow]}>
-              <Text size={16}>Pesanan</Text>
+              <Text size={16} family="bold">
+                Pesanan
+              </Text>
               <TouchableOpacity onPress={this.navigate} activeOpacity={0.8}>
-                <Text size={12} color={Colors.primary}>
+                <Text size={12} family="semiBold" color={Colors.primary}>
                   Lihat semua
                 </Text>
               </TouchableOpacity>
@@ -94,9 +98,11 @@ class HomeScreen extends React.PureComponent {
           <>
             <Spacer height={25} />
             <View style={[styles.padding20, styles.flexRow]}>
-              <Text size={16}>Penawaran</Text>
+              <Text size={16} family="bold">
+                Penawaran
+              </Text>
               <TouchableOpacity activeOpacity={0.8}>
-                <Text size={12} color={Colors.primary}>
+                <Text size={12} family="semiBold" color={Colors.primary}>
                   Lihat semua
                 </Text>
               </TouchableOpacity>
@@ -106,7 +112,13 @@ class HomeScreen extends React.PureComponent {
               {dummyOffer.map((item, index) => {
                 return (
                   <View style={index !== 0 ? styles.paddingLeft10 : {}}>
-                    <OfferCard item={item} hideStatus />
+                    <OfferCard
+                      item={item}
+                      onPress={() =>
+                        NavigationServices.navigate('OfferDetailScreen', {item})
+                      }
+                      hideStatus
+                    />
                   </View>
                 );
               })}

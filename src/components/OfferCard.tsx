@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   nameHeight: {
-    height: scale(30),
+    height: scale(40),
     justifyContent: 'center',
   },
 });
