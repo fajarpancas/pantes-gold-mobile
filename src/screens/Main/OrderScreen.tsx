@@ -11,7 +11,6 @@ import Spacer from '../../components/Spacer';
 import OrderCard from '../../components/OrderCard';
 import {scale} from '../../services/Scale';
 import Text from '../../components/Text';
-import OfferCard from '../../components/OfferCard';
 import Images from '../../themes/Images';
 
 const img =
@@ -228,7 +227,17 @@ const dummy = [
   },
 ];
 
+const STATUS = ['Semua status', 'Diproses', 'Ditolak', 'Selesai'];
+
 class OrderScreen extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      filterStatus: 0,
+    };
+  }
+
   componentDidMount(): void {}
 
   render(): React.ReactNode {
@@ -251,16 +260,60 @@ class OrderScreen extends React.PureComponent {
             dummy?.length ? styles.paddingHorizontal : styles.emptyContainer
           }
           ListHeaderComponent={
-            <>
-              <Spacer height={5} />
-              <View style={styles.rowBetween}>
-                <Text size={14}>Cabang ABS</Text>
-                <TouchableOpacity style={styles.filterWrapper}>
-                  <Image source={Images.iconFilter} style={styles.icFilter} />
-                </TouchableOpacity>
-              </View>
-              <Spacer height={10} />
-            </>
+            dummy?.length ? (
+              <>
+                <Spacer height={5} />
+
+                <View style={styles.rowWrap}>
+                  {STATUS.map((s, index) => {
+                    const isSelected = index === this.state.filterStatus;
+                    return (
+                      <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={() => this.setState({filterStatus: index})}
+                        style={[
+                          styles.statusWrapper,
+                          isSelected ? styles.bgGreen : styles.bgWhite,
+                          index !== 0 ? styles.marginLeft8 : {},
+                        ]}>
+                        <Text
+                          family={isSelected ? 'semiBold' : 'regular'}
+                          color={isSelected ? Colors.white : Colors.fontBlack}>
+                          {s}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+                <Spacer height={15} />
+                <View style={styles.rowFlex}>
+                  <View style={styles.rowBetween}>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      style={styles.rowFlex}>
+                      <Image
+                        source={Images.iconFilter}
+                        style={styles.icFilter}
+                      />
+                      <Spacer width={10} />
+                      <Text size={14}>Filter pesanan</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.resetWrapper}>
+                    <TouchableOpacity>
+                      <Text color="red" family="bold">
+                        Reset filter
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <Spacer height={10} />
+
+                <Spacer height={10} />
+              </>
+            ) : (
+              <View />
+            )
           }
           numColumns={3}
           ListEmptyComponent={
@@ -309,25 +362,55 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  filterWrapper: {
-    width: scale(28),
-    height: scale(28),
-    elevation: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: scale(8),
-    backgroundColor: Colors.white,
-    alignSelf: 'flex-end',
-  },
   icFilter: {
     width: scale(20),
     height: scale(20),
     resizeMode: 'contain',
   },
   rowBetween: {
+    width: scale(220),
+    height: scale(30),
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    alignItems: 'center',
+    elevation: 5,
+    backgroundColor: Colors.white,
+    borderRadius: scale(12),
+    paddingLeft: scale(10),
+  },
+  statusWrapper: {
+    borderRadius: scale(12),
+    height: scale(30),
+    justifyContent: 'center',
+    elevation: 5,
+    paddingHorizontal: scale(10),
+  },
+  bgWhite: {
+    backgroundColor: Colors.white,
+  },
+  bgGreen: {
+    backgroundColor: Colors.primary,
+  },
+  marginLeft8: {
+    marginLeft: scale(8),
+  },
+  rowWrap: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  rowFlex: {
+    flexDirection: 'row',
+    width: scale(320),
+  },
+  resetWrapper: {
+    backgroundColor: Colors.white,
+    elevation: 5,
+    borderRadius: scale(12),
+    height: scale(30),
+    paddingHorizontal: scale(10),
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: scale(90),
+    marginLeft: scale(10),
   },
 });
 

@@ -7,6 +7,7 @@ import {
   OfferDetailScreen,
   OrderScreen,
 } from '../services/bundle_splitter/MainRegistration';
+import OrderDetailScreen from '../screens/main/OrderDetailScreen';
 
 const Stack = createNativeStackNavigator<MainStackParams>();
 
@@ -36,6 +37,11 @@ const MainNavigation = () => {
       <Stack.Screen
         name="OfferDetailScreen"
         component={OfferDetailScreen}
+        options={{title: 'Penawaran', headerShadowVisible: false}}
+      />
+      <Stack.Screen
+        name="OrderDetailScreen"
+        component={OrderDetailScreen}
         options={{title: 'Penawaran', headerShadowVisible: false}}
       />
     </Stack.Navigator>

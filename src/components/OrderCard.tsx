@@ -34,10 +34,10 @@ const OrderCard: React.FC<Props> = ({item, onPress}) => {
       onPress={onPress}
       style={styles.wrapper}>
       <Image source={{uri: item?.image}} style={styles.image} />
-      <Spacer height={4} />
+      <Spacer height={8} />
       <Text>{item?.date}</Text>
       <Text>
-        Qty<Text family="bold"> {item?.qty}</Text>
+        Qantity<Text family="bold"> {item?.qty}</Text>
       </Text>
       <Text>
         Kadar<Text family="bold"> {item?.kadar}</Text>
@@ -46,7 +46,7 @@ const OrderCard: React.FC<Props> = ({item, onPress}) => {
         Berat<Text family="bold"> {item?.berat}</Text>
       </Text>
 
-      <Spacer height={4} />
+      <Spacer height={6} />
 
       <View style={[getStyles(), styles.statusWrapper]}>
         <Text family="bold">{item?.status}</Text>
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: scale(8),
   },
   statusWrapper: {
-    borderRadius: scale(100),
+    borderRadius: scale(8),
     paddingVertical: scale(4),
     justifyContent: 'center',
     alignItems: 'center',

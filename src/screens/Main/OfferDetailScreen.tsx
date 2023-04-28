@@ -20,7 +20,7 @@ import NavigationServices from '../../services/NavigationServices';
 const desc =
   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
-class OfferScreen extends React.PureComponent {
+class OfferDetailScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -36,19 +36,18 @@ class OfferScreen extends React.PureComponent {
 
   render(): React.ReactNode {
     const {params} = this.props.route;
-    const {item} = params;
     return (
       <View style={styles.bgContainer}>
         <ScrollView>
           <HeaderCabang />
           <View style={styles.container}>
             <Spacer height={30} />
-            <Image source={{uri: item?.image}} style={styles.image} />
+            <Image source={{uri: params?.image}} style={styles.image} />
             <Spacer height={20} />
             <Text family="bold">Nama Barang</Text>
             <Spacer height={5} />
             <Text color={Colors.fontSemiBlack} lineHeight={20}>
-              {item?.name}
+              {params?.name}
             </Text>
             <Spacer height={20} />
             <Text family="bold">Deskripsi</Text>
@@ -89,7 +88,7 @@ class OfferScreen extends React.PureComponent {
         <SuccessModal
           visible={this.state.successModal}
           messageTitle="Submit Pesanan Penawaran Berhasil!"
-          messageDesc={`Selamat anda berhasil memesan ${this.state.qty} ${item?.name}.`}
+          messageDesc={`Selamat anda berhasil memesan ${this.state.qty} ${params?.name}.`}
           onPressOk={() => {
             this.setState({successModal: false});
             NavigationServices.pop();
@@ -132,4 +131,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OfferScreen;
+export default OfferDetailScreen;

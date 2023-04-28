@@ -24,3 +24,8 @@ export const OfferDetailScreen = register({
   loader: () => require('../../screens/main/OfferDetailScreen'),
   name: 'OfferDetailScreen',
 });
+
+export const OrderDetailScreen = register({
+  loader: () => require('../../screens/main/OrderDetailScreen'),
+  name: 'OrderDetailScreen',
+});

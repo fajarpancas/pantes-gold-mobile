@@ -86,7 +86,12 @@ class HomeScreen extends React.PureComponent {
               {dummy.map((item, index) => {
                 return (
                   <View style={index !== 0 ? styles.paddingLeft10 : {}}>
-                    <OrderCard item={item} />
+                    <OrderCard
+                      item={item}
+                      onPress={() =>
+                        NavigationServices.navigate('OrderDetailScreen', item)
+                      }
+                    />
                   </View>
                 );
               })}
@@ -115,7 +120,7 @@ class HomeScreen extends React.PureComponent {
                     <OfferCard
                       item={item}
                       onPress={() =>
-                        NavigationServices.navigate('OfferDetailScreen', {item})
+                        NavigationServices.navigate('OfferDetailScreen', item)
                       }
                       hideStatus
                     />
