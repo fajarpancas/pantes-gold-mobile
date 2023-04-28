@@ -13,7 +13,7 @@ const RootNavigation = ({isLogin}) => {
       ref={r => {
         NavigationServices.setInstance(r);
       }}>
-      {!isLogin ? <MainNavigation /> : <AuthNavigation />}
+      {isLogin ? <MainNavigation /> : <AuthNavigation />}
     </NavigationContainer>
   );
 };

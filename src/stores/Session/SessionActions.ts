@@ -3,6 +3,7 @@ import SessionModel from '../../models/SessionModel';
 import {authStore} from '../auth/AuthStore';
 import {userStore} from '../user/UserStore';
 import {sessionStore} from './SessionStore';
+import {User} from '../user/UserTypes';
 
 const SessionActions = (set: any) => {
   return {
@@ -10,6 +11,13 @@ const SessionActions = (set: any) => {
       set(
         produce((state: SessionModel) => {
           state.isLogin = isLogin;
+        }),
+      );
+    },
+    setUser: (user: User) => {
+      set(
+        produce((state: SessionModel) => {
+          state.user = user;
         }),
       );
     },

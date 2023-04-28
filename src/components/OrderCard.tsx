@@ -4,6 +4,7 @@ import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {scale} from '../services/Scale';
 import Colors from '../themes/Colors';
 import Spacer from './Spacer';
+import dayjs from 'dayjs';
 
 type Props = {
   item: any;
@@ -35,15 +36,15 @@ const OrderCard: React.FC<Props> = ({item, onPress}) => {
       style={styles.wrapper}>
       <Image source={{uri: item?.image}} style={styles.image} />
       <Spacer height={8} />
-      <Text>{item?.date}</Text>
+      <Text>{dayjs(item?.date).format('DD/MM/YYYY')}</Text>
       <Text>
         Qantity<Text family="bold"> {item?.qty}</Text>
       </Text>
       <Text>
-        Kadar<Text family="bold"> {item?.kadar}</Text>
+        Kadar<Text family="bold"> {item?.kadar}k</Text>
       </Text>
       <Text>
-        Berat<Text family="bold"> {item?.berat}</Text>
+        Berat<Text family="bold"> {item?.berat}gr</Text>
       </Text>
 
       <Spacer height={6} />

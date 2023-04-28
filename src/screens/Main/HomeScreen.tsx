@@ -15,7 +15,7 @@ const img =
 const dummy = [
   {
     image: img,
-    date: '10 Apr 2023',
+    date: new Date(2023, 3, 10),
     qty: 2,
     kadar: 24,
     berat: 5,
@@ -23,7 +23,7 @@ const dummy = [
   },
   {
     image: img,
-    date: '11 Apr 2023',
+    date: new Date(2023, 3, 12),
     qty: 1,
     kadar: 22,
     berat: 1,
@@ -31,7 +31,7 @@ const dummy = [
   },
   {
     image: img,
-    date: '12 Apr 2023',
+    date: new Date(2023, 3, 13),
     qty: 2,
     kadar: 24,
     berat: 2,
@@ -53,7 +53,7 @@ const dummyOffer = [
   },
   {
     image: imgOffer,
-    name: 'Gelang Cincin Emas',
+    name: 'Gelang Emas',
   },
 ];
 
@@ -106,7 +106,9 @@ class HomeScreen extends React.PureComponent {
               <Text size={16} family="bold">
                 Penawaran
               </Text>
-              <TouchableOpacity activeOpacity={0.8}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => NavigationServices.navigate('OfferScreen', {})}>
                 <Text size={12} family="semiBold" color={Colors.primary}>
                   Lihat semua
                 </Text>

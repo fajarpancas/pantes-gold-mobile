@@ -19,12 +19,15 @@ const SessionActions = (set: any) => {
         const response = await ApiServices.login(params);
         if (response.ok) {
           sessionStore.getState().setLogin(true);
-          sessionStore.getState().setToken(response.data?.token);
+          sessionStore.getState().setToken(response.data?.data?.token_user);
+          LoadingHelper.hide();
         } else {
+          LoadingHelper.hide();
           throw response.problem;
         }
         LoadingHelper.hide();
       } catch (error) {
+        LoadingHelper.hide();
         set(
           produce((state: AuthModel) => {
             state.loading = false;

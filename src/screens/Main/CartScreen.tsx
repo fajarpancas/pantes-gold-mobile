@@ -13,6 +13,7 @@ import Text from '../../components/Text';
 import Images from '../../themes/Images';
 import {scale} from '../../services/Scale';
 import NavigationServices from '../../services/NavigationServices';
+import dayjs from 'dayjs';
 
 class CartScreen extends React.PureComponent {
   constructor(props) {
@@ -35,7 +36,7 @@ class CartScreen extends React.PureComponent {
         <View>
           <Text family="bold">{item.name}</Text>
           <Text>Quantity {item.qty}</Text>
-          <Text>Dipesan pada {item.date}</Text>
+          <Text>Dipesan pada {dayjs(item.date).format('DD/MM/YYYY')}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -48,21 +49,21 @@ class CartScreen extends React.PureComponent {
           'https://i.pinimg.com/originals/6d/df/3c/6ddf3cc1986135e2f81a33644b66f920.jpg',
         name: 'Cincin Emas Naga',
         qty: 4,
-        date: '10/04/2023',
+        date: new Date(2023, 3, 11),
       },
       {
         image:
           'https://i.pinimg.com/originals/6d/df/3c/6ddf3cc1986135e2f81a33644b66f920.jpg',
         name: 'Cincin Emas Naga',
         qty: 4,
-        date: '10/04/2023',
+        date: new Date(2023, 3, 11),
       },
       {
         image:
           'https://i.pinimg.com/originals/6d/df/3c/6ddf3cc1986135e2f81a33644b66f920.jpg',
         name: 'Cincin Emas Naga',
         qty: 4,
-        date: '10/04/2023',
+        date: new Date(2023, 3, 11),
       },
     ];
     return (

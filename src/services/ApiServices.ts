@@ -64,7 +64,10 @@ class ApiServices {
   }
 
   login(params: LoginParams): Promise<LoginResponse> {
-    return this.api.post('/login', params);
+    let body = new FormData();
+    body.append('username', params?.username);
+    body.append('password', params?.password);
+    return this.api.post('/login', body);
   }
 
   register(params: RegisterParams) {

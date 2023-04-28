@@ -20,6 +20,7 @@ import {openCamera} from '../../services/CameraHelper';
 import SuccessModal from '../../components/SuccessModal';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import Fonts from '../../themes/Fonts';
 
 type ImageResponse = {
   path: string;
@@ -345,6 +346,7 @@ const styles = StyleSheet.create({
     height: scale(45),
     paddingLeft: scale(20),
     color: Colors.fontBlack,
+    fontFamily: Fonts.type.regular,
   },
   rightLabel: {
     width: scale(59),

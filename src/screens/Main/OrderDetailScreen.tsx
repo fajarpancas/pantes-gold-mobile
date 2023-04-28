@@ -5,6 +5,7 @@ import Spacer from '../../components/Spacer';
 import {scale} from '../../services/Scale';
 import Text from '../../components/Text';
 import HeaderCabang from '../../components/HeaderCabang';
+import dayjs from 'dayjs';
 
 class OrderDetailScreen extends React.PureComponent {
   getStyles = status => {
@@ -38,7 +39,7 @@ class OrderDetailScreen extends React.PureComponent {
             <View style={styles.rowBetween}>
               <Text family="bold">Tanggal Pemesanan</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                {params?.date}
+                {dayjs(params?.date).format('DD/MM/YYYY')}
               </Text>
             </View>
 

@@ -21,6 +21,10 @@ import * as Yup from 'yup';
 import Images from '../../themes/Images';
 import Text from '../../components/Text';
 import Colors from '../../themes/Colors';
+import {connect} from '../../services/ZustandHelper';
+import AuthModel from '../../models/AuthModel';
+import useAuthStore from '../../stores/auth/AuthStore';
+import {LoginParams} from '../../models/apimodel/ApiRequest';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LoginScreen'>;
 
@@ -38,8 +42,8 @@ class LoginScreen extends PureComponent<Props> {
     super(props);
 
     this.schema = Yup.object().shape({
-      username: Yup.string().required('username required'),
-      password: Yup.string().required('password required'),
+      username: Yup.string().required('username harus diisi'),
+      password: Yup.string().required('password harus diisi'),
     });
 
     this.initialValue = {
@@ -56,8 +60,11 @@ class LoginScreen extends PureComponent<Props> {
     NavigationServices.navigate('RegisterScreen', {});
   }
 
-  handleSubmit(props) {
-    console.error({props});
+  handleSubmit(values) {
+    const {username, password} = values;
+    const {loginRequest} = this.props;
+
+    loginRequest({username, password});
   }
 
   renderForm(props: any) {
@@ -83,6 +90,7 @@ class LoginScreen extends PureComponent<Props> {
           placeholder="Masukkan password"
           placeholderTextColor={Colors.placeholder}
           style={styles.textInput}
+          secureTextEntry
           onChangeText={text => props.setFieldValue('password', text)}
         />
         {props.errors.password ? (
@@ -154,4 +162,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+const authSelector = (state: AuthModel) => ({
+  loginRequest: (params: LoginParams) => state.loginRequest(params),
+});
+
+const stores = [{store: useAuthStore, selector: authSelector}];
+
+export default connect(stores)(LoginScreen);

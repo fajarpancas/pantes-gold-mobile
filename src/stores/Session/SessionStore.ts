@@ -11,6 +11,7 @@ import {shallow} from 'zustand/shallow';
 const InitialStore = {
   isLogin: false,
   token: undefined,
+  user: undefined,
 };
 
 export const sessionStore = createStore<SessionModel>()(
