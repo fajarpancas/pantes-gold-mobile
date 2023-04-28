@@ -119,7 +119,7 @@ class LoginScreen extends PureComponent<Props> {
               <Spacer height={63} />
               <View style={styles.paddingHorizontal47}>
                 <Text size={12} family="semiBold" color={Colors.white}>
-                  Selamat datang di aplikasi Pantes Gold Silahkan masuk.
+                  Selamat datang di aplikasi Pantes Request{'\n'}Silahkan masuk.
                 </Text>
                 <Spacer height={17} />
                 <Formik

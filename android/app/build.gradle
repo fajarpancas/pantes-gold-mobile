@@ -133,7 +133,7 @@ android {
             signingConfig signingConfigs.debug
             applicationIdSuffix ".staging"
             resValue "string", "app_name", "Staging - Pantest Request"
-            resValue "string", "CodePushDeploymentKey", '"f6H5CF0D1CNkzoE5Vytd5pCr1NWIAZ9JgmSND"'
+            resValue "string", "CodePushDeploymentKey", '"iTH8-27d_7T9x2rV4JR-vmicrIYsJCKt7TG7C"'
             buildConfigField "String", "BASE_URL", '"https://reqres.in/"'
             buildConfigField "String", "ENVIRONTMENT", '"STAGING"'
             minifyEnabled enableProguardInReleaseBuilds
@@ -145,7 +145,7 @@ android {
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.debug
             resValue "string", "app_name", "Pantes Request"
-            resValue "string", "CodePushDeploymentKey", '"Wi05PfBPyX7R4k-7avYlvETWvGsLik-AJVU8N"'
+            resValue "string", "CodePushDeploymentKey", '"mKbsUbm9Gg2p2SnfEDCPAkIGRsNTATSaDOPKe"'
             buildConfigField "String", "BASE_URL", '"https://reqres.in/"'
             buildConfigField "String", "ENVIRONTMENT", '"PRODUCTION"'
             minifyEnabled enableProguardInReleaseBuilds

@@ -8,10 +8,10 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "codepush-android:production": "appcenter codepush release-react -a fajar-virtualspirit.me/VsBoilerPlate-Android -d Production --sourcemap-output --output-dir ./build",
-    "codepush-android:staging": "appcenter codepush release-react -a fajar-virtualspirit.me/VsBoilerPlate-Android -d Staging --sourcemap-output --output-dir ./build",
-    "codepush-ios:production": "appcenter codepush release-react -a fajar-virtualspirit.me/VsBoilerPlate-iOS -d Production --sourcemap-output --output-dir ./build",
-    "codepush-ios:staging": "appcenter codepush release-react -a fajar-virtualspirit.me/VsBoilerPlate-iOS -d Staging --sourcemap-output --output-dir ./build"
+    "codepush-android:production": "appcenter codepush release-react fajar-virtualspirit.me/Pantes-Request -d Production --sourcemap-output --output-dir ./build",
+    "codepush-android:staging": "appcenter codepush release-react -a fajar-virtualspirit.me/Pantes-Request -d Staging --sourcemap-output --output-dir ./build",
+    "codepush-ios:production": "appcenter codepush release-react -a fajar-virtualspirit.me/Pantes-Request -d Production --sourcemap-output --output-dir ./build",
+    "codepush-ios:staging": "appcenter codepush release-react -a fajar-virtualspirit.me/Pantes-Request -d Staging --sourcemap-output --output-dir ./build"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.3",
