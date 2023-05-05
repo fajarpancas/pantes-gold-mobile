@@ -33,13 +33,13 @@ class OrderDetailScreen extends React.PureComponent {
           <HeaderCabang />
           <View style={styles.container}>
             <Spacer height={30} />
-            <Image source={{uri: params?.image}} style={styles.image} />
+            <Image source={{uri: params?.url_foto}} style={styles.image} />
             <Spacer height={20} />
 
             <View style={styles.rowBetween}>
               <Text family="bold">Tanggal Pemesanan</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                {dayjs(params?.date).format('DD/MM/YYYY')}
+                {dayjs(params?.created_at).format('DD/MM/YYYY')}
               </Text>
             </View>
 
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   image: {
     width: scale(320),
     height: scale(200),
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
   rowBetween: {
     flexDirection: 'row',

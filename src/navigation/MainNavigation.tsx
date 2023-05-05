@@ -43,12 +43,12 @@ const MainNavigation = () => {
       <Stack.Screen
         name="OrderDetailScreen"
         component={OrderDetailScreen}
-        options={{title: 'Penawaran', headerShadowVisible: false}}
+        options={{title: 'Pesanan Detail', headerShadowVisible: false}}
       />
       <Stack.Screen
         name="OfferScreen"
         component={OfferScreen}
-        options={{title: 'Penawaran', headerShadowVisible: false}}
+        options={{title: 'Penawaran Detail', headerShadowVisible: false}}
       />
     </Stack.Navigator>
   );

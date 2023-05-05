@@ -7,6 +7,7 @@ import {
   StatusBar,
   StyleSheet,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -25,6 +26,7 @@ import {connect} from '../../services/ZustandHelper';
 import AuthModel from '../../models/AuthModel';
 import useAuthStore from '../../stores/auth/AuthStore';
 import {LoginParams} from '../../models/apimodel/ApiRequest';
+import {sessionStore} from '../../stores/session/SessionStore';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LoginScreen'>;
 
@@ -46,10 +48,15 @@ class LoginScreen extends PureComponent<Props> {
       password: Yup.string().required('password harus diisi'),
     });
 
-    this.initialValue = {
-      username: '',
-      password: '',
-    };
+    this.initialValue = __DEV__
+      ? {
+          username: 'testingtoko',
+          password: 'asd123',
+        }
+      : {
+          username: '',
+          password: '',
+        };
 
     this.onPressRegister = this.onPressRegister.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -74,12 +81,16 @@ class LoginScreen extends PureComponent<Props> {
         <Spacer height={8} />
         <TextInput
           placeholder="Masukkan username"
+          autoCapitalize="none"
           placeholderTextColor={Colors.placeholder}
           style={styles.textInput}
+          defaultValue={props.values.username}
           onChangeText={text => props.setFieldValue('username', text)}
         />
         {props.errors.username ? (
-          <Text color={Colors.error}>{props.errors.username}</Text>
+          <Text size={11} color={Colors.error}>
+            {props.errors.username}
+          </Text>
         ) : null}
 
         <Spacer height={15} />
@@ -88,13 +99,17 @@ class LoginScreen extends PureComponent<Props> {
         <Spacer height={8} />
         <TextInput
           placeholder="Masukkan password"
+          autoCapitalize="none"
           placeholderTextColor={Colors.placeholder}
           style={styles.textInput}
           secureTextEntry
+          defaultValue={props.values.password}
           onChangeText={text => props.setFieldValue('password', text)}
         />
         {props.errors.password ? (
-          <Text color={Colors.error}>{props.errors.password}</Text>
+          <Text size={11} color={Colors.error}>
+            {props.errors.password}
+          </Text>
         ) : null}
 
         <Spacer height={27} />
@@ -103,6 +118,20 @@ class LoginScreen extends PureComponent<Props> {
           color={Colors.primary}
           onPress={props.handleSubmit}
         />
+        <Spacer height={20} />
+        <View style={styles.flexRow}>
+          <Text size={10} color={Colors.white}>
+            Belum punya akun?
+          </Text>
+          <Spacer width={5} />
+          <TouchableOpacity
+            onPress={() => NavigationServices.push('RegisterScreen', {})}
+            style={styles.registerButton}>
+            <Text color={'#1ebbd7'} size={10} family="bold">
+              Daftar sekarang
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -119,7 +148,7 @@ class LoginScreen extends PureComponent<Props> {
               <Spacer height={63} />
               <View style={styles.paddingHorizontal47}>
                 <Text size={12} family="semiBold" color={Colors.white}>
-                  Selamat datang di aplikasi Pantes Request{'\n'}Silahkan masuk.
+                  Selamat datang di aplikasi Pantes Request{'\n'}Silahkan login.
                 </Text>
                 <Spacer height={17} />
                 <Formik
@@ -159,6 +188,13 @@ const styles = StyleSheet.create({
     borderRadius: scale(8),
     paddingHorizontal: scale(20),
     paddingVertical: scale(12),
+    color: Colors.black,
+  },
+  registerButton: {
+    alignItems: 'center',
+  },
+  flexRow: {
+    flexDirection: 'row',
   },
 });
 

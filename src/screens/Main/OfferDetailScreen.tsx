@@ -42,12 +42,12 @@ class OfferDetailScreen extends React.PureComponent {
           <HeaderCabang />
           <View style={styles.container}>
             <Spacer height={30} />
-            <Image source={{uri: params?.image}} style={styles.image} />
+            <Image source={{uri: params?.url_foto}} style={styles.image} />
             <Spacer height={20} />
             <Text family="bold">Nama Barang</Text>
             <Spacer height={5} />
             <Text color={Colors.fontSemiBlack} lineHeight={20}>
-              {params?.name}
+              {params?.keterangan_produk}
             </Text>
             <Spacer height={20} />
             <Text family="bold">Deskripsi</Text>
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   image: {
     width: scale(320),
     height: scale(200),
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
   icAddRemove: {
     width: scale(36),

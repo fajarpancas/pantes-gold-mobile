@@ -18,9 +18,10 @@ const RootNavigation = ({isLogin}) => {
   );
 };
 
-// You can access props from here to put it into selectos.
-const Selectors = (props: any) => ({
-  isLogin: useSessionStore((state: SessionModel) => state.isLogin),
+const sessionSelector = (state: SessionModel) => ({
+  isLogin: state.isLogin,
 });
 
-export default connect(Selectors)(RootNavigation);
+const stores = [{store: useSessionStore, selector: sessionSelector}];
+
+export default connect(stores)(RootNavigation);

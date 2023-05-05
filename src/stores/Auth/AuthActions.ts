@@ -18,8 +18,13 @@ const SessionActions = (set: any) => {
       try {
         const response = await ApiServices.login(params);
         if (response.ok) {
+          ApiServices.setHeader(
+            'Authorization',
+            `Bearer ${response.data?.data?.token_user}`,
+          );
           sessionStore.getState().setLogin(true);
           sessionStore.getState().setToken(response.data?.data?.token_user);
+          sessionStore.getState().setUser(response.data.data);
           LoadingHelper.hide();
         } else {
           LoadingHelper.hide();

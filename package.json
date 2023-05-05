@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "codepush-android:production": "appcenter codepush release-react fajar-virtualspirit.me/Pantes-Request -d Production --sourcemap-output --output-dir ./build",
+    "codepush-android:production": "appcenter codepush release-react -a fajar-virtualspirit.me/Pantes-Request -d Production --sourcemap-output --output-dir ./build",
     "codepush-android:staging": "appcenter codepush release-react -a fajar-virtualspirit.me/Pantes-Request -d Staging --sourcemap-output --output-dir ./build",
     "codepush-ios:production": "appcenter codepush release-react -a fajar-virtualspirit.me/Pantes-Request -d Production --sourcemap-output --output-dir ./build",
     "codepush-ios:staging": "appcenter codepush release-react -a fajar-virtualspirit.me/Pantes-Request -d Staging --sourcemap-output --output-dir ./build"

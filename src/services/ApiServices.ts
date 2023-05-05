@@ -1,14 +1,15 @@
 // a library to wrap and simplify api calls
 import apisauce, {ApiResponse, ApisauceInstance, HEADERS} from 'apisauce';
 import {LoginParams, RegisterParams} from '../models/apimodel/ApiRequest';
-import {LoginResponse} from '../models/apimodel/ApiResponse';
+import {GetHomeResponse, LoginResponse} from '../models/apimodel/ApiResponse';
 import {getConstantForKey} from '../modules/ConstantHelper';
 import DropdownAlertHolder from './DropdownAlertHolder';
 
 class ApiServices {
   api: ApisauceInstance;
   constructor() {
-    const baseURL = `${getConstantForKey('BASE_URL')}api`;
+    // const baseURL = `${getConstantForKey('BASE_URL')}api`;
+    const baseURL = 'http://pantesrequest.motekarindo.com/api';
     this.api = apisauce.create({
       // base URL is read from the "constructor"
       baseURL,
@@ -21,8 +22,10 @@ class ApiServices {
     });
 
     this.setHeaders = this.setHeaders.bind(this);
+    this.setHeader = this.setHeader.bind(this);
     this.login = this.login.bind(this);
     this.register = this.register.bind(this);
+    this.getHome = this.getHome.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
 
     this.api.addMonitor(this.handleResponseMonitoring);
@@ -30,6 +33,10 @@ class ApiServices {
 
   setHeaders(headers: HEADERS) {
     this.api.setHeaders(headers);
+  }
+
+  setHeader(key: string, value: string) {
+    this.api.setHeader(key, value);
   }
 
   handleResponseMonitoring(response: ApiResponse<any>) {
@@ -72,6 +79,10 @@ class ApiServices {
 
   register(params: RegisterParams) {
     return this.api.post('/register', params);
+  }
+
+  getHome(): Promise<GetHomeResponse> {
+    return this.api.get('/home');
   }
 }
 
