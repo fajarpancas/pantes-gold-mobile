@@ -21,6 +21,7 @@ import {GetOrderListParams} from '../../models/apimodel/ApiRequest';
 import Fonts from '../../themes/Fonts';
 import {debounce} from 'debounce';
 import Button from '../../components/Button';
+import NavigationServices from '../../services/NavigationServices';
 
 const STATUS = ['Semua status', 'Diproses', 'Ditolak', 'Selesai'];
 
@@ -98,7 +99,12 @@ class OrderScreen extends React.PureComponent {
                   styles.padding,
                   index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
                 ]}>
-                <OrderCard item={item} />
+                <OrderCard
+                  item={item}
+                  onPress={() =>
+                    NavigationServices.navigate('OrderDetailScreen', item)
+                  }
+                />
               </View>
             );
           }}

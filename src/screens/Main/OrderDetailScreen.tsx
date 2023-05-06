@@ -8,21 +8,40 @@ import HeaderCabang from '../../components/HeaderCabang';
 import dayjs from 'dayjs';
 
 class OrderDetailScreen extends React.PureComponent {
-  getStyles = status => {
+  getStyles = (status: number) => {
     let backgroundColor = {backgroundColor: '#f2f2f2'};
     switch (status) {
-      case 'Selesai':
+      case 3:
         backgroundColor.backgroundColor = Colors.greenlight;
         break;
-      case 'Diproses':
+      case 2:
+        backgroundColor.backgroundColor = 'lightblue';
+        break;
+      case 1:
         backgroundColor.backgroundColor = Colors.yellow;
         break;
-      case 'Ditolak':
+      case -1:
         backgroundColor.backgroundColor = Colors.red;
         break;
     }
 
     return backgroundColor;
+  };
+
+  getItemStatus = (status: number) => {
+    if (status < 0) {
+      return 'Ditolak';
+    }
+
+    if (status === 1) {
+      return 'Diproses';
+    }
+
+    if (status === 2) {
+      return 'Dikirim';
+    }
+
+    return 'Selesai';
   };
 
   render(): React.ReactNode {
@@ -87,7 +106,7 @@ class OrderDetailScreen extends React.PureComponent {
         <View>
           <View style={[this.getStyles(params?.status), styles.statusWrapper]}>
             <Text family="bold" size={16}>
-              Pesanan {params?.status}
+              Pesanan {this.getItemStatus(params?.status)}
             </Text>
           </View>
         </View>
