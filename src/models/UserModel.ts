@@ -30,6 +30,16 @@ type Cabang = {
   initial: string;
 };
 
+type Cart = {
+  id_order: number;
+  url_foto: string;
+  nama_barang: string;
+  qty: number;
+  qty_acc: null | string;
+  created_at: string;
+  status: number;
+};
+
 interface UserModel extends StoreModel {
   loading: boolean;
   error: boolean;
@@ -54,6 +64,8 @@ interface UserModel extends StoreModel {
   createOffer: (order: CreateOfferParams, callback: () => void) => void;
   getOfferList: (params: GetOfferListParams) => void;
   offerList: Penawaran[];
+  getCartList: () => void;
+  cartList: Cart[];
 }
 
 export default UserModel;

@@ -243,6 +243,42 @@ const UserActions = (set, get) => {
         );
       }
     },
+    getCartList: async () => {
+      set(
+        produce((state: UserModel) => {
+          state.loading = true;
+        }),
+      );
+
+      try {
+        const response = await ApiServices.getCartList();
+        if (response.ok) {
+          set(
+            produce((state: UserModel) => {
+              state.loading = false;
+              if (response?.data?.data) {
+                state.cartList = response.data.data;
+              }
+            }),
+          );
+        } else {
+          set(
+            produce((state: UserModel) => {
+              state.loading = false;
+              state.error = true;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: UserModel) => {
+            state.loading = false;
+            state.error = true;
+          }),
+        );
+      }
+    },
   };
 };
 

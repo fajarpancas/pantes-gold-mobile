@@ -42,6 +42,7 @@ class ApiServices {
     this.createOffer = this.createOffer.bind(this);
     this.getOrderList = this.getOrderList.bind(this);
     this.getOfferList = this.getOfferList.bind(this);
+    this.getCartList = this.getCartList.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
 
     this.api.addMonitor(this.handleResponseMonitoring);
@@ -129,6 +130,10 @@ class ApiServices {
 
   getOfferList(params: GetOfferListParams): Promise<any> {
     return this.api.get('/penawaran', params);
+  }
+
+  getCartList(): Promise<any> {
+    return this.api.get('/get-cart');
   }
 }
 

@@ -40,7 +40,7 @@ class OfferDetailScreen extends React.PureComponent {
         qty,
       },
       () => {
-        this.props.getHome();
+        this.props.getCartList();
         this.setState({successModal: true});
       },
     );
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
 });
 
 const userSelector = (state: UserModel) => ({
-  getHome: () => state.getHome(),
+  getCartList: () => state.getCartList(),
   createOffer: (params: CreateOfferParams, callback: () => void) =>
     state.createOffer(params, callback),
   loading: state.loading,
