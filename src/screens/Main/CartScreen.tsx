@@ -43,29 +43,7 @@ class CartScreen extends React.PureComponent {
   };
 
   render(): React.ReactNode {
-    const dummy = [
-      {
-        image:
-          'https://i.pinimg.com/originals/6d/df/3c/6ddf3cc1986135e2f81a33644b66f920.jpg',
-        name: 'Cincin Emas Naga',
-        qty: 4,
-        date: new Date(2023, 3, 11),
-      },
-      {
-        image:
-          'https://i.pinimg.com/originals/6d/df/3c/6ddf3cc1986135e2f81a33644b66f920.jpg',
-        name: 'Cincin Emas Naga',
-        qty: 4,
-        date: new Date(2023, 3, 11),
-      },
-      {
-        image:
-          'https://i.pinimg.com/originals/6d/df/3c/6ddf3cc1986135e2f81a33644b66f920.jpg',
-        name: 'Cincin Emas Naga',
-        qty: 4,
-        date: new Date(2023, 3, 11),
-      },
-    ];
+    const dummy = [];
     return (
       <View style={styles.container}>
         <Spacer height={10} />

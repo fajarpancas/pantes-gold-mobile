@@ -16,9 +16,7 @@ import LabelTextInput from '../../components/LabelTextInput';
 import Button from '../../components/Button';
 import SuccessModal from '../../components/SuccessModal';
 import NavigationServices from '../../services/NavigationServices';
-
-const desc =
-  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+import DropdownAlertHolder from '../../services/DropdownAlertHolder';
 
 class OfferDetailScreen extends React.PureComponent {
   constructor(props) {
@@ -31,7 +29,11 @@ class OfferDetailScreen extends React.PureComponent {
   }
 
   handleSubmit = () => {
-    this.setState({successModal: true});
+    DropdownAlertHolder.showInfo(
+      'Mohon maaf atas ketidaknyamanan anda',
+      'Fitur ini masih dalam tahap pengembangan',
+    );
+    // this.setState({successModal: true});
   };
 
   render(): React.ReactNode {
@@ -49,12 +51,12 @@ class OfferDetailScreen extends React.PureComponent {
             <Text color={Colors.fontSemiBlack} lineHeight={20}>
               {params?.keterangan_produk}
             </Text>
-            <Spacer height={20} />
+            {/* <Spacer height={20} />
             <Text family="bold">Deskripsi</Text>
             <Spacer height={5} />
             <Text color={Colors.fontSemiBlack} lineHeight={20}>
               {desc}
-            </Text>
+            </Text> */}
 
             <Spacer height={20} />
             <LabelTextInput label="Quantity" size={12} />
