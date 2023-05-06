@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {ActivityIndicator, StyleSheet, TouchableOpacity} from 'react-native';
 import {scale} from '../services/Scale';
 import Colors from '../themes/Colors';
 import GlobalStyles from '../themes/GlobalStyles';
@@ -12,6 +12,7 @@ type ButtonProps = {
   color?: string;
   border?: string;
   titleColor?: string;
+  loading?: boolean;
 };
 
 const styles = StyleSheet.create({
@@ -22,13 +23,13 @@ const styles = StyleSheet.create({
 });
 
 const Button = (props: ButtonProps) => {
-  const {title, onPress, disabled, color, border, titleColor} = props;
+  const {title, onPress, disabled, color, border, titleColor, loading} = props;
   const isDisable = disabled || false;
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={onPress}
-      disabled={isDisable}
+      disabled={isDisable || loading}
       style={[
         styles.container,
         GlobalStyles.center,
@@ -42,9 +43,13 @@ const Button = (props: ButtonProps) => {
           borderWidth: border ? 1 : 0,
         },
       ]}>
-      <Text size={15} family="semiBold" color={titleColor || Colors.white}>
-        {title || 'Title'}
-      </Text>
+      {loading ? (
+        <ActivityIndicator color={Colors.white} />
+      ) : (
+        <Text size={15} family="semiBold" color={titleColor || Colors.white}>
+          {title || 'Title'}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };

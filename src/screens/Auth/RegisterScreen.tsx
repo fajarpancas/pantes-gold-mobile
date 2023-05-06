@@ -3,6 +3,7 @@ import {
   Image,
   ImageBackground,
   KeyboardAvoidingView,
+  Modal,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -23,23 +24,25 @@ import Images from '../../themes/Images';
 import Text from '../../components/Text';
 import Colors from '../../themes/Colors';
 import {connect} from '../../services/ZustandHelper';
+import UserModel from '../../models/UserModel';
+import useUserStore from '../../stores/user/UserStore';
+import {RegisterParams} from '../../models/apimodel/ApiRequest';
 import AuthModel from '../../models/AuthModel';
 import useAuthStore from '../../stores/auth/AuthStore';
-import {LoginParams} from '../../models/apimodel/ApiRequest';
 
 const roleOptions = [
   {
     label: 'Cabang',
-    value: 'cabang',
+    value: '1',
   },
-  {
-    label: 'Suplier',
-    value: 'suplier',
-  },
-  {
-    label: 'Purchase',
-    value: 'purchase',
-  },
+  // {
+  //   label: 'Suplier',
+  //   value: 'suplier',
+  // },
+  // {
+  //   label: 'Purchase',
+  //   value: 'purchase',
+  // },
 ];
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LoginScreen'>;
@@ -58,35 +61,50 @@ class RegisterScreen extends PureComponent<Props> {
   constructor(props: Props) {
     super(props);
 
+    this.state = {
+      modalVisible: false,
+      cabangSelected: null,
+    };
+
     this.schema = Yup.object().shape({
       username: Yup.string().required('username harus diisi'),
       password: Yup.string().required('password harus diisi'),
       role: Yup.string().required('role harus dipilih'),
+      cabangSelected: Yup.object().required('cabang harus dipilih'),
     });
 
     this.initialValue = {
-      username: '',
-      password: '',
-      role: '',
+      username: 'fajarp',
+      password: 'fajarp',
+      role: '1',
+      cabangSelected: null,
     };
 
-    this.onPressRegister = this.onPressRegister.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderForm = this.renderForm.bind(this);
   }
 
-  onPressRegister() {
-    NavigationServices.navigate('RegisterScreen', {});
+  componentDidMount(): void {
+    this.onRefresh();
   }
 
-  handleSubmit(values) {
-    const {username, password} = values;
-    const {loginRequest} = this.props;
+  onRefresh = () => {
+    this.props.getCabang();
+  };
 
-    loginRequest({username, password});
+  handleSubmit(values) {
+    const {username, password, role, cabangSelected} = values;
+    const params = {
+      username,
+      password,
+      id_role: Number(role),
+      kd_toko: cabangSelected?.kd_toko,
+    };
+    this.props.registerRequest(params);
   }
 
   renderForm(props: any) {
+    const {cabang} = this.props;
     return (
       <View>
         <LabelTextInput label="Username" size={12} color={Colors.white} />
@@ -95,6 +113,7 @@ class RegisterScreen extends PureComponent<Props> {
           placeholder="Masukkan username"
           autoCapitalize="none"
           placeholderTextColor={Colors.placeholder}
+          defaultValue={props.values.username}
           style={styles.textInput}
           onChangeText={text => props.setFieldValue('username', text)}
         />
@@ -113,6 +132,7 @@ class RegisterScreen extends PureComponent<Props> {
           autoCapitalize="none"
           placeholderTextColor={Colors.placeholder}
           style={styles.textInput}
+          defaultValue={props.values.password}
           secureTextEntry
           onChangeText={text => props.setFieldValue('password', text)}
         />
@@ -124,6 +144,9 @@ class RegisterScreen extends PureComponent<Props> {
 
         <Spacer height={15} />
         <LabelTextInput label="Pilih role" size={12} color={Colors.white} />
+        <Text color={Colors.white} size={9}>
+          (untuk saat ini hanya bisa mendaftar akun role cabang)
+        </Text>
 
         <Spacer height={8} />
         <View style={styles.flexRowBetween}>
@@ -152,6 +175,32 @@ class RegisterScreen extends PureComponent<Props> {
           </Text>
         ) : null}
 
+        <Spacer height={15} />
+        <LabelTextInput
+          label="Pilih cabang/toko"
+          size={12}
+          color={Colors.white}
+        />
+
+        <Spacer height={8} />
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => this.setState({modalVisible: true})}
+          style={styles.selectCabang}>
+          <Text>
+            {props.values.cabangSelected?.nama_toko || 'Pilih cabang/toko'}
+          </Text>
+          <Image
+            source={Images.iconDropdown}
+            style={{width: scale(24), height: scale(24)}}
+          />
+        </TouchableOpacity>
+        {props.errors.cabangSelected ? (
+          <Text size={11} color={Colors.error}>
+            {props.errors.cabangSelected}
+          </Text>
+        ) : null}
+
         <Spacer height={27} />
         <Button
           title="Register"
@@ -172,6 +221,49 @@ class RegisterScreen extends PureComponent<Props> {
             </Text>
           </TouchableOpacity>
         </View>
+        <Modal
+          visible={this.state.modalVisible}
+          animationType="slide"
+          transparent>
+          <View style={styles.modalBackground} />
+          <View style={styles.modalContainer}>
+            <View style={styles.modalWrapper}>
+              <Spacer height={20} />
+              <View style={styles.selectCabangHeader}>
+                <Text size={16} family="bold">
+                  Pilih Cabang/Toko
+                </Text>
+                <TouchableOpacity
+                  onPress={() => this.setState({modalVisible: false})}>
+                  <Image
+                    source={Images.iconClose}
+                    style={{width: scale(18), height: scale(18)}}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <Spacer height={20} />
+              <ScrollView style={{paddingHorizontal: scale(20)}}>
+                {cabang?.length
+                  ? cabang.map(c => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            props.setFieldValue('cabangSelected', c);
+                            this.setState({modalVisible: false});
+                          }}
+                          style={styles.cabangItem}>
+                          <Text>{c.nama_toko}</Text>
+                          <Text> ({c.alamat}).</Text>
+                        </TouchableOpacity>
+                      );
+                    })
+                  : null}
+              </ScrollView>
+              <Spacer height={40} />
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -187,7 +279,7 @@ class RegisterScreen extends PureComponent<Props> {
 
               {/* <Spacer height={63} /> */}
               <View style={styles.paddingHorizontal47}>
-                <Text size={12} family="semiBold" color={Colors.white}>
+                <Text size={16} family="semiBold" color={Colors.white}>
                   Pendaftaran akun baru.
                 </Text>
                 <Spacer height={17} />
@@ -210,6 +302,48 @@ class RegisterScreen extends PureComponent<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  cabangItem: {
+    flexDirection: 'row',
+    height: scale(40),
+    borderBottomColor: Colors.outlineBase,
+    borderBottomWidth: scale(1),
+    alignItems: 'center',
+    backgroundColor: Colors.greenBg,
+    borderRadius: scale(8),
+    paddingHorizontal: scale(10),
+    marginBottom: scale(5),
+  },
+  selectCabangHeader: {
+    marginHorizontal: scale(20),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  selectCabang: {
+    flexDirection: 'row',
+    backgroundColor: Colors.white,
+    height: scale(45),
+    borderRadius: scale(8),
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: scale(20),
+  },
+  modalBackground: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    height: '100%',
+    width: scale(360),
+    position: 'absolute',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  modalWrapper: {
+    backgroundColor: Colors.white,
+    maxHeight: '80%',
+    borderTopLeftRadius: scale(20),
+    borderTopRightRadius: scale(20),
   },
   logoStyle: {
     width: scale(140),
@@ -256,10 +390,18 @@ const styles = StyleSheet.create({
   },
 });
 
-const authSelector = (state: AuthModel) => ({
-  loginRequest: (params: LoginParams) => state.loginRequest(params),
+const userSelector = (state: UserModel) => ({
+  getCabang: () => state.getCabang(),
+  cabang: state.cabang,
 });
 
-const stores = [{store: useAuthStore, selector: authSelector}];
+const authSelector = (state: AuthModel) => ({
+  registerRequest: (params: RegisterParams) => state.registerRequest(params),
+});
+
+const stores = [
+  {store: useUserStore, selector: userSelector},
+  {store: useAuthStore, selector: authSelector},
+];
 
 export default connect(stores)(RegisterScreen);

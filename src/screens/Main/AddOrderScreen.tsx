@@ -21,6 +21,10 @@ import SuccessModal from '../../components/SuccessModal';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import Fonts from '../../themes/Fonts';
+import UserModel from '../../models/UserModel';
+import {connect} from '../../services/ZustandHelper';
+import {CreateOrderParams} from '../../models/apimodel/ApiRequest';
+import useUserStore from '../../stores/user/UserStore';
 
 type ImageResponse = {
   path: string;
@@ -50,6 +54,7 @@ class AddOrderScreen extends React.PureComponent {
         .min(1, 'Nilai berat emas hanya boleh angka dan lebih dari 0')
         .required('Berat emas harus diisi'),
       type: Yup.string().required('Jenis pesan harus dipilih'),
+      name: Yup.string().required('Nama barang harus dipilih'),
     });
   }
 
@@ -61,8 +66,8 @@ class AddOrderScreen extends React.PureComponent {
           compressImageMaxHeight: 720,
           compressImageMaxWidth: 720,
           cropping: true,
-          width: scale(720),
-          height: scale(720),
+          width: scale(640),
+          height: scale(370),
           includeBase64: true,
         },
         async (response: ImageResponse) => {
@@ -89,7 +94,19 @@ class AddOrderScreen extends React.PureComponent {
     if (!photo) {
       this.setState({photoError: true});
     } else {
-      this.setState({successModal: true});
+      const params: CreateOrderParams = {
+        berat: parseFloat(props.weight),
+        kadar: Number(props.kadar),
+        nama_barang: props.name,
+        qty: this.state.qty,
+        url_foto: `data:image/jpeg;base64,${this.state.photo?.data}`,
+        jenis_pesan: props.type,
+      };
+
+      this.props.createOrder(params, () => {
+        this.props.getHome();
+        this.setState({successModal: true});
+      });
     }
   };
 
@@ -124,6 +141,24 @@ class AddOrderScreen extends React.PureComponent {
           ) : null}
 
           <Spacer height={20} />
+          <View style={styles.textInputWrapper}>
+            <TextInput
+              style={[
+                styles.textInput,
+                {width: scale(320), borderRadius: scale(8)},
+              ]}
+              placeholder="Masukkan nama barang"
+              placeholderTextColor={Colors.placeholder}
+              onChangeText={text => props.setFieldValue('name', text)}
+            />
+          </View>
+          {props.errors.name ? (
+            <Text color={'red'} size={10}>
+              {props.errors.name}
+            </Text>
+          ) : null}
+
+          <Spacer height={15} />
           <LabelTextInput label="Quantity" size={12} />
           <Spacer height={5} />
           <View style={styles.qtyWrapper}>
@@ -244,6 +279,7 @@ class AddOrderScreen extends React.PureComponent {
               }
             }}
             color={Colors.primary}
+            loading={this.props.loading}
           />
         </View>
       </View>
@@ -271,7 +307,7 @@ class AddOrderScreen extends React.PureComponent {
         <SuccessModal
           visible={successModal}
           messageTitle="Submit Pesanan Berhasil!"
-          messageDesc="Selamat anda berhasil membuat 2 pesanan."
+          messageDesc={`Selamat anda berhasil membuat ${this.state.qty} pesanan.`}
           onPressOk={() => {
             this.setState({successModal: false});
             NavigationServices.pop();
@@ -386,4 +422,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddOrderScreen;
+const userSelector = (state: UserModel) => ({
+  getHome: () => state.getHome(),
+  createOrder: (params: CreateOrderParams, callback: () => void) =>
+    state.createOrder(params, callback),
+  loading: state.loading,
+});
+
+const stores = [{store: useUserStore, selector: userSelector}];
+
+export default connect(stores)(AddOrderScreen);

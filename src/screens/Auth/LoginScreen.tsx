@@ -59,7 +59,6 @@ class LoginScreen extends PureComponent<Props> {
         };
 
     this.onPressRegister = this.onPressRegister.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.renderForm = this.renderForm.bind(this);
   }
 
@@ -67,12 +66,12 @@ class LoginScreen extends PureComponent<Props> {
     NavigationServices.navigate('RegisterScreen', {});
   }
 
-  handleSubmit(values) {
+  handleSubmit = values => {
     const {username, password} = values;
     const {loginRequest} = this.props;
 
     loginRequest({username, password});
-  }
+  };
 
   renderForm(props: any) {
     return (

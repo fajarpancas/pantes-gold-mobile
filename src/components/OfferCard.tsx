@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: scale(8),
     borderTopRightRadius: scale(8),
     resizeMode: 'cover',
+    backgroundColor: '#f2f2f2',
   },
   statusWrapper: {
     borderRadius: scale(100),

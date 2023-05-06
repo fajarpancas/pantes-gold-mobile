@@ -1,4 +1,5 @@
 import StoreModel from './StoreModel';
+import {CreateOrderParams, GetOrderListParams} from './apimodel/ApiRequest';
 
 type Order = {
   id_order: number;
@@ -17,6 +18,13 @@ type Penawaran = {
   keterangan_produk: string;
 };
 
+type Cabang = {
+  kd_toko: string;
+  nama_toko: string;
+  alamat: string;
+  initial: string;
+};
+
 interface UserModel extends StoreModel {
   loading: boolean;
   error: boolean;
@@ -32,8 +40,12 @@ interface UserModel extends StoreModel {
     order: Order[];
     penawaran: Penawaran[];
   };
-  setHome: (homeData: {order: Order[]; penawaran: Penawaran[]}) => void;
   getHome: () => void;
+  getCabang: () => void;
+  cabang: Cabang[];
+  createOrder: (order: CreateOrderParams, callback: () => void) => void;
+  getOrderList: (params: GetOrderListParams) => void;
+  orderList: Order[];
 }
 
 export default UserModel;

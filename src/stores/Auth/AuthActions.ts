@@ -1,9 +1,10 @@
 import produce from 'immer';
-import {LoginParams} from '../../models/apimodel/ApiRequest';
+import {LoginParams, RegisterParams} from '../../models/apimodel/ApiRequest';
 import AuthModel from '../../models/AuthModel';
 import ApiServices from '../../services/ApiServices';
 import {sessionStore} from '../session/SessionStore';
 import LoadingHelper from '../../services/LoadingHelper';
+import NavigationServices from '../../services/NavigationServices';
 
 const SessionActions = (set: any) => {
   return {
@@ -23,9 +24,41 @@ const SessionActions = (set: any) => {
             `Bearer ${response.data?.data?.token_user}`,
           );
           sessionStore.getState().setLogin(true);
-          sessionStore.getState().setToken(response.data?.data?.token_user);
-          sessionStore.getState().setUser(response.data.data);
+          if (response?.data) {
+            sessionStore.getState().setToken(response.data?.data?.token_user);
+            sessionStore.getState().setUser(response.data.data);
+          }
           LoadingHelper.hide();
+        } else {
+          LoadingHelper.hide();
+          throw response.problem;
+        }
+        LoadingHelper.hide();
+      } catch (error) {
+        LoadingHelper.hide();
+        set(
+          produce((state: AuthModel) => {
+            state.loading = false;
+            state.error = true;
+          }),
+        );
+      }
+    },
+    registerRequest: async (params: RegisterParams) => {
+      LoadingHelper.show();
+      set(
+        produce((state: AuthModel) => {
+          state.loading = true;
+        }),
+      );
+
+      try {
+        const response = await ApiServices.register(params);
+        if (response.ok) {
+          LoadingHelper.hide();
+          setTimeout(() => {
+            NavigationServices.pop();
+          }, 500);
         } else {
           LoadingHelper.hide();
           throw response.problem;

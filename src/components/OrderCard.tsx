@@ -66,6 +66,10 @@ const OrderCard: React.FC<Props> = ({item, onPress}) => {
       style={styles.wrapper}>
       <Image source={{uri: item?.url_foto}} style={styles.image} />
       <Spacer height={8} />
+      <Text family="bold" numberOfLines={1}>
+        {item?.nama_barang}
+      </Text>
+      <Spacer height={8} />
       <Text>{dayjs(item?.created_at).format('DD/MM/YYYY')}</Text>
       <Text>
         Qantity<Text family="bold"> {item?.qty}</Text>
@@ -99,6 +103,7 @@ const styles = StyleSheet.create({
     width: scale(84),
     borderTopLeftRadius: scale(8),
     borderTopRightRadius: scale(8),
+    backgroundColor: '#f2f2f2',
   },
   statusWrapper: {
     borderRadius: scale(8),

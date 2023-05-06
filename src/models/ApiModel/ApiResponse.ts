@@ -17,6 +17,13 @@ type Penawaran = {
   keterangan_produk: string;
 };
 
+type Cabang = {
+  kd_toko: string;
+  nama_toko: string;
+  alamat: string;
+  initial: string;
+};
+
 export type ApiErrorResponseType = {
   error: string;
 };
@@ -44,4 +51,12 @@ export type GetHomeResponse =
         order: Order[];
         penawaran: Penawaran[];
       };
+    }>;
+
+export type GetCabangResponse =
+  | ApiErrorResponse<ApiErrorResponseType>
+  | ApiOkResponse<{
+      status: boolean;
+      message: string;
+      data: Cabang[];
     }>;

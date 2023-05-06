@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     width: scale(320),
     height: scale(200),
     resizeMode: 'contain',
+    backgroundColor: '#f2f2f2',
   },
   icAddRemove: {
     width: scale(36),

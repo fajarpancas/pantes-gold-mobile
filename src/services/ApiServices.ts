@@ -1,7 +1,16 @@
 // a library to wrap and simplify api calls
 import apisauce, {ApiResponse, ApisauceInstance, HEADERS} from 'apisauce';
-import {LoginParams, RegisterParams} from '../models/apimodel/ApiRequest';
-import {GetHomeResponse, LoginResponse} from '../models/apimodel/ApiResponse';
+import {
+  CreateOrderParams,
+  GetOrderListParams,
+  LoginParams,
+  RegisterParams,
+} from '../models/apimodel/ApiRequest';
+import {
+  GetCabangResponse,
+  GetHomeResponse,
+  LoginResponse,
+} from '../models/apimodel/ApiResponse';
 import {getConstantForKey} from '../modules/ConstantHelper';
 import DropdownAlertHolder from './DropdownAlertHolder';
 
@@ -26,6 +35,9 @@ class ApiServices {
     this.login = this.login.bind(this);
     this.register = this.register.bind(this);
     this.getHome = this.getHome.bind(this);
+    this.getCabang = this.getCabang.bind(this);
+    this.createOrder = this.createOrder.bind(this);
+    this.getOrderList = this.getOrderList.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
 
     this.api.addMonitor(this.handleResponseMonitoring);
@@ -83,6 +95,25 @@ class ApiServices {
 
   getHome(): Promise<GetHomeResponse> {
     return this.api.get('/home');
+  }
+
+  getCabang(): Promise<GetCabangResponse> {
+    return this.api.get('/get-cabang');
+  }
+
+  createOrder(params: CreateOrderParams): Promise<any> {
+    let body = new FormData();
+    body.append('berat', params?.berat);
+    body.append('kadar', params?.kadar);
+    body.append('jenis_pesan', params?.jenis_pesan);
+    body.append('nama_barang', params?.nama_barang);
+    body.append('url_foto', params?.url_foto);
+    body.append('qty', params?.qty);
+    return this.api.post('/order/create', params);
+  }
+
+  getOrderList(params: GetOrderListParams): Promise<any> {
+    return this.api.get('/order', params);
   }
 }
 

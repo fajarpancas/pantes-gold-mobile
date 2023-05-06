@@ -36,6 +36,13 @@ class OrderDetailScreen extends React.PureComponent {
             <Image source={{uri: params?.url_foto}} style={styles.image} />
             <Spacer height={20} />
 
+            <Text family="bold" size={18} lineHeight={20}>
+              {params?.nama_barang}
+            </Text>
+
+            <Spacer height={15} />
+            <Spacer height={10} />
+
             <View style={styles.rowBetween}>
               <Text family="bold">Tanggal Pemesanan</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>

@@ -1,6 +1,8 @@
 import React from 'react';
 import {
   ActivityIndicator,
+  RefreshControl,
+  ScrollView,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
@@ -17,6 +19,7 @@ import HeaderCabang from '../../components/HeaderCabang';
 import UserModel from '../../models/UserModel';
 import useUserStore from '../../stores/user/UserStore';
 import {connect} from '../../services/ZustandHelper';
+import {sessionStore} from '../../stores/session/SessionStore';
 
 type Order = {
   id_order: number;
@@ -37,9 +40,15 @@ type Penawaran = {
 
 class HomeScreen extends React.PureComponent {
   componentDidMount(): void {
+    this.onRefresh();
+    // sessionStore.getState().setLogin(false);
+  }
+
+  onRefresh = () => {
     const {getHome} = this.props;
     getHome();
-  }
+  };
+
   navigate = () => {
     NavigationServices.navigate('OrderScreen', {});
   };
@@ -49,9 +58,12 @@ class HomeScreen extends React.PureComponent {
 
     if (loading) {
       return (
-        <View style={styles.flexCenter}>
-          <ActivityIndicator size={'large'} color={Colors.primary} />
-          <Text color={Colors.primary}>Loading data</Text>
+        <View style={styles.container}>
+          <HeaderCabang />
+          <View style={styles.flexCenter}>
+            <ActivityIndicator size={'large'} color={Colors.primary} />
+            <Text color={Colors.primary}>Loading data</Text>
+          </View>
         </View>
       );
     }
@@ -66,73 +78,80 @@ class HomeScreen extends React.PureComponent {
 
     return (
       <View style={styles.container}>
-        <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
+        <ScrollView
+          contentContainerStyle={{flexGrow: 1}}
+          refreshControl={
+            <RefreshControl onRefresh={this.onRefresh} refreshing={loading} />
+          }>
+          <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
 
-        <HeaderCabang />
-        <Spacer height={30} />
-        {homeData?.order?.length && (
-          <>
-            <View style={[styles.padding20, styles.flexRow]}>
-              <Text size={16} family="bold">
-                Pesanan
-              </Text>
-              <TouchableOpacity onPress={this.navigate} activeOpacity={0.8}>
-                <Text size={12} family="semiBold" color={Colors.primary}>
-                  Lihat semua
+          <HeaderCabang />
+          <Spacer height={30} />
+          {homeData?.order?.length && (
+            <>
+              <View style={[styles.padding20, styles.flexRow]}>
+                <Text size={16} family="bold">
+                  Pesanan
                 </Text>
-              </TouchableOpacity>
-            </View>
-            <Spacer height={10} />
-            <View style={styles.listWrapper}>
-              {homeData?.order.map((item: Order, index: number) => {
-                return (
-                  <View style={index !== 0 ? styles.paddingLeft10 : {}}>
-                    <OrderCard
-                      item={item}
-                      onPress={() =>
-                        NavigationServices.navigate('OrderDetailScreen', item)
-                      }
-                    />
-                  </View>
-                );
-              })}
-            </View>
-          </>
-        )}
+                <TouchableOpacity onPress={this.navigate} activeOpacity={0.8}>
+                  <Text size={12} family="semiBold" color={Colors.primary}>
+                    Lihat semua
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <Spacer height={10} />
+              <View style={styles.listWrapper}>
+                {homeData?.order.map((item: Order, index: number) => {
+                  return (
+                    <View style={index !== 0 ? styles.paddingLeft10 : {}}>
+                      <OrderCard
+                        item={item}
+                        onPress={() =>
+                          NavigationServices.navigate('OrderDetailScreen', item)
+                        }
+                      />
+                    </View>
+                  );
+                })}
+              </View>
+            </>
+          )}
 
-        {homeData?.penawaran?.length && (
-          <>
-            <Spacer height={25} />
-            <View style={[styles.padding20, styles.flexRow]}>
-              <Text size={16} family="bold">
-                Penawaran
-              </Text>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => NavigationServices.navigate('OfferScreen', {})}>
-                <Text size={12} family="semiBold" color={Colors.primary}>
-                  Lihat semua
+          {homeData?.penawaran?.length && (
+            <>
+              <Spacer height={25} />
+              <View style={[styles.padding20, styles.flexRow]}>
+                <Text size={16} family="bold">
+                  Penawaran
                 </Text>
-              </TouchableOpacity>
-            </View>
-            <Spacer height={10} />
-            <View style={styles.listWrapper}>
-              {homeData?.penawaran.map((item, index) => {
-                return (
-                  <View style={index !== 0 ? styles.paddingLeft10 : {}}>
-                    <OfferCard
-                      item={item}
-                      onPress={() =>
-                        NavigationServices.navigate('OfferDetailScreen', item)
-                      }
-                      hideStatus
-                    />
-                  </View>
-                );
-              })}
-            </View>
-          </>
-        )}
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() =>
+                    NavigationServices.navigate('OfferScreen', {})
+                  }>
+                  <Text size={12} family="semiBold" color={Colors.primary}>
+                    Lihat semua
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <Spacer height={10} />
+              <View style={styles.listWrapper}>
+                {homeData?.penawaran.map((item: Penawaran, index: number) => {
+                  return (
+                    <View style={index !== 0 ? styles.paddingLeft10 : {}}>
+                      <OfferCard
+                        item={item}
+                        onPress={() =>
+                          NavigationServices.navigate('OfferDetailScreen', item)
+                        }
+                      />
+                    </View>
+                  );
+                })}
+              </View>
+            </>
+          )}
+        </ScrollView>
       </View>
     );
   }
