@@ -2,6 +2,7 @@
 import apisauce, {ApiResponse, ApisauceInstance, HEADERS} from 'apisauce';
 import {
   CreateOrderParams,
+  GetOfferListParams,
   GetOrderListParams,
   LoginParams,
   RegisterParams,
@@ -38,6 +39,7 @@ class ApiServices {
     this.getCabang = this.getCabang.bind(this);
     this.createOrder = this.createOrder.bind(this);
     this.getOrderList = this.getOrderList.bind(this);
+    this.getOfferList = this.getOfferList.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
 
     this.api.addMonitor(this.handleResponseMonitoring);
@@ -114,6 +116,10 @@ class ApiServices {
 
   getOrderList(params: GetOrderListParams): Promise<any> {
     return this.api.get('/order', params);
+  }
+
+  getOfferList(params: GetOfferListParams): Promise<any> {
+    return this.api.get('/penawaran', params);
   }
 }
 

@@ -32,3 +32,9 @@ export type GetOrderListParams = {
   berat?: any;
   qty?: string;
 };
+
+export type GetOfferListParams = {
+  page: number;
+  per_page: number;
+  search?: string;
+};

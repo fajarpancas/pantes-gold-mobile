@@ -4,6 +4,7 @@ import ApiServices from '../../services/ApiServices';
 import {sessionStore} from '../session/SessionStore';
 import {
   CreateOrderParams,
+  GetOfferListParams,
   GetOrderListParams,
 } from '../../models/apimodel/ApiRequest';
 
@@ -147,6 +148,42 @@ const UserActions = (set, get) => {
               state.loading = false;
               if (response?.data?.data) {
                 state.orderList = response.data.data;
+              }
+            }),
+          );
+        } else {
+          set(
+            produce((state: UserModel) => {
+              state.loading = false;
+              state.error = true;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: UserModel) => {
+            state.loading = false;
+            state.error = true;
+          }),
+        );
+      }
+    },
+    getOfferList: async (params: GetOfferListParams) => {
+      set(
+        produce((state: UserModel) => {
+          state.loading = true;
+        }),
+      );
+
+      try {
+        const response = await ApiServices.getOfferList(params);
+        if (response.ok) {
+          set(
+            produce((state: UserModel) => {
+              state.loading = false;
+              if (response?.data?.data) {
+                state.offerList = response.data.data;
               }
             }),
           );

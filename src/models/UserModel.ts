@@ -1,5 +1,9 @@
 import StoreModel from './StoreModel';
-import {CreateOrderParams, GetOrderListParams} from './apimodel/ApiRequest';
+import {
+  CreateOrderParams,
+  GetOfferListParams,
+  GetOrderListParams,
+} from './apimodel/ApiRequest';
 
 type Order = {
   id_order: number;
@@ -46,6 +50,8 @@ interface UserModel extends StoreModel {
   createOrder: (order: CreateOrderParams, callback: () => void) => void;
   getOrderList: (params: GetOrderListParams) => void;
   orderList: Order[];
+  getOfferList: (params: GetOfferListParams) => void;
+  offerList: Penawaran[];
 }
 
 export default UserModel;
