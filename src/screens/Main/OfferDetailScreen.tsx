@@ -17,6 +17,10 @@ import Button from '../../components/Button';
 import SuccessModal from '../../components/SuccessModal';
 import NavigationServices from '../../services/NavigationServices';
 import DropdownAlertHolder from '../../services/DropdownAlertHolder';
+import UserModel from '../../models/UserModel';
+import {CreateOfferParams} from '../../models/apimodel/ApiRequest';
+import useUserStore from '../../stores/user/UserStore';
+import {connect} from '../../services/ZustandHelper';
 
 class OfferDetailScreen extends React.PureComponent {
   constructor(props) {
@@ -28,12 +32,18 @@ class OfferDetailScreen extends React.PureComponent {
     };
   }
 
-  handleSubmit = () => {
-    DropdownAlertHolder.showInfo(
-      'Mohon maaf atas ketidaknyamanan anda',
-      'Fitur ini masih dalam tahap pengembangan',
+  handleSubmit = params => {
+    const {qty} = this.state;
+    this.props.createOffer(
+      {
+        id_penawaran: params.id_penawaran,
+        qty,
+      },
+      () => {
+        this.props.getHome();
+        this.setState({successModal: true});
+      },
     );
-    // this.setState({successModal: true});
   };
 
   render(): React.ReactNode {
@@ -81,8 +91,9 @@ class OfferDetailScreen extends React.PureComponent {
             <Spacer height={20} />
             <Button
               title="Submit Pesanan"
-              onPress={this.handleSubmit}
+              onPress={() => this.handleSubmit(params)}
               color={Colors.primary}
+              loading={this.props.loading}
             />
             <Spacer height={30} />
           </View>
@@ -90,7 +101,7 @@ class OfferDetailScreen extends React.PureComponent {
         <SuccessModal
           visible={this.state.successModal}
           messageTitle="Submit Pesanan Penawaran Berhasil!"
-          messageDesc={`Selamat anda berhasil memesan ${this.state.qty} ${params?.name}.`}
+          messageDesc={`Selamat anda berhasil memesan ${this.state.qty} ${params?.keterangan_produk}.`}
           onPressOk={() => {
             this.setState({successModal: false});
             NavigationServices.pop();
@@ -112,7 +123,7 @@ const styles = StyleSheet.create({
   image: {
     width: scale(320),
     height: scale(200),
-    resizeMode: 'contain',
+    resizeMode: 'cover',
     backgroundColor: '#f2f2f2',
   },
   icAddRemove: {
@@ -134,4 +145,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OfferDetailScreen;
+const userSelector = (state: UserModel) => ({
+  getHome: () => state.getHome(),
+  createOffer: (params: CreateOfferParams, callback: () => void) =>
+    state.createOffer(params, callback),
+  loading: state.loading,
+});
+
+const stores = [{store: useUserStore, selector: userSelector}];
+
+export default connect(stores)(OfferDetailScreen);

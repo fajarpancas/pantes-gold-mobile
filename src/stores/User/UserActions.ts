@@ -3,6 +3,7 @@ import UserModel from '../../models/UserModel';
 import ApiServices from '../../services/ApiServices';
 import {sessionStore} from '../session/SessionStore';
 import {
+  CreateOfferParams,
   CreateOrderParams,
   GetOfferListParams,
   GetOrderListParams,
@@ -185,6 +186,43 @@ const UserActions = (set, get) => {
               if (response?.data?.data) {
                 state.offerList = response.data.data;
               }
+            }),
+          );
+        } else {
+          set(
+            produce((state: UserModel) => {
+              state.loading = false;
+              state.error = true;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: UserModel) => {
+            state.loading = false;
+            state.error = true;
+          }),
+        );
+      }
+    },
+    createOffer: async (
+      offerParams: CreateOfferParams,
+      callback: () => void,
+    ) => {
+      set(
+        produce((state: UserModel) => {
+          state.loading = true;
+        }),
+      );
+
+      try {
+        const response = await ApiServices.createOffer(offerParams);
+        if (response.ok) {
+          set(
+            produce((state: UserModel) => {
+              state.loading = false;
+              callback();
             }),
           );
         } else {

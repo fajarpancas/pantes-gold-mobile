@@ -20,6 +20,7 @@ import UserModel from '../../models/UserModel';
 import useUserStore from '../../stores/user/UserStore';
 import {connect} from '../../services/ZustandHelper';
 import {sessionStore} from '../../stores/session/SessionStore';
+import ApiServices from '../../services/ApiServices';
 
 type Order = {
   id_order: number;
@@ -40,6 +41,10 @@ type Penawaran = {
 
 class HomeScreen extends React.PureComponent {
   componentDidMount(): void {
+    const token = sessionStore.getState().token;
+    if (token) {
+      ApiServices.setHeader('Authorization', `Bearer ${token}`);
+    }
     this.onRefresh();
     // sessionStore.getState().setLogin(false);
   }
@@ -55,7 +60,6 @@ class HomeScreen extends React.PureComponent {
 
   render(): React.ReactNode {
     const {loading, homeData} = this.props;
-
     if (loading) {
       return (
         <View style={styles.container}>

@@ -1,5 +1,6 @@
 import StoreModel from './StoreModel';
 import {
+  CreateOfferParams,
   CreateOrderParams,
   GetOfferListParams,
   GetOrderListParams,
@@ -50,6 +51,7 @@ interface UserModel extends StoreModel {
   createOrder: (order: CreateOrderParams, callback: () => void) => void;
   getOrderList: (params: GetOrderListParams) => void;
   orderList: Order[];
+  createOffer: (order: CreateOfferParams, callback: () => void) => void;
   getOfferList: (params: GetOfferListParams) => void;
   offerList: Penawaran[];
 }

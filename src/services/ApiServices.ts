@@ -1,6 +1,7 @@
 // a library to wrap and simplify api calls
 import apisauce, {ApiResponse, ApisauceInstance, HEADERS} from 'apisauce';
 import {
+  CreateOfferParams,
   CreateOrderParams,
   GetOfferListParams,
   GetOrderListParams,
@@ -38,6 +39,7 @@ class ApiServices {
     this.getHome = this.getHome.bind(this);
     this.getCabang = this.getCabang.bind(this);
     this.createOrder = this.createOrder.bind(this);
+    this.createOffer = this.createOffer.bind(this);
     this.getOrderList = this.getOrderList.bind(this);
     this.getOfferList = this.getOfferList.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
@@ -112,6 +114,13 @@ class ApiServices {
     body.append('url_foto', params?.url_foto);
     body.append('qty', params?.qty);
     return this.api.post('/order/create', params);
+  }
+
+  createOffer(params: CreateOfferParams): Promise<any> {
+    let body = new FormData();
+    body.append('id_penawaran', params?.id_penawaran);
+    body.append('qty', params?.qty);
+    return this.api.post('/penawaran/create', params);
   }
 
   getOrderList(params: GetOrderListParams): Promise<any> {

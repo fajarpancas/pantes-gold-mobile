@@ -23,12 +23,14 @@ const SessionActions = (set: any) => {
             'Authorization',
             `Bearer ${response.data?.data?.token_user}`,
           );
-          sessionStore.getState().setLogin(true);
-          if (response?.data) {
-            sessionStore.getState().setToken(response.data?.data?.token_user);
-            sessionStore.getState().setUser(response.data.data);
-          }
-          LoadingHelper.hide();
+          setTimeout(() => {
+            sessionStore.getState().setLogin(true);
+            if (response?.data) {
+              sessionStore.getState().setToken(response.data?.data?.token_user);
+              sessionStore.getState().setUser(response.data.data);
+            }
+            LoadingHelper.hide();
+          }, 800);
         } else {
           LoadingHelper.hide();
           throw response.problem;

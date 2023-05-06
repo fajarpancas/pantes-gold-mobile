@@ -24,6 +24,11 @@ export type CreateOrderParams = {
   url_foto: string;
 };
 
+export type CreateOfferParams = {
+  id_penawaran: number;
+  qty: number;
+};
+
 export type GetOrderListParams = {
   page: number;
   per_page: number;
