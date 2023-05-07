@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Image,
+  Modal,
   ScrollView,
   StyleSheet,
   TextInput,
@@ -25,6 +26,7 @@ import UserModel from '../../models/UserModel';
 import {connect} from '../../services/ZustandHelper';
 import {CreateOrderParams} from '../../models/apimodel/ApiRequest';
 import useUserStore from '../../stores/user/UserStore';
+import {openImagePicker} from '../../services/ImagePickerHelper';
 
 type ImageResponse = {
   path: string;
@@ -44,6 +46,7 @@ class AddOrderScreen extends React.PureComponent {
       photo: null,
       photoError: false,
       successModal: false,
+      selectModalVisible: false,
     };
 
     this.schema = Yup.object().shape({
@@ -59,6 +62,7 @@ class AddOrderScreen extends React.PureComponent {
   }
 
   onPressCamera = () => {
+    this.setState({selectModalVisible: false});
     setTimeout(() => {
       openCamera(
         {
@@ -77,6 +81,29 @@ class AddOrderScreen extends React.PureComponent {
           //   name: response?.filename || response?.path?.split('/').pop(),
           //   type: response?.mime,
           // });
+        },
+        (error: any) => {
+          console.tron.error({e: error.message});
+        },
+      );
+    }, 800);
+  };
+
+  onSelectGallery = () => {
+    this.setState({selectModalVisible: false});
+    setTimeout(() => {
+      openImagePicker(
+        {
+          mediaType: 'photo',
+          compressImageMaxHeight: 720,
+          compressImageMaxWidth: 720,
+          cropping: true,
+          width: scale(640),
+          height: scale(370),
+          includeBase64: true,
+        },
+        async (response: ImageResponse) => {
+          this.setState({photo: response, photoError: false});
         },
         (error: any) => {
           console.tron.error({e: error.message});
@@ -116,7 +143,7 @@ class AddOrderScreen extends React.PureComponent {
       <View style={{flex: 1}}>
         <View style={{flex: 1}}>
           <TouchableOpacity
-            onPress={this.onPressCamera}
+            onPress={() => this.setState({selectModalVisible: true})}
             activeOpacity={0.8}
             style={styles.uploadContainer}>
             {photo?.path ? (
@@ -282,6 +309,55 @@ class AddOrderScreen extends React.PureComponent {
             loading={this.props.loading}
           />
         </View>
+        <Modal visible={this.state.selectModalVisible} transparent>
+          <View style={styles.modalBackground} />
+          <View style={styles.modalContainer}>
+            <View style={styles.modalWrapper}>
+              <View style={styles.uploadtWrapper}>
+                <Text family="bold" size={16}>
+                  Unggah Foto
+                </Text>
+                <TouchableOpacity
+                  onPress={() => this.setState({selectModalVisible: false})}>
+                  <Image
+                    source={Images.iconClose}
+                    style={{width: scale(18), height: scale(18)}}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.border}>
+                <TouchableOpacity
+                  onPress={this.onSelectGallery}
+                  style={styles.selectWrapper}>
+                  <Image
+                    source={Images.iconGallery}
+                    style={{
+                      width: scale(20),
+                      height: scale(20),
+                      resizeMode: 'contain',
+                    }}
+                  />
+                  <Spacer width={10} />
+                  <Text>Ambil dari galeri</Text>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity
+                onPress={this.onPressCamera}
+                style={styles.selectWrapper}>
+                <Image
+                  source={Images.iconCamera}
+                  style={{
+                    width: scale(20),
+                    height: scale(20),
+                    resizeMode: 'contain',
+                  }}
+                />
+                <Spacer width={10} />
+                <Text>Ambil menggunakan kamera</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   };
@@ -322,6 +398,40 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
+  },
+  modalBackground: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    height: '100%',
+    width: scale(360),
+    position: 'absolute',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalWrapper: {
+    width: scale(312),
+    paddingHorizontal: scale(24),
+    backgroundColor: Colors.white,
+    borderRadius: scale(28),
+    alignItems: 'center',
+  },
+  selectWrapper: {
+    width: scale(312),
+    height: scale(60),
+    paddingLeft: scale(30),
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  uploadtWrapper: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    width: scale(312),
+    paddingTop: scale(20),
+    paddingBottom: scale(10),
+    paddingHorizontal: scale(20),
   },
   padding20: {
     paddingHorizontal: scale(20),
@@ -419,6 +529,10 @@ const styles = StyleSheet.create({
     paddingVertical: scale(10),
     borderTopColor: Colors.outlineBase,
     borderTopWidth: 1,
+  },
+  border: {
+    borderBottomColor: Colors.outlineBase,
+    borderBottomWidth: 1,
   },
 });
 

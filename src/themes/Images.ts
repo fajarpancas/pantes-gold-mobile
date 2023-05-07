@@ -11,6 +11,8 @@ const Images = {
   iconClose: require('../images/ic_close.png'),
   iconDropdown: require('../images/ic_dropdown.png'),
   iconSearch: require('../images/ic_search.png'),
+  iconGallery: require('../images/ic_gallery.png'),
+  iconAccount: require('../images/ic_account.png'),
 
   // menu
   iconHome: require('../images/menu/home.png'),

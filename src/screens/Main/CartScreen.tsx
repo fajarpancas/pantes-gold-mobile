@@ -117,14 +117,20 @@ class CartScreen extends React.PureComponent {
           contentContainerStyle={
             cartList?.length ? styles.paddingHorizontal : styles.emptyContainer
           }
-          ListEmptyComponent={
-            <View>
-              <Image source={Images.iconEmpty} style={styles.emptyIcon} />
-              <Text size={16} textAlign="center" lineHeight={21.86}>
-                Keranjangmu masih kosong
-              </Text>
-            </View>
-          }
+          ListEmptyComponent={() => {
+            if (!loading) {
+              return (
+                <View>
+                  <Spacer height={60} />
+                  <Image source={Images.iconEmpty} style={styles.emptyIcon} />
+                  <Text size={16} textAlign="center" lineHeight={21.86}>
+                    Keranjangmu masih kosong
+                  </Text>
+                </View>
+              );
+            }
+            return null;
+          }}
         />
       </View>
     );

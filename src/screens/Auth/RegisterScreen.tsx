@@ -74,8 +74,8 @@ class RegisterScreen extends PureComponent<Props> {
     });
 
     this.initialValue = {
-      username: 'fajarp',
-      password: 'fajarp',
+      username: '',
+      password: '',
       role: '1',
       cabangSelected: null,
     };

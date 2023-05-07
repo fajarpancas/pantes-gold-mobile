@@ -138,15 +138,20 @@ class OfferScreen extends React.PureComponent {
             )
           }
           numColumns={3}
-          ListEmptyComponent={
-            <View>
-              <Spacer height={60} />
-              <Image source={Images.iconEmpty} style={styles.emptyIcon} />
-              <Text size={16} textAlign="center" lineHeight={21.86}>
-                Barang yang anda cari{'\n'}tidak ditemukan
-              </Text>
-            </View>
-          }
+          ListEmptyComponent={() => {
+            if (!loading) {
+              return (
+                <View>
+                  <Spacer height={60} />
+                  <Image source={Images.iconEmpty} style={styles.emptyIcon} />
+                  <Text size={16} textAlign="center" lineHeight={21.86}>
+                    Barang yang anda cari{'\n'}tidak ditemukan
+                  </Text>
+                </View>
+              );
+            }
+            return null;
+          }}
         />
       </View>
     );
