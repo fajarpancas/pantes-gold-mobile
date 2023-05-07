@@ -89,7 +89,7 @@ class HomeScreen extends React.PureComponent {
           }>
           <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
 
-          <HeaderCabang />
+          <HeaderCabang showLogout />
           <Spacer height={30} />
           {homeData?.order?.length && (
             <>

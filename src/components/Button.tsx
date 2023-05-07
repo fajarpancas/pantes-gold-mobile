@@ -46,7 +46,7 @@ const Button = (props: ButtonProps) => {
       {loading ? (
         <ActivityIndicator color={Colors.white} />
       ) : (
-        <Text size={15} family="semiBold" color={titleColor || Colors.white}>
+        <Text size={14} family="semiBold" color={titleColor || Colors.white}>
           {title || 'Title'}
         </Text>
       )}

@@ -13,6 +13,7 @@ const Images = {
   iconSearch: require('../images/ic_search.png'),
   iconGallery: require('../images/ic_gallery.png'),
   iconAccount: require('../images/ic_account.png'),
+  iconSetting: require('../images/ic_setting.png'),
 
   // menu
   iconHome: require('../images/menu/home.png'),

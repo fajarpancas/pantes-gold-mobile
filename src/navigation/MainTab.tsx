@@ -125,7 +125,7 @@ const MainTab = () => {
       <Tab.Screen
         name="CartScreen"
         component={CartScreen}
-        options={{title: 'Keranjang'}}
+        options={{title: 'Keranjang', headerShown: false}}
       />
     </Tab.Navigator>
   );

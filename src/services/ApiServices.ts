@@ -35,6 +35,7 @@ class ApiServices {
     this.setHeaders = this.setHeaders.bind(this);
     this.setHeader = this.setHeader.bind(this);
     this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
     this.register = this.register.bind(this);
     this.getHome = this.getHome.bind(this);
     this.getCabang = this.getCabang.bind(this);
@@ -92,6 +93,10 @@ class ApiServices {
     body.append('username', params?.username);
     body.append('password', params?.password);
     return this.api.post('/login', body);
+  }
+
+  logout(): Promise<any> {
+    return this.api.post('/logout');
   }
 
   register(params: RegisterParams) {

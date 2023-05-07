@@ -16,6 +16,7 @@ import dayjs from 'dayjs';
 import {connect} from '../../services/ZustandHelper';
 import useUserStore from '../../stores/user/UserStore';
 import UserModel from '../../models/UserModel';
+import HeaderCabang from '../../components/HeaderCabang';
 
 class CartScreen extends React.PureComponent {
   componentDidMount(): void {
@@ -107,8 +108,9 @@ class CartScreen extends React.PureComponent {
     const {cartList, loading} = this.props;
     return (
       <View style={styles.container}>
-        <Spacer height={10} />
+        <HeaderCabang showLogout />
 
+        <Spacer height={30} />
         <FlatList
           data={cartList}
           refreshing={loading}
