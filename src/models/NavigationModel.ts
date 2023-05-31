@@ -11,6 +11,10 @@ export type MainTabParams = {
   CartScreen: undefined;
 };
 
+export type PurchaseTabParams = {
+  HomePurchaseScreen: undefined;
+};
+
 export type MainStackParams = {
   Main: undefined;
   AddOrderScreen: undefined;
@@ -18,6 +22,10 @@ export type MainStackParams = {
   OfferDetailScreen: undefined;
   OrderDetailScreen: undefined;
   OfferScreen: undefined;
+};
+
+export type PurchaseStackParams = {
+  PurchaseMain: undefined;
 };
 
 type RootParamList = ReactNavigation.RootParamList;

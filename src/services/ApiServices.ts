@@ -13,8 +13,8 @@ import {
   GetHomeResponse,
   LoginResponse,
 } from '../models/apimodel/ApiResponse';
-import {getConstantForKey} from '../modules/ConstantHelper';
 import DropdownAlertHolder from './DropdownAlertHolder';
+import {sessionStore} from '../stores/session/SessionStore';
 
 class ApiServices {
   api: ApisauceInstance;
@@ -44,6 +44,7 @@ class ApiServices {
     this.getOrderList = this.getOrderList.bind(this);
     this.getOfferList = this.getOfferList.bind(this);
     this.getCartList = this.getCartList.bind(this);
+    this.getPurchaseOrder = this.getPurchaseOrder.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
 
     this.api.addMonitor(this.handleResponseMonitoring);
@@ -62,8 +63,10 @@ class ApiServices {
 
     switch (problem) {
       case 'CLIENT_ERROR': {
-        const {error} = data;
-        DropdownAlertHolder.showError('Request Gagal', error);
+        if (data?.message === 'Token is Expired') {
+          sessionStore.getState().setLogin(false);
+        }
+        DropdownAlertHolder.showError('Request Gagal', data?.message);
         break;
       }
       case 'CONNECTION_ERROR':
@@ -139,6 +142,11 @@ class ApiServices {
 
   getCartList(): Promise<any> {
     return this.api.get('/get-cart');
+  }
+
+  //Purchase
+  getPurchaseOrder(params: string): Promise<any> {
+    return this.api.get('pusat/order', params);
   }
 }
 

@@ -6,20 +6,33 @@ import MainNavigation from './MainNavigation';
 import SessionModel from '../models/SessionModel';
 import useSessionStore from '../stores/session/SessionStore';
 import {connect} from '../services/ZustandHelper';
+import PurchaseNavigation from './PurchaseNavigation';
 
-const RootNavigation = ({isLogin}) => {
+const RootNavigation = ({isLogin, user}) => {
+  const renderMain = () => {
+    if (user?.id_role === 1) {
+      return <MainNavigation />;
+    }
+
+    if (user?.id_role === 2) {
+      return <PurchaseNavigation />;
+    }
+    return <MainNavigation />;
+  };
+
   return (
     <NavigationContainer
       ref={r => {
         NavigationServices.setInstance(r);
       }}>
-      {isLogin ? <MainNavigation /> : <AuthNavigation />}
+      {isLogin ? renderMain() : <AuthNavigation />}
     </NavigationContainer>
   );
 };
 
 const sessionSelector = (state: SessionModel) => ({
   isLogin: state.isLogin,
+  user: state.user,
 });
 
 const stores = [{store: useSessionStore, selector: sessionSelector}];
