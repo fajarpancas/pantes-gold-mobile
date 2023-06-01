@@ -40,6 +40,43 @@ const PurchaseActions = (set, get) => {
         );
       }
     },
+    getPurchaseOffer: async () => {
+      set(
+        produce((state: PurchaseModel) => {
+          state.loading = true;
+        }),
+      );
+
+      try {
+        console.tron.error('fsafasfasfas');
+        const response = await ApiServices.getPurchaseOffer();
+        if (response.ok) {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+              if (response?.data?.data) {
+                state.purchaseOffer = response.data.data;
+              }
+            }),
+          );
+        } else {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+              state.error = true;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: PurchaseModel) => {
+            state.loading = false;
+            state.error = true;
+          }),
+        );
+      }
+    },
   };
 };
 

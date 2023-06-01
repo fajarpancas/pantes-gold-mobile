@@ -12,7 +12,10 @@ import {Image, StyleSheet, View} from 'react-native';
 import Text from '../components/Text';
 import Spacer from '../components/Spacer';
 import NavigationServices from '../services/NavigationServices';
-import {HomePurchaseScreen} from '../services/bundle_splitter/PurchaseRegistration';
+import {
+  HomePurchaseScreen,
+  MenuOfferScreen,
+} from '../services/bundle_splitter/PurchaseRegistration';
 const Tab = createBottomTabNavigator<PurchaseTabParams>();
 const styles = StyleSheet.create({
   icon: {
@@ -52,27 +55,52 @@ const PurchaseTab = () => {
         tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: Colors.fontSemiBlack,
         tabBarIcon: ({focused}) => {
-          if (focused) {
-            return (
-              <View style={styles.justifyCenter}>
-                <Image source={Images.iconHomeFilled} style={styles.icon} />
-                <Text family="semiBold" color={Colors.primary} size={11.67}>
-                  Home
-                </Text>
-              </View>
-            );
-          } else {
-            return (
-              <View style={styles.justifyCenter}>
-                <Image source={Images.iconHome} style={styles.icon} />
-                <Text
-                  family="regular"
-                  color={Colors.fontSemiBlack}
-                  size={11.67}>
-                  Home
-                </Text>
-              </View>
-            );
+          if (route?.name === 'HomePurchaseScreen') {
+            if (focused) {
+              return (
+                <View style={styles.justifyCenter}>
+                  <Image source={Images.iconHomeFilled} style={styles.icon} />
+                  <Text family="semiBold" color={Colors.primary} size={11.67}>
+                    Home
+                  </Text>
+                </View>
+              );
+            } else {
+              return (
+                <View style={styles.justifyCenter}>
+                  <Image source={Images.iconHome} style={styles.icon} />
+                  <Text
+                    family="regular"
+                    color={Colors.fontSemiBlack}
+                    size={11.67}>
+                    Home
+                  </Text>
+                </View>
+              );
+            }
+          } else if (route?.name === 'MenuOfferScreen') {
+            if (focused) {
+              return (
+                <View style={styles.justifyCenter}>
+                  <Image source={Images.iconOfferActive} style={styles.icon} />
+                  <Text family="semiBold" color={Colors.primary} size={11.67}>
+                    Penawaran
+                  </Text>
+                </View>
+              );
+            } else {
+              return (
+                <View style={styles.justifyCenter}>
+                  <Image source={Images.iconOffer} style={styles.icon} />
+                  <Text
+                    family="regular"
+                    color={Colors.fontSemiBlack}
+                    size={11.67}>
+                    Penawaran
+                  </Text>
+                </View>
+              );
+            }
           }
         },
       })}>
@@ -80,6 +108,11 @@ const PurchaseTab = () => {
         name="HomePurchaseScreen"
         component={HomePurchaseScreen}
         options={{title: 'Home', headerShown: false}}
+      />
+      <Tab.Screen
+        name="MenuOfferScreen"
+        component={MenuOfferScreen}
+        options={{title: 'Penawaran', headerShown: false}}
       />
     </Tab.Navigator>
   );

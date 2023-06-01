@@ -1,10 +1,4 @@
 import StoreModel from './StoreModel';
-import {
-  CreateOfferParams,
-  CreateOrderParams,
-  GetOfferListParams,
-  GetOrderListParams,
-} from './apimodel/ApiRequest';
 
 type Order = {
   id_order: number;
@@ -17,17 +11,31 @@ type Order = {
   status: number;
 };
 
+type Offer = {
+  id_penawaran: number;
+  url_foto: string;
+  keterangan_produk: string;
+};
+
 interface PurchaseModel extends StoreModel {
   loading: boolean;
   error: boolean;
   purchaseOrder: {
     current_page: 1;
-    data: Order;
+    data: Order[];
+    last_page: number;
+    per_page: number;
+    total: number;
+  };
+  purchaseOffer: {
+    current_page: 1;
+    data: Offer[];
     last_page: number;
     per_page: number;
     total: number;
   };
   getPurchaseOrder: (params: string) => void;
+  getPurchaseOffer: () => void;
 }
 
 export default PurchaseModel;

@@ -21,6 +21,8 @@ const Images = {
   iconCart: require('../images/menu/cart.png'),
   iconCartFilled: require('../images/menu/cart_filled.png'),
   iconAdd: require('../images/menu/add-button.png'),
+  iconOffer: require('../images/ic_offer.png'),
+  iconOfferActive: require('../images/ic_offer_active.png'),
 };
 
 export default Images;

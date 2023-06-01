@@ -45,6 +45,7 @@ class ApiServices {
     this.getOfferList = this.getOfferList.bind(this);
     this.getCartList = this.getCartList.bind(this);
     this.getPurchaseOrder = this.getPurchaseOrder.bind(this);
+    this.getPurchaseOffer = this.getPurchaseOffer.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
 
     this.api.addMonitor(this.handleResponseMonitoring);
@@ -147,6 +148,10 @@ class ApiServices {
   //Purchase
   getPurchaseOrder(params: string): Promise<any> {
     return this.api.get('pusat/order', params);
+  }
+
+  getPurchaseOffer(): Promise<any> {
+    return this.api.get('pusat/penawaran');
   }
 }
 

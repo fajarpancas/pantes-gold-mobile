@@ -13,6 +13,7 @@ export type MainTabParams = {
 
 export type PurchaseTabParams = {
   HomePurchaseScreen: undefined;
+  MenuOfferScreen: undefined;
 };
 
 export type MainStackParams = {
