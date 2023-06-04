@@ -27,6 +27,7 @@ export type MainStackParams = {
 
 export type PurchaseStackParams = {
   PurchaseMain: undefined;
+  AddPurchaseOffer: undefined;
 };
 
 type RootParamList = ReactNavigation.RootParamList;

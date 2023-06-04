@@ -9,3 +9,8 @@ export const MenuOfferScreen = register({
   loader: () => require('../../screens/main/Purchase/MenuOfferScreen'),
   name: 'MenuOfferScreen',
 });
+
+export const AddPurchaseOffer = register({
+  loader: () => require('../../screens/main/Purchase/AddPurchaseOffer'),
+  name: 'AddPurchaseOffer',
+});

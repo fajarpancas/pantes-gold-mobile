@@ -9,14 +9,35 @@ type Penawaran = {
   id_penawaran: number;
   url_foto: string;
   keterangan_produk: string;
+  nama_pabrik?: string;
+  koleksi?: string;
+  jenis?: string;
+  status?: string;
 };
 
 type Props = {
   item: Penawaran;
   onPress?: () => void;
+  isPurchase?: Boolean;
 };
 
-const OfferCard: React.FC<Props> = ({item, onPress}) => {
+const OfferCard: React.FC<Props> = ({isPurchase, item, onPress}) => {
+  if (isPurchase) {
+    return (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={onPress}
+        style={styles.wrapper}>
+        <Image source={{uri: item?.url_foto}} style={styles.image} />
+        <Spacer height={8} />
+
+        <Text numberOfLines={1}>{item?.keterangan_produk}</Text>
+        <Text numberOfLines={1}>{item?.nama_pabrik}</Text>
+
+        <Spacer height={4} />
+      </TouchableOpacity>
+    );
+  }
   return (
     <TouchableOpacity
       activeOpacity={0.8}

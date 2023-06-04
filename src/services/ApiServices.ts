@@ -15,6 +15,7 @@ import {
 } from '../models/apimodel/ApiResponse';
 import DropdownAlertHolder from './DropdownAlertHolder';
 import {sessionStore} from '../stores/session/SessionStore';
+import {CreateOffer} from '../stores/purchase/PurchaseTypes';
 
 class ApiServices {
   api: ApisauceInstance;
@@ -46,6 +47,7 @@ class ApiServices {
     this.getCartList = this.getCartList.bind(this);
     this.getPurchaseOrder = this.getPurchaseOrder.bind(this);
     this.getPurchaseOffer = this.getPurchaseOffer.bind(this);
+    this.createPurchaseOffer = this.createPurchaseOffer.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
 
     this.api.addMonitor(this.handleResponseMonitoring);
@@ -152,6 +154,21 @@ class ApiServices {
 
   getPurchaseOffer(): Promise<any> {
     return this.api.get('pusat/penawaran');
+  }
+
+  createPurchaseOffer(params: CreateOffer): Promise<any> {
+    let body = new FormData();
+    body.append('kd_produk', params?.kd_produk);
+    body.append('id_pabrik', params?.id_pabrik);
+    body.append('keterangan_produk', params?.keterangan_produk);
+    body.append('deskripsi', params?.deskripsi);
+    body.append('koleksi', params?.koleksi);
+    body.append('kadar', params?.kadar);
+    body.append('jenis_barang', params?.jenis_barang);
+    body.append('berat', params?.berat);
+    body.append('keterangan', params?.keterangan);
+    body.append('url_foto', params?.url_foto);
+    return this.api.post('pusat/penawaran/create', params);
   }
 }
 

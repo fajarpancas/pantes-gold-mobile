@@ -1,6 +1,8 @@
 import produce from 'immer';
 import ApiServices from '../../services/ApiServices';
 import PurchaseModel from '../../models/PurchaseModel';
+import {CreateOffer} from './PurchaseTypes';
+import {purchaseStore} from './PurchaseStore';
 
 const PurchaseActions = (set, get) => {
   return {
@@ -48,7 +50,6 @@ const PurchaseActions = (set, get) => {
       );
 
       try {
-        console.tron.error('fsafasfasfas');
         const response = await ApiServices.getPurchaseOffer();
         if (response.ok) {
           set(
@@ -59,6 +60,42 @@ const PurchaseActions = (set, get) => {
               }
             }),
           );
+        } else {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+              state.error = true;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: PurchaseModel) => {
+            state.loading = false;
+            state.error = true;
+          }),
+        );
+      }
+    },
+    createPurchaseOffer: async (params: CreateOffer, callback: () => void) => {
+      set(
+        produce((state: PurchaseModel) => {
+          state.loading = true;
+        }),
+      );
+
+      try {
+        const response = await ApiServices.createPurchaseOffer(params);
+        if (response.ok) {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+            }),
+          );
+          if (typeof callback === 'function') {
+            callback();
+          }
         } else {
           set(
             produce((state: PurchaseModel) => {

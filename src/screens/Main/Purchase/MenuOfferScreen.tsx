@@ -100,7 +100,7 @@ class MenuOfferScreen extends React.PureComponent {
                 styles.padding,
                 index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
               ]}>
-              <OfferCard item={item} onPress={() => {}} />
+              <OfferCard isPurchase item={item} onPress={() => {}} />
             </View>
           )}
           contentContainerStyle={
@@ -127,7 +127,9 @@ class MenuOfferScreen extends React.PureComponent {
           }}
         />
 
-        <FloatingAdd onPress={() => {}} />
+        <FloatingAdd
+          onPress={() => NavigationServices.navigate('AddPurchaseOffer', {})}
+        />
       </View>
     );
   }

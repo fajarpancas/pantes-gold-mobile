@@ -1,3 +1,4 @@
+import {CreateOffer} from '../stores/purchase/PurchaseTypes';
 import StoreModel from './StoreModel';
 
 type Order = {
@@ -36,6 +37,7 @@ interface PurchaseModel extends StoreModel {
   };
   getPurchaseOrder: (params: string) => void;
   getPurchaseOffer: () => void;
+  createPurchaseOffer: (params: CreateOffer, callback: () => void) => void;
 }
 
 export default PurchaseModel;
