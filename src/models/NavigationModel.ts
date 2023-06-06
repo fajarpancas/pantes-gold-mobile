@@ -16,6 +16,7 @@ export type PurchaseTabParams = {
   MenuOfferScreen: undefined;
   MenuOrderBuyScreen: undefined;
   MenuBuyScreen: undefined;
+  MenuAccountScreen: undefined;
 };
 
 export type MainStackParams = {

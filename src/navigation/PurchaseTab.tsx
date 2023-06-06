@@ -11,17 +11,13 @@ import {
   MenuOfferScreen,
   MenuOrderBuyScreen,
   MenuBuyScreen,
+  MenuAccountScreen,
 } from '../services/bundle_splitter/PurchaseRegistration';
 const Tab = createBottomTabNavigator<PurchaseTabParams>();
 const styles = StyleSheet.create({
   icon: {
     height: scale(24),
     width: scale(24),
-  },
-  iconOrderBuy: {
-    height: scale(18),
-    width: scale(18),
-    marginBottom: scale(6),
   },
   tabBarLabelStyle: {
     fontSize: 1,
@@ -60,21 +56,24 @@ const PurchaseTab = () => {
             if (focused) {
               return (
                 <View style={styles.justifyCenter}>
-                  <Image source={Images.iconHomeFilled} style={styles.icon} />
+                  <Image
+                    source={Images.iconPesanBeliActive}
+                    style={styles.icon}
+                  />
                   <Text family="semiBold" color={Colors.primary} size={11.67}>
-                    Pesan/Req
+                    Pesan
                   </Text>
                 </View>
               );
             } else {
               return (
                 <View style={styles.justifyCenter}>
-                  <Image source={Images.iconHome} style={styles.icon} />
+                  <Image source={Images.iconPesanBeli} style={styles.icon} />
                   <Text
                     family="regular"
                     color={Colors.fontSemiBlack}
                     size={11.67}>
-                    Pesan/Req
+                    Pesan
                   </Text>
                 </View>
               );
@@ -108,7 +107,7 @@ const PurchaseTab = () => {
                 <View style={styles.justifyCenter}>
                   <Image
                     source={Images.iconPesanBeliActive}
-                    style={styles.iconOrderBuy}
+                    style={styles.icon}
                   />
                   <Text family="semiBold" color={Colors.primary} size={11.67}>
                     Pesan Beli
@@ -118,10 +117,7 @@ const PurchaseTab = () => {
             } else {
               return (
                 <View style={styles.justifyCenter}>
-                  <Image
-                    source={Images.iconPesanBeli}
-                    style={styles.iconOrderBuy}
-                  />
+                  <Image source={Images.iconPesanBeli} style={styles.icon} />
                   <Text
                     family="regular"
                     color={Colors.fontSemiBlack}
@@ -154,6 +150,32 @@ const PurchaseTab = () => {
                 </View>
               );
             }
+          } else if (route?.name === 'MenuAccountScreen') {
+            if (focused) {
+              return (
+                <View style={styles.justifyCenter}>
+                  <Image
+                    source={Images.iconAccountActive}
+                    style={styles.icon}
+                  />
+                  <Text family="semiBold" color={Colors.primary} size={11.67}>
+                    Akun
+                  </Text>
+                </View>
+              );
+            } else {
+              return (
+                <View style={styles.justifyCenter}>
+                  <Image source={Images.iconAccount2} style={styles.icon} />
+                  <Text
+                    family="regular"
+                    color={Colors.fontSemiBlack}
+                    size={11.67}>
+                    Akun
+                  </Text>
+                </View>
+              );
+            }
           }
         },
       })}>
@@ -175,6 +197,11 @@ const PurchaseTab = () => {
       <Tab.Screen
         name="MenuOfferScreen"
         component={MenuOfferScreen}
+        options={{headerShown: false}}
+      />
+      <Tab.Screen
+        name="MenuAccountScreen"
+        component={MenuAccountScreen}
         options={{headerShown: false}}
       />
     </Tab.Navigator>

@@ -58,74 +58,11 @@ class MenuBuyScreen extends React.PureComponent {
   };
 
   render(): React.ReactNode {
-    const {loading, purchaseOffer} = this.props;
-    const purchaseOfferLists = purchaseOffer?.data || [];
-
-    if (purchaseOfferLists?.length === 0 && loading) {
-      return (
-        <View style={styles.container}>
-          <View style={styles.flexCenter}>
-            <ActivityIndicator size={'large'} color={Colors.primary} />
-            <Text color={Colors.primary}>Loading data</Text>
-          </View>
-        </View>
-      );
-    }
-
     return (
-      <View style={styles.container}>
-        <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
-        <Spacer height={30} />
-        <View style={{paddingHorizontal: scale(20)}}>
-          <Text size={16} family="bold">
-            Penawaran
-          </Text>
-        </View>
-        <Spacer height={20} />
-        <FlatList
-          data={purchaseOfferLists}
-          renderItem={({item, index}) => (
-            <View
-              style={[
-                styles.padding,
-                index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
-              ]}>
-              <OfferCard
-                isPurchase
-                item={item}
-                onPress={() =>
-                  NavigationServices.navigate('PurchaseOfferDetailScreen', item)
-                }
-              />
-            </View>
-          )}
-          contentContainerStyle={
-            purchaseOfferLists?.length
-              ? styles.paddingHorizontal
-              : styles.emptyContainer
-          }
-          refreshing={loading}
-          onRefresh={this.onRefresh}
-          numColumns={3}
-          ListEmptyComponent={() => {
-            if (!loading) {
-              return (
-                <View>
-                  <Spacer height={60} />
-                  <Image source={Images.iconEmpty} style={styles.emptyIcon} />
-                  <Text size={16} textAlign="center" lineHeight={21.86}>
-                    Belum ada penawaran{'\n'}yang dibuat
-                  </Text>
-                </View>
-              );
-            }
-            return null;
-          }}
-        />
-
-        <FloatingAdd
-          onPress={() => NavigationServices.navigate('AddPurchaseOffer', {})}
-        />
+      <View style={styles.flexCenter}>
+        <Text textAlign="center">
+          Mohon maaf.. fitur masih dalam{'\n'}tahap pengembangan.
+        </Text>
       </View>
     );
   }

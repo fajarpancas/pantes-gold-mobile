@@ -26,6 +26,8 @@ const Images = {
   iconOfferActive: require('../images/ic_offer_active.png'),
   iconPesanBeli: require('../images/menu/ic_pesan_beli.png'),
   iconPesanBeliActive: require('../images/menu/ic_pesan_beli_active.png'),
+  iconAccountActive: require('../images/menu/ic_account_active.png'),
+  iconAccount2: require('../images/menu/ic_account.png'),
 };
 
 export default Images;

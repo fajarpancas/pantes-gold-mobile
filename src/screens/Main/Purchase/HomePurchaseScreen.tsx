@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ActivityIndicator,
+  FlatList,
   Image,
   StatusBar,
   StyleSheet,
@@ -11,7 +11,6 @@ import Colors from '../../../themes/Colors';
 import {scale} from '../../../services/Scale';
 import Text from '../../../components/Text';
 import NavigationServices from '../../../services/NavigationServices';
-import HeaderCabang from '../../../components/HeaderCabang';
 import UserModel from '../../../models/UserModel';
 import useUserStore from '../../../stores/user/UserStore';
 import {connect} from '../../../services/ZustandHelper';
@@ -19,11 +18,10 @@ import {sessionStore} from '../../../stores/session/SessionStore';
 import ApiServices from '../../../services/ApiServices';
 import usePurchaseStore from '../../../stores/purchase/PurchaseStore';
 import PurchaseModel from '../../../models/PurchaseModel';
-import PurchaseOrder from './PurchaseOrder';
 import Images from '../../../themes/Images';
 import ModalSelectCabang from './ModalSelectCabang';
-
-const TOP_MENU = ['Pesanan\n/Req', 'Pesan\nBeli', 'Beli'];
+import OrderCard from '../../../components/OrderCard';
+import Spacer from '../../../components/Spacer';
 
 class HomePurchaseScreen extends React.PureComponent {
   constructor(props) {
@@ -44,35 +42,20 @@ class HomePurchaseScreen extends React.PureComponent {
       }
       this.onRefresh();
     }, 300);
-    // sessionStore.getState().setLogin(false);
   }
 
   onRefresh = () => {
     const {getPurchaseOrder} = this.props;
-    const {topMenuSelected, cabangSelected} = this.state;
-    if (topMenuSelected === 0) {
-      if (cabangSelected) {
-        getPurchaseOrder({kd_toko: cabangSelected?.kd_toko});
-      } else {
-        getPurchaseOrder();
-      }
+    const {cabangSelected} = this.state;
+    if (cabangSelected) {
+      getPurchaseOrder({kd_toko: cabangSelected?.kd_toko});
+    } else {
+      getPurchaseOrder();
     }
   };
 
   navigate = () => {
     NavigationServices.navigate('OrderScreen', {});
-  };
-
-  renderLoading = () => {
-    return (
-      <View style={styles.container}>
-        <HeaderCabang />
-        <View style={styles.flexCenter}>
-          <ActivityIndicator size={'large'} color={Colors.primary} />
-          <Text color={Colors.primary}>Loading data</Text>
-        </View>
-      </View>
-    );
   };
 
   render(): React.ReactNode {
@@ -83,36 +66,6 @@ class HomePurchaseScreen extends React.PureComponent {
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
-
-        {/* <View style={styles.menuWrapper}>
-          {TOP_MENU.map((menu: string, index: number) => {
-            const isSelected = index === topMenuSelected;
-            return (
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  this.setState({topMenuSelected: index}, () => {
-                    this.onRefresh();
-                  });
-                }}
-                style={[
-                  styles.menuBox,
-                  {
-                    backgroundColor: isSelected
-                      ? Colors.primary
-                      : Colors.greenlight,
-                  },
-                ]}>
-                <Text
-                  textAlign="center"
-                  color={isSelected ? Colors.white : Colors.fontBlack}
-                  family={isSelected ? 'bold' : 'regular'}>
-                  {menu}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View> */}
 
         <View style={styles.searchWrapper}>
           <Text>
@@ -143,11 +96,50 @@ class HomePurchaseScreen extends React.PureComponent {
             ) : null}
           </View>
         </View>
-        {loading ? (
-          this.renderLoading()
-        ) : (
-          <PurchaseOrder loading={loading} data={purchaseOrderLists} />
-        )}
+        <FlatList
+          data={purchaseOrderLists}
+          numColumns={3}
+          renderItem={({item, index}) => {
+            return (
+              <View
+                style={[
+                  styles.padding,
+                  index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
+                ]}>
+                <OrderCard
+                  item={item}
+                  onPress={() => {
+                    NavigationServices.navigate(
+                      'PurchaseOrderDetailScreen',
+                      item,
+                    );
+                  }}
+                />
+              </View>
+            );
+          }}
+          onRefresh={this.onRefresh}
+          refreshing={loading}
+          contentContainerStyle={
+            purchaseOrderLists?.length
+              ? styles.paddingHorizontal
+              : styles.emptyContainer
+          }
+          ListEmptyComponent={() => {
+            if (!loading) {
+              return (
+                <View>
+                  <Spacer height={60} />
+                  <Image source={Images.iconEmpty} style={styles.emptyIcon} />
+                  <Text size={16} textAlign="center" lineHeight={21.86}>
+                    Data yang anda cari{'\n'}tidak ditemukan
+                  </Text>
+                </View>
+              );
+            }
+            return null;
+          }}
+        />
         <ModalSelectCabang
           cabang={cabang}
           modalVisible={modalVisible}
@@ -208,6 +200,26 @@ const styles = StyleSheet.create({
     paddingVertical: scale(10),
     paddingHorizontal: scale(20),
     borderRadius: scale(10),
+  },
+  emptyIcon: {
+    height: scale(88),
+    width: scale(88),
+    alignSelf: 'center',
+  },
+  padding: {
+    paddingVertical: scale(5),
+  },
+  paddingLeft10: {
+    paddingLeft: scale(10),
+  },
+  paddingHorizontal: {
+    paddingHorizontal: scale(20),
+    paddingBottom: scale(20),
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

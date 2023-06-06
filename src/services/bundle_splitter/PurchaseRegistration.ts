@@ -41,3 +41,8 @@ export const PurchaseOrderDetailScreen = register({
     require('../../screens/main/Purchase/PurchaseOrderDetailScreen'),
   name: 'PurchaseOrderDetailScreen',
 });
+
+export const MenuAccountScreen = register({
+  loader: () => require('../../screens/main/Purchase/MenuAccountScreen'),
+  name: 'MenuAccountScreen',
+});
