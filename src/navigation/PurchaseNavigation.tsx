@@ -5,8 +5,9 @@ import PurchaseTab from './PurchaseTab';
 import {
   AddPurchaseOffer,
   PurchaseOfferDetail,
+  PurchaseOrderDetailScreen,
+  OrderBuyDetailScreen,
 } from '../services/bundle_splitter/PurchaseRegistration';
-import OrderBuyDetailScreen from '../screens/main/Purchase/OrderBuyDetailScreen';
 const Stack = createNativeStackNavigator<PurchaseStackParams>();
 
 const PurchaseNavigation = () => {
@@ -38,6 +39,12 @@ const PurchaseNavigation = () => {
         name="OrderBuyDetailScreen"
         component={OrderBuyDetailScreen}
         options={{title: 'Pesan Beli Detail', headerShadowVisible: false}}
+      />
+
+      <Stack.Screen
+        name="PurchaseOrderDetailScreen"
+        component={PurchaseOrderDetailScreen}
+        options={{title: 'Pesanan Detail', headerShadowVisible: false}}
       />
     </Stack.Navigator>
   );

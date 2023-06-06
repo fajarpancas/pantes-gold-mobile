@@ -35,3 +35,9 @@ export const OrderBuyDetailScreen = register({
   loader: () => require('../../screens/main/Purchase/OrderBuyDetailScreen'),
   name: 'OrderBuyDetailScreen',
 });
+
+export const PurchaseOrderDetailScreen = register({
+  loader: () =>
+    require('../../screens/main/Purchase/PurchaseOrderDetailScreen'),
+  name: 'PurchaseOrderDetailScreen',
+});

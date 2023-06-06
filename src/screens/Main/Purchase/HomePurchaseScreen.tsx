@@ -77,16 +77,8 @@ class HomePurchaseScreen extends React.PureComponent {
 
   render(): React.ReactNode {
     const {loading, purchaseOrder, cabang} = this.props;
-    const {topMenuSelected, modalVisible, cabangSelected} = this.state;
+    const {modalVisible, cabangSelected} = this.state;
     const purchaseOrderLists = purchaseOrder?.data || [];
-
-    if (purchaseOrderLists?.length === 0) {
-      return (
-        <View style={styles.flexCenter}>
-          <Text color={Colors.primary}>Belum ada data</Text>
-        </View>
-      );
-    }
 
     return (
       <View style={styles.container}>
@@ -122,44 +114,40 @@ class HomePurchaseScreen extends React.PureComponent {
           })}
         </View> */}
 
-        {topMenuSelected === 0 ? (
-          <>
-            <View style={styles.searchWrapper}>
-              <Text>
-                {cabangSelected ? cabangSelected?.nama_toko : 'Cari Cabang'}
-              </Text>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() =>
-                    this.setState({modalVisible: true}, () =>
-                      this.props.getCabang(),
-                    )
-                  }>
-                  <Image source={Images.iconFilter} style={styles.dropdown} />
-                </TouchableOpacity>
-                {cabangSelected?.kd_toko ? (
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() =>
-                      this.setState({cabangSelected: undefined}, () => {
-                        setTimeout(() => {
-                          this.onRefresh();
-                        }, 500);
-                      })
-                    }>
-                    <Image source={Images.iconClose} style={styles.close} />
-                  </TouchableOpacity>
-                ) : null}
-              </View>
-            </View>
-            {loading ? (
-              this.renderLoading()
-            ) : (
-              <PurchaseOrder loading={loading} data={purchaseOrderLists} />
-            )}
-          </>
-        ) : null}
+        <View style={styles.searchWrapper}>
+          <Text>
+            {cabangSelected ? cabangSelected?.nama_toko : 'Cari Cabang'}
+          </Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() =>
+                this.setState({modalVisible: true}, () =>
+                  this.props.getCabang(),
+                )
+              }>
+              <Image source={Images.iconFilter} style={styles.dropdown} />
+            </TouchableOpacity>
+            {cabangSelected?.kd_toko ? (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() =>
+                  this.setState({cabangSelected: undefined}, () => {
+                    setTimeout(() => {
+                      this.onRefresh();
+                    }, 500);
+                  })
+                }>
+                <Image source={Images.iconClose} style={styles.close} />
+              </TouchableOpacity>
+            ) : null}
+          </View>
+        </View>
+        {loading ? (
+          this.renderLoading()
+        ) : (
+          <PurchaseOrder loading={loading} data={purchaseOrderLists} />
+        )}
         <ModalSelectCabang
           cabang={cabang}
           modalVisible={modalVisible}

@@ -333,6 +333,81 @@ const PurchaseActions = (set, get) => {
         );
       }
     },
+    getPurchaseOrderDetail: async (
+      params: any,
+      callback: (response: any) => {},
+    ) => {
+      set(
+        produce((state: PurchaseModel) => {
+          state.loading = true;
+        }),
+      );
+      try {
+        const response = await ApiServices.getPurchaseOrderDetail(params);
+        if (response.ok) {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+            }),
+          );
+          if (typeof callback === 'function') {
+            if (response?.data?.data) {
+              callback(response?.data?.data);
+            }
+          }
+        } else {
+          set(
+            produce((state: PurchaseModel) => {
+              state.error = true;
+              state.loading = false;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: PurchaseModel) => {
+            state.error = true;
+            state.loading = false;
+          }),
+        );
+      }
+    },
+    submitPurchaseOrder: async (params: any, callback: () => void) => {
+      set(
+        produce((state: PurchaseModel) => {
+          state.loading = true;
+        }),
+      );
+      try {
+        const response = await ApiServices.submitPurchaseOrder(params);
+        if (response.ok) {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+            }),
+          );
+          if (typeof callback === 'function') {
+            callback();
+          }
+        } else {
+          set(
+            produce((state: PurchaseModel) => {
+              state.error = true;
+              state.loading = false;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: PurchaseModel) => {
+            state.error = true;
+            state.loading = false;
+          }),
+        );
+      }
+    },
   };
 };
 

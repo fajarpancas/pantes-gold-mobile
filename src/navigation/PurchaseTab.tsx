@@ -62,7 +62,7 @@ const PurchaseTab = () => {
                 <View style={styles.justifyCenter}>
                   <Image source={Images.iconHomeFilled} style={styles.icon} />
                   <Text family="semiBold" color={Colors.primary} size={11.67}>
-                    Home
+                    Pesan/Req
                   </Text>
                 </View>
               );
@@ -74,7 +74,7 @@ const PurchaseTab = () => {
                     family="regular"
                     color={Colors.fontSemiBlack}
                     size={11.67}>
-                    Home
+                    Pesan/Req
                   </Text>
                 </View>
               );

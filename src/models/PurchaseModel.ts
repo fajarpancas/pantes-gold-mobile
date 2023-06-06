@@ -59,6 +59,8 @@ interface PurchaseModel extends StoreModel {
     callback: (response: any) => void,
   ) => void;
   submitQtyPesanBeli: (params: any, callback: () => void) => void;
+  getPurchaseOrderDetail: (params: any, callback: (data: any) => void) => void;
+  submitPurchaseOrder: (parmas: any, callback: () => void) => void;
 }
 
 export default PurchaseModel;

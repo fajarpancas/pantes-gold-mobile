@@ -56,6 +56,8 @@ class ApiServices {
     this.getPesanBeli = this.getPesanBeli.bind(this);
     this.getPesanBeliDetail = this.getPesanBeliDetail.bind(this);
     this.submitQtyPesanBeli = this.submitQtyPesanBeli.bind(this);
+    this.getPurchaseOrderDetail = this.getPurchaseOrderDetail.bind(this);
+    this.submitPurchaseOrder = this.submitPurchaseOrder.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
 
     this.api.addMonitor(this.handleResponseMonitoring);
@@ -207,6 +209,14 @@ class ApiServices {
     body.append('id_order', params?.id_order);
     body.append('qty_acc', params?.qty_acc);
     return this.api.post('/pusat/penawaran-rekap/submit-qty', body);
+  }
+
+  getPurchaseOrderDetail(params: any): Promise<any> {
+    return this.api.get('/pusat/order/detail', params);
+  }
+
+  submitPurchaseOrder(params: any): Promise<any> {
+    return this.api.post('/pusat/order/submit', params);
   }
 }
 

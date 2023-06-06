@@ -5,6 +5,7 @@ import OrderCard from '../../../components/OrderCard';
 import Spacer from '../../../components/Spacer';
 import Images from '../../../themes/Images';
 import {scale} from '../../../services/Scale';
+import NavigationServices from '../../../services/NavigationServices';
 
 type Order = {
   id_order: number;
@@ -36,10 +37,9 @@ const PurchaseOrder: React.FC<Props> = props => {
             ]}>
             <OrderCard
               item={item}
-              onPress={
-                () => {}
-                // NavigationServices.navigate('OrderDetailScreen', item)
-              }
+              onPress={() => {
+                NavigationServices.navigate('PurchaseOrderDetailScreen', item);
+              }}
             />
           </View>
         );

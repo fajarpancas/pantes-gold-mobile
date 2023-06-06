@@ -5,6 +5,7 @@ import {scale} from '../services/Scale';
 import Colors from '../themes/Colors';
 import Spacer from './Spacer';
 import dayjs from 'dayjs';
+import {STATUS} from '../const/Data';
 
 type Order = {
   id_order: number;
@@ -24,39 +25,11 @@ type Props = {
 
 const OrderCard: React.FC<Props> = ({item, onPress}) => {
   const getStyles = () => {
-    let backgroundColor = {backgroundColor: '#f2f2f2'};
-    switch (item?.status) {
-      case 3:
-        backgroundColor.backgroundColor = Colors.greenlight;
-        break;
-      case 2:
-        backgroundColor.backgroundColor = 'lightblue';
-        break;
-      case 1:
-        backgroundColor.backgroundColor = Colors.yellow;
-        break;
-      case -1:
-        backgroundColor.backgroundColor = Colors.red;
-        break;
-    }
-
-    return backgroundColor;
+    return {backgroundColor: STATUS[item?.status - 1]?.color};
   };
 
   const getItemStatus = (status: number) => {
-    if (status < 0) {
-      return 'Ditolak';
-    }
-
-    if (status === 1) {
-      return 'Diproses';
-    }
-
-    if (status === 2) {
-      return 'Dikirim';
-    }
-
-    return 'Selesai';
+    return STATUS[status - 1]?.name;
   };
 
   return (
@@ -84,7 +57,15 @@ const OrderCard: React.FC<Props> = ({item, onPress}) => {
       <Spacer height={6} />
 
       <View style={[getStyles(), styles.statusWrapper]}>
-        <Text family="bold">{getItemStatus(item?.status)}</Text>
+        <Text
+          family="bold"
+          color={
+            item?.status
+              ? STATUS[item?.status - 1].textColor
+              : Colors.fontSemiBlack
+          }>
+          {getItemStatus(item?.status)}
+        </Text>
       </View>
     </TouchableOpacity>
   );
