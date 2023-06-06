@@ -1,26 +1,27 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {
-  CartScreen,
-  HomeScreen,
-} from '../services/bundle_splitter/MainRegistration';
-import {MainTabParams, PurchaseTabParams} from '../models/NavigationModel';
+import {PurchaseTabParams} from '../models/NavigationModel';
 import {scale} from '../services/Scale';
 import Colors from '../themes/Colors';
 import Images from '../themes/Images';
 import {Image, StyleSheet, View} from 'react-native';
 import Text from '../components/Text';
-import Spacer from '../components/Spacer';
-import NavigationServices from '../services/NavigationServices';
 import {
   HomePurchaseScreen,
   MenuOfferScreen,
+  MenuOrderBuyScreen,
+  MenuBuyScreen,
 } from '../services/bundle_splitter/PurchaseRegistration';
 const Tab = createBottomTabNavigator<PurchaseTabParams>();
 const styles = StyleSheet.create({
   icon: {
     height: scale(24),
     width: scale(24),
+  },
+  iconOrderBuy: {
+    height: scale(18),
+    width: scale(18),
+    marginBottom: scale(6),
   },
   tabBarLabelStyle: {
     fontSize: 1,
@@ -101,18 +102,80 @@ const PurchaseTab = () => {
                 </View>
               );
             }
+          } else if (route?.name === 'MenuOrderBuyScreen') {
+            if (focused) {
+              return (
+                <View style={styles.justifyCenter}>
+                  <Image
+                    source={Images.iconPesanBeliActive}
+                    style={styles.iconOrderBuy}
+                  />
+                  <Text family="semiBold" color={Colors.primary} size={11.67}>
+                    Pesan Beli
+                  </Text>
+                </View>
+              );
+            } else {
+              return (
+                <View style={styles.justifyCenter}>
+                  <Image
+                    source={Images.iconPesanBeli}
+                    style={styles.iconOrderBuy}
+                  />
+                  <Text
+                    family="regular"
+                    color={Colors.fontSemiBlack}
+                    size={11.67}>
+                    Pesan Beli
+                  </Text>
+                </View>
+              );
+            }
+          } else if (route?.name === 'MenuBuyScreen') {
+            if (focused) {
+              return (
+                <View style={styles.justifyCenter}>
+                  <Image source={Images.iconCartFilled} style={styles.icon} />
+                  <Text family="semiBold" color={Colors.primary} size={11.67}>
+                    Beli
+                  </Text>
+                </View>
+              );
+            } else {
+              return (
+                <View style={styles.justifyCenter}>
+                  <Image source={Images.iconCart} style={styles.icon} />
+                  <Text
+                    family="regular"
+                    color={Colors.fontSemiBlack}
+                    size={11.67}>
+                    Beli
+                  </Text>
+                </View>
+              );
+            }
           }
         },
       })}>
       <Tab.Screen
         name="HomePurchaseScreen"
         component={HomePurchaseScreen}
-        options={{title: 'Home', headerShown: false}}
+        options={{headerShown: false}}
+      />
+      <Tab.Screen
+        name="MenuOrderBuyScreen"
+        component={MenuOrderBuyScreen}
+        options={{headerShown: false}}
+      />
+      <Tab.Screen
+        name="MenuBuyScreen"
+        component={MenuBuyScreen}
+        options={{headerShown: false}}
       />
       <Tab.Screen
         name="MenuOfferScreen"
         component={MenuOfferScreen}
-        options={{title: 'Penawaran', headerShown: false}}
+        options={{headerShown: false}}
       />
     </Tab.Navigator>
   );

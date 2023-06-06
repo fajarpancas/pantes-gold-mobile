@@ -14,6 +14,7 @@ const Images = {
   iconGallery: require('../images/ic_gallery.png'),
   iconAccount: require('../images/ic_account.png'),
   iconSetting: require('../images/ic_setting.png'),
+  iconCheck: require('../images/ic_check.png'),
 
   // menu
   iconHome: require('../images/menu/home.png'),
@@ -23,6 +24,8 @@ const Images = {
   iconAdd: require('../images/menu/add-button.png'),
   iconOffer: require('../images/ic_offer.png'),
   iconOfferActive: require('../images/ic_offer_active.png'),
+  iconPesanBeli: require('../images/menu/ic_pesan_beli.png'),
+  iconPesanBeliActive: require('../images/menu/ic_pesan_beli_active.png'),
 };
 
 export default Images;

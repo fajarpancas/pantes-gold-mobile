@@ -43,3 +43,12 @@ export type GetOfferListParams = {
   per_page: number;
   search?: string;
 };
+
+export type OfferDetailParams = {
+  id_penawaran: number;
+};
+
+export type PublishOfferParams = {
+  id_penawaran: number;
+  kd_toko: number;
+};

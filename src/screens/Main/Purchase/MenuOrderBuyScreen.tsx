@@ -15,11 +15,10 @@ import {connect} from '../../../services/ZustandHelper';
 import usePurchaseStore from '../../../stores/purchase/PurchaseStore';
 import PurchaseModel from '../../../models/PurchaseModel';
 import Images from '../../../themes/Images';
-import FloatingAdd from './FloatingAdd';
-import OfferCard from '../../../components/OfferCard';
 import Spacer from '../../../components/Spacer';
+import OrderBuyCard from '../../../components/OrderBuyCard';
 
-class MenuOfferScreen extends React.PureComponent {
+class MenuOrderBuyScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -31,15 +30,12 @@ class MenuOfferScreen extends React.PureComponent {
   }
 
   componentDidMount(): void {
-    setTimeout(() => {
-      this.onRefresh();
-    }, 300);
-    // sessionStore.getState().setLogin(false);
+    this.onRefresh();
   }
 
   onRefresh = () => {
-    const {getPurchaseOffer} = this.props;
-    getPurchaseOffer();
+    const {getPesanBeli} = this.props;
+    getPesanBeli();
   };
 
   navigate = () => {
@@ -58,10 +54,10 @@ class MenuOfferScreen extends React.PureComponent {
   };
 
   render(): React.ReactNode {
-    const {loading, purchaseOffer} = this.props;
-    const purchaseOfferLists = purchaseOffer?.data || [];
+    const {loading, pesanBeli} = this.props;
+    const pesanBeliLists = pesanBeli || [];
 
-    if (purchaseOfferLists?.length === 0 && loading) {
+    if (pesanBeli?.length === 0 && loading) {
       return (
         <View style={styles.container}>
           <View style={styles.flexCenter}>
@@ -78,29 +74,28 @@ class MenuOfferScreen extends React.PureComponent {
         <Spacer height={30} />
         <View style={{paddingHorizontal: scale(20)}}>
           <Text size={16} family="bold">
-            Penawaran
+            Pesan Beli
           </Text>
         </View>
         <Spacer height={20} />
         <FlatList
-          data={purchaseOfferLists}
+          data={pesanBeliLists}
           renderItem={({item, index}) => (
             <View
               style={[
                 styles.padding,
                 index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
               ]}>
-              <OfferCard
-                isPurchase
+              <OrderBuyCard
                 item={item}
                 onPress={() =>
-                  NavigationServices.navigate('PurchaseOfferDetailScreen', item)
+                  NavigationServices.navigate('OrderBuyDetailScreen', item)
                 }
               />
             </View>
           )}
           contentContainerStyle={
-            purchaseOfferLists?.length
+            pesanBeliLists?.length
               ? styles.paddingHorizontal
               : styles.emptyContainer
           }
@@ -121,10 +116,6 @@ class MenuOfferScreen extends React.PureComponent {
             }
             return null;
           }}
-        />
-
-        <FloatingAdd
-          onPress={() => NavigationServices.navigate('AddPurchaseOffer', {})}
         />
       </View>
     );
@@ -165,11 +156,11 @@ const styles = StyleSheet.create({
 });
 
 const purchaseSelector = (state: PurchaseModel) => ({
-  getPurchaseOffer: () => state.getPurchaseOffer(),
-  purchaseOffer: state.purchaseOffer,
+  getPesanBeli: () => state.getPesanBeli(),
+  pesanBeli: state.pesanBeli,
   loading: state.loading,
 });
 
 const stores = [{store: usePurchaseStore, selector: purchaseSelector}];
 
-export default connect(stores)(MenuOfferScreen);
+export default connect(stores)(MenuOrderBuyScreen);

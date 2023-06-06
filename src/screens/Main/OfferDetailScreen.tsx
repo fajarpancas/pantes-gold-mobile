@@ -16,7 +16,6 @@ import LabelTextInput from '../../components/LabelTextInput';
 import Button from '../../components/Button';
 import SuccessModal from '../../components/SuccessModal';
 import NavigationServices from '../../services/NavigationServices';
-import DropdownAlertHolder from '../../services/DropdownAlertHolder';
 import UserModel from '../../models/UserModel';
 import {CreateOfferParams} from '../../models/apimodel/ApiRequest';
 import useUserStore from '../../stores/user/UserStore';

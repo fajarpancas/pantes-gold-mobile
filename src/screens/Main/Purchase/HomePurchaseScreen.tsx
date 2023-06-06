@@ -92,7 +92,7 @@ class HomePurchaseScreen extends React.PureComponent {
       <View style={styles.container}>
         <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
 
-        <View style={styles.menuWrapper}>
+        {/* <View style={styles.menuWrapper}>
           {TOP_MENU.map((menu: string, index: number) => {
             const isSelected = index === topMenuSelected;
             return (
@@ -120,7 +120,7 @@ class HomePurchaseScreen extends React.PureComponent {
               </TouchableOpacity>
             );
           })}
-        </View>
+        </View> */}
 
         {topMenuSelected === 0 ? (
           <>

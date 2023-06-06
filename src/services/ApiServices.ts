@@ -6,6 +6,8 @@ import {
   GetOfferListParams,
   GetOrderListParams,
   LoginParams,
+  OfferDetailParams,
+  PublishOfferParams,
   RegisterParams,
 } from '../models/apimodel/ApiRequest';
 import {
@@ -48,6 +50,12 @@ class ApiServices {
     this.getPurchaseOrder = this.getPurchaseOrder.bind(this);
     this.getPurchaseOffer = this.getPurchaseOffer.bind(this);
     this.createPurchaseOffer = this.createPurchaseOffer.bind(this);
+    this.getPabrik = this.getPabrik.bind(this);
+    this.getOfferDetail = this.getOfferDetail.bind(this);
+    this.publishOffer = this.publishOffer.bind(this);
+    this.getPesanBeli = this.getPesanBeli.bind(this);
+    this.getPesanBeliDetail = this.getPesanBeliDetail.bind(this);
+    this.submitQtyPesanBeli = this.submitQtyPesanBeli.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
 
     this.api.addMonitor(this.handleResponseMonitoring);
@@ -168,7 +176,37 @@ class ApiServices {
     body.append('berat', params?.berat);
     body.append('keterangan', params?.keterangan);
     body.append('url_foto', params?.url_foto);
-    return this.api.post('pusat/penawaran/create', params);
+    return this.api.post('pusat/penawaran/create', body);
+  }
+
+  getPabrik(): Promise<any> {
+    return this.api.get('get-pabrik');
+  }
+
+  getOfferDetail(params: OfferDetailParams): Promise<any> {
+    return this.api.get('pusat/penawaran/detail', params);
+  }
+
+  publishOffer(params: PublishOfferParams): Promise<any> {
+    let body = new FormData();
+    body.append('id_penawaran', params?.id_penawaran);
+    body.append('kd_toko', params?.kd_toko);
+    return this.api.post('/pusat/penawaran/publish', body);
+  }
+
+  getPesanBeli(): Promise<any> {
+    return this.api.get('/pusat/penawaran-rekap');
+  }
+
+  getPesanBeliDetail(params: {kd_produk: string}): Promise<any> {
+    return this.api.get('/pusat/penawaran-rekap/detail', params);
+  }
+
+  submitQtyPesanBeli(params: any): Promise<any> {
+    let body = new FormData();
+    body.append('id_order', params?.id_order);
+    body.append('qty_acc', params?.qty_acc);
+    return this.api.post('/pusat/penawaran-rekap/submit-qty', body);
   }
 }
 

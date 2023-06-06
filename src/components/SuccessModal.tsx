@@ -12,10 +12,11 @@ type Props = {
   onPressOk: () => void;
   messageTitle: string;
   messageDesc: string;
+  btnMessage?: string;
 };
 
 const SuccessModal: React.FC<Props> = props => {
-  const {visible, onPressOk, messageTitle, messageDesc} = props;
+  const {visible, onPressOk, messageTitle, messageDesc, btnMessage} = props;
 
   return (
     <Modal transparent visible={visible}>
@@ -39,7 +40,7 @@ const SuccessModal: React.FC<Props> = props => {
           <View style={styles.width264}>
             <Button
               onPress={onPressOk}
-              title="Kembali ke Home"
+              title={btnMessage || 'Kembali ke Home'}
               color={Colors.primary}
             />
           </View>

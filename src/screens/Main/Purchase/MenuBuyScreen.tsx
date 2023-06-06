@@ -19,7 +19,7 @@ import FloatingAdd from './FloatingAdd';
 import OfferCard from '../../../components/OfferCard';
 import Spacer from '../../../components/Spacer';
 
-class MenuOfferScreen extends React.PureComponent {
+class MenuBuyScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -38,8 +38,8 @@ class MenuOfferScreen extends React.PureComponent {
   }
 
   onRefresh = () => {
-    const {getPurchaseOffer} = this.props;
-    getPurchaseOffer();
+    // const {getPurchaseOffer} = this.props;
+    // getPurchaseOffer();
   };
 
   navigate = () => {
@@ -172,4 +172,4 @@ const purchaseSelector = (state: PurchaseModel) => ({
 
 const stores = [{store: usePurchaseStore, selector: purchaseSelector}];
 
-export default connect(stores)(MenuOfferScreen);
+export default connect(stores)(MenuBuyScreen);

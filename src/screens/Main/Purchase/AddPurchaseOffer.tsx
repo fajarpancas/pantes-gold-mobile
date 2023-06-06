@@ -26,6 +26,7 @@ import {openImagePicker} from '../../../services/ImagePickerHelper';
 import usePurchaseStore from '../../../stores/purchase/PurchaseStore';
 import {CreateOffer} from '../../../stores/purchase/PurchaseTypes';
 import PurchaseModel from '../../../models/PurchaseModel';
+import ModalSelectPabrik from './ModalSelectPabrik';
 
 type ImageResponse = {
   path: string;
@@ -66,12 +67,13 @@ class AddPurchaseOffer extends React.PureComponent {
       photoError: false,
       successModal: false,
       selectModalVisible: false,
+      modalVisible: false,
     };
 
     this.schema = Yup.object().shape({
       productCode: Yup.number().required('Kode Produk harus diisi'),
       productName: Yup.string().required('Nama produk harus diisi'),
-      pabrik: Yup.string().required('Pabrik harus diisi'),
+      pabrik: Yup.object().required('Pabrik harus diisi'),
       collection: Yup.string().required('Koleksi harus diisi'),
       type: Yup.string().required('Kadar harus dipilih'),
       jenis: Yup.string().required('Jenis barang harus diisi'),
@@ -80,6 +82,11 @@ class AddPurchaseOffer extends React.PureComponent {
         .required('Berat barang harus diisi'),
       info: Yup.string().required('Keterangan harus diisi'),
     });
+  }
+
+  componentDidMount(): void {
+    const {getPabrik} = this.props;
+    getPabrik();
   }
 
   onPressCamera = () => {
@@ -144,7 +151,7 @@ class AddPurchaseOffer extends React.PureComponent {
     } else {
       const params: CreateOffer = {
         kd_produk: props.productCode,
-        id_pabrik: 1,
+        id_pabrik: props.pabrik?.id_pabrik,
         keterangan_produk: props.productName,
         deskripsi: props.info,
         koleksi: props.collection,
@@ -162,7 +169,10 @@ class AddPurchaseOffer extends React.PureComponent {
   };
 
   renderForm = (props: any) => {
-    const {photo} = this.state;
+    const {photo, modalVisible} = this.state;
+    const {pabrikList} = this.props;
+    const pabrikLists = pabrikList?.length ? pabrikList : [];
+
     return (
       <View style={{flex: 1}}>
         <View style={{flex: 1}}>
@@ -236,21 +246,26 @@ class AddPurchaseOffer extends React.PureComponent {
           <Spacer height={15} />
           <LabelTextInput label="Pabrik" size={12} />
           <Spacer height={5} />
-          <View style={styles.textInputWrapper}>
-            <TextInput
-              style={[
-                styles.textInput,
-                {width: scale(320), borderRadius: scale(8)},
-              ]}
-              defaultValue={props.values.pabrik}
-              placeholder="Masukkan nama pabrik"
-              placeholderTextColor={Colors.placeholder}
-              onChangeText={text => props.setFieldValue('pabrik', text)}
-            />
-          </View>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => this.setState({modalVisible: true})}>
+            <View style={styles.dropdown}>
+              <Text family="regular" size={14}>
+                {props.values.pabrik?.nama_pabrik || 'Pilih Pabrik'}
+              </Text>
+              <Image
+                source={Images.iconDropdown}
+                style={{
+                  height: scale(20),
+                  width: scale(20),
+                  marginRight: scale(20),
+                }}
+              />
+            </View>
+          </TouchableOpacity>
           {props.errors.pabrik ? (
             <Text color={'red'} size={10}>
-              {props.errors.pabrik}
+              Pabrik harus dipilih
             </Text>
           ) : null}
 
@@ -444,6 +459,12 @@ class AddPurchaseOffer extends React.PureComponent {
             </View>
           </View>
         </Modal>
+        <ModalSelectPabrik
+          pabrik={pabrikLists}
+          modalVisible={modalVisible}
+          onHide={() => this.setState({modalVisible: false})}
+          onSelected={p => props.setFieldValue('pabrik', p)}
+        />
       </View>
     );
   };
@@ -576,6 +597,16 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.outlineBase,
     borderBottomWidth: 1,
   },
+  dropdown: {
+    height: scale(45),
+    borderWidth: 1,
+    borderColor: Colors.outlineBase,
+    borderRadius: scale(8),
+    paddingLeft: scale(20),
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 });
 
 const purchaseSelector = (state: PurchaseModel) => ({
@@ -583,6 +614,8 @@ const purchaseSelector = (state: PurchaseModel) => ({
   createPurchaseOffer: (params: CreateOffer, callback: () => void) =>
     state.createPurchaseOffer(params, callback),
   loading: state.loading,
+  getPabrik: () => state.getPabrik(),
+  pabrikList: state.pabrikList,
 });
 
 const stores = [{store: usePurchaseStore, selector: purchaseSelector}];

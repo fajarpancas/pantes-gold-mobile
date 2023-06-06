@@ -14,3 +14,24 @@ export const AddPurchaseOffer = register({
   loader: () => require('../../screens/main/Purchase/AddPurchaseOffer'),
   name: 'AddPurchaseOffer',
 });
+
+export const PurchaseOfferDetail = register({
+  loader: () =>
+    require('../../screens/main/Purchase/PurchaseOfferDetailScreen'),
+  name: 'PurchaseOfferDetailScreen',
+});
+
+export const MenuOrderBuyScreen = register({
+  loader: () => require('../../screens/main/Purchase/MenuOrderBuyScreen'),
+  name: 'MenuOrderBuyScreen',
+});
+
+export const MenuBuyScreen = register({
+  loader: () => require('../../screens/main/Purchase/MenuBuyScreen'),
+  name: 'MenuBuyScreen',
+});
+
+export const OrderBuyDetailScreen = register({
+  loader: () => require('../../screens/main/Purchase/OrderBuyDetailScreen'),
+  name: 'OrderBuyDetailScreen',
+});
