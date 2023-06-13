@@ -27,6 +27,7 @@ import {connect} from '../../services/ZustandHelper';
 import {CreateOrderParams} from '../../models/apimodel/ApiRequest';
 import useUserStore from '../../stores/user/UserStore';
 import {openImagePicker} from '../../services/ImagePickerHelper';
+import {sessionStore} from '../../stores/session/SessionStore';
 
 type ImageResponse = {
   path: string;
@@ -50,13 +51,10 @@ class AddOrderScreen extends React.PureComponent {
     };
 
     this.schema = Yup.object().shape({
-      kadar: Yup.number()
-        .min(1, 'Nilai kadar emas hanya boleh angka dan lebih dari 0')
-        .required('Kadar emas harus diisi'),
+      kadar: Yup.string().required('Kadar emas harus diisi'),
       weight: Yup.number()
         .min(1, 'Nilai berat emas hanya boleh angka dan lebih dari 0')
         .required('Berat emas harus diisi'),
-      type: Yup.string().required('Jenis pesan harus dipilih'),
       name: Yup.string().required('Nama barang harus dipilih'),
     });
   }
@@ -118,16 +116,18 @@ class AddOrderScreen extends React.PureComponent {
 
   handleSubmit = props => {
     const {photo} = this.state;
+    const userCategory = sessionStore.getState().user?.kategori;
+
     if (!photo) {
       this.setState({photoError: true});
     } else {
       const params: CreateOrderParams = {
         berat: parseFloat(props.weight),
-        kadar: Number(props.kadar),
+        kadar: props.kadar,
         nama_barang: props.name,
         qty: this.state.qty,
         url_foto: `data:image/jpeg;base64,${this.state.photo?.data}`,
-        jenis_pesan: props.type,
+        jenis_pesan: userCategory === 'pasar' ? 'cuci' : 'beli',
       };
 
       this.props.createOrder(params, () => {
@@ -209,20 +209,43 @@ class AddOrderScreen extends React.PureComponent {
           <Spacer height={15} />
           <LabelTextInput label="Kadar emas" size={12} />
           <Spacer height={5} />
-          <View style={styles.textInputWrapper}>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Masukkan kadar emas"
-              placeholderTextColor={Colors.placeholder}
-              keyboardType="number-pad"
-              onChangeText={text => props.setFieldValue('kadar', text)}
-            />
-            <View style={styles.rightLabel}>
-              <Text family="bold" color={Colors.primary}>
-                Karat
+          <View style={styles.optionContainer}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => props.setFieldValue('kadar', 'muda')}
+              style={[
+                styles.optionWrapper,
+                props.values.kadar === 'muda' ? styles.selectedColor : {},
+              ]}>
+              <Text
+                family={props.values.kadar === 'muda' ? 'bold' : 'regular'}
+                size={14}
+                color={
+                  props.values.kadar === 'muda'
+                    ? Colors.white
+                    : Colors.fontBlack
+                }>
+                Muda
               </Text>
-            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => props.setFieldValue('kadar', 'tua')}
+              style={[
+                styles.optionWrapper,
+                props.values.kadar === 'tua' ? styles.selectedColor : {},
+              ]}>
+              <Text
+                family={props.values.kadar === 'tua' ? 'bold' : 'regular'}
+                size={14}
+                color={
+                  props.values.kadar === 'tua' ? Colors.white : Colors.fontBlack
+                }>
+                Tua
+              </Text>
+            </TouchableOpacity>
           </View>
+
           {props.errors.kadar ? (
             <Text color={'red'} size={10}>
               {props.errors.kadar}
@@ -252,48 +275,6 @@ class AddOrderScreen extends React.PureComponent {
             </Text>
           ) : null}
 
-          <Spacer height={15} />
-          <LabelTextInput label="Jenis pesan" size={12} />
-          <Spacer height={5} />
-          <View style={styles.optionContainer}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => props.setFieldValue('type', 'beli')}
-              style={[
-                styles.optionWrapper,
-                props.values.type === 'beli' ? styles.selectedColor : {},
-              ]}>
-              <Text
-                family={props.values.type === 'beli' ? 'bold' : 'regular'}
-                size={14}
-                color={
-                  props.values.type === 'beli' ? Colors.white : Colors.fontBlack
-                }>
-                Beli
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => props.setFieldValue('type', 'cuci')}
-              style={[
-                styles.optionWrapper,
-                props.values.type === 'cuci' ? styles.selectedColor : {},
-              ]}>
-              <Text
-                family={props.values.type === 'cuci' ? 'bold' : 'regular'}
-                size={14}
-                color={
-                  props.values.type === 'cuci' ? Colors.white : Colors.fontBlack
-                }>
-                Cuci
-              </Text>
-            </TouchableOpacity>
-          </View>
-          {props.errors.type ? (
-            <Text color={'red'} size={10}>
-              {props.errors.type}
-            </Text>
-          ) : null}
           <Spacer height={20} />
         </View>
         <View style={styles.buttonWrapper}>

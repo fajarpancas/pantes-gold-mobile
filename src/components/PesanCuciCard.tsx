@@ -7,23 +7,26 @@ import Spacer from './Spacer';
 import dayjs from 'dayjs';
 import {STATUS} from '../const/Data';
 
-type Order = {
-  id_order: number;
-  url_foto: string;
-  nama_barang: string;
-  qty: number;
-  kadar: string;
-  berat: string;
-  created_at: string;
+type PesanCuci = {
+  id_order_cuci: number;
+  no_pesan: String;
+  kd_produk: String;
+  url_foto: String;
+  nama_barang: String;
+  qty: String;
+  kadar: String;
+  jenis_barang: String;
+  tgl_pesan: String;
+  created_at: String;
   status: number;
 };
 
 type Props = {
-  item: Order;
+  item: PesanCuci;
   onPress?: () => void;
 };
 
-const OrderCard: React.FC<Props> = ({item, onPress}) => {
+const PesanCuciCard: React.FC<Props> = ({item, onPress}) => {
   const getStyles = () => {
     return {backgroundColor: STATUS[item?.status - 1]?.color};
   };
@@ -39,20 +42,16 @@ const OrderCard: React.FC<Props> = ({item, onPress}) => {
       style={styles.wrapper}>
       <Image source={{uri: item?.url_foto}} style={styles.image} />
       <Spacer height={8} />
-      <Text family="bold" numberOfLines={1}>
-        {item?.nama_barang}
+
+      <Text numberOfLines={1}>
+        {dayjs(item?.created_at).format('DD/MM/YYYY')}
       </Text>
-      <Spacer height={8} />
-      <Text>{dayjs(item?.created_at).format('DD/MM/YYYY')}</Text>
-      <Text>
-        Qantity<Text family="bold"> {item?.qty}</Text>
-      </Text>
-      <Text>
-        Kadar<Text family="bold"> {item?.kadar}</Text>
-      </Text>
-      <Text>
-        Berat<Text family="bold"> {item?.berat}gr</Text>
-      </Text>
+      <Text numberOfLines={1}>{item?.no_pesan}</Text>
+      <Text numberOfLines={1}>Produk {item?.kd_produk}</Text>
+      <Text numberOfLines={1}>{item?.nama_barang}</Text>
+      <Text numberOfLines={1}>Qty {item?.qty}</Text>
+      <Text numberOfLines={1}>Kadar {item?.kadar}</Text>
+      <Text numberOfLines={1}>Jenis {item?.jenis_barang}</Text>
 
       <Spacer height={6} />
 
@@ -67,6 +66,8 @@ const OrderCard: React.FC<Props> = ({item, onPress}) => {
           {getItemStatus(item?.status)}
         </Text>
       </View>
+
+      <Spacer height={4} />
     </TouchableOpacity>
   );
 };
@@ -84,14 +85,15 @@ const styles = StyleSheet.create({
     width: scale(84),
     borderTopLeftRadius: scale(8),
     borderTopRightRadius: scale(8),
+    resizeMode: 'cover',
     backgroundColor: '#f2f2f2',
   },
   statusWrapper: {
-    borderRadius: scale(8),
-    paddingVertical: scale(4),
+    borderRadius: scale(100),
+    paddingVertical: scale(3),
     justifyContent: 'center',
     alignItems: 'center',
   },
 });
 
-export default OrderCard;
+export default PesanCuciCard;

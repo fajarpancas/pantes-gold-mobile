@@ -22,14 +22,14 @@ const SessionActions = (set: any) => {
           ApiServices.setHeaders({
             Authorization: `Bearer ${response.data?.data?.token_user}`,
           });
-          setTimeout(() => {
-            sessionStore.getState().setLogin(true);
-            if (response?.data) {
-              sessionStore.getState().setToken(response.data?.data?.token_user);
-              sessionStore.getState().setUser(response.data.data);
-            }
-            LoadingHelper.hide();
-          }, 800);
+          // setTimeout(() => {
+          sessionStore.getState().setLogin(true);
+          if (response?.data) {
+            sessionStore.getState().setToken(response.data?.data?.token_user);
+            sessionStore.getState().setUser(response.data.data);
+          }
+          LoadingHelper.hide();
+          // }, 500);
         } else {
           LoadingHelper.hide();
           throw response.problem;

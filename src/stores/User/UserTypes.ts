@@ -4,4 +4,5 @@ export type User = {
   id_role?: number;
   nama_role?: string;
   nama_toko?: string;
+  kategori: string;
 };

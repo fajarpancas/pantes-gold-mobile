@@ -3,7 +3,6 @@ import {
   ActivityIndicator,
   FlatList,
   Image,
-  StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
@@ -14,10 +13,10 @@ import NavigationServices from '../../../services/NavigationServices';
 import {connect} from '../../../services/ZustandHelper';
 import usePurchaseStore from '../../../stores/purchase/PurchaseStore';
 import PurchaseModel from '../../../models/PurchaseModel';
-import Images from '../../../themes/Images';
-import FloatingAdd from './FloatingAdd';
-import OfferCard from '../../../components/OfferCard';
 import Spacer from '../../../components/Spacer';
+import Images from '../../../themes/Images';
+import OrderBuyCard from '../../../components/OrderBuyCard';
+import PesanCuciCard from '../../../components/PesanCuciCard';
 
 class MenuBuyScreen extends React.PureComponent {
   constructor(props) {
@@ -31,15 +30,12 @@ class MenuBuyScreen extends React.PureComponent {
   }
 
   componentDidMount(): void {
-    setTimeout(() => {
-      this.onRefresh();
-    }, 300);
-    // sessionStore.getState().setLogin(false);
+    this.onRefresh();
   }
 
   onRefresh = () => {
-    // const {getPurchaseOffer} = this.props;
-    // getPurchaseOffer();
+    const {getPesanCuci} = this.props;
+    getPesanCuci();
   };
 
   navigate = () => {
@@ -58,11 +54,50 @@ class MenuBuyScreen extends React.PureComponent {
   };
 
   render(): React.ReactNode {
+    const {pesanCuci, loading} = this.props;
+    const pesanCuciList = pesanCuci?.data || [];
+
     return (
       <View style={styles.flexCenter}>
-        <Text textAlign="center">
-          Mohon maaf.. fitur masih dalam{'\n'}tahap pengembangan.
-        </Text>
+        <FlatList
+          data={pesanCuciList}
+          renderItem={({item, index}) => (
+            <View
+              style={[
+                styles.padding,
+                index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
+              ]}>
+              <PesanCuciCard
+                item={item}
+                onPress={() =>
+                  NavigationServices.navigate('OrderBuyDetailScreen', item)
+                }
+              />
+            </View>
+          )}
+          contentContainerStyle={
+            pesanCuciList?.length
+              ? styles.paddingHorizontal
+              : styles.emptyContainer
+          }
+          refreshing={loading}
+          onRefresh={this.onRefresh}
+          numColumns={3}
+          ListEmptyComponent={() => {
+            if (!loading) {
+              return (
+                <View>
+                  <Spacer height={60} />
+                  <Image source={Images.iconEmpty} style={styles.emptyIcon} />
+                  <Text size={16} textAlign="center" lineHeight={21.86}>
+                    Belum ada penawaran{'\n'}yang dibuat
+                  </Text>
+                </View>
+              );
+            }
+            return null;
+          }}
+        />
       </View>
     );
   }
@@ -71,8 +106,7 @@ class MenuBuyScreen extends React.PureComponent {
 const styles = StyleSheet.create({
   flexCenter: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingTop: scale(15),
   },
   container: {
     flex: 1,
@@ -102,8 +136,8 @@ const styles = StyleSheet.create({
 });
 
 const purchaseSelector = (state: PurchaseModel) => ({
-  getPurchaseOffer: () => state.getPurchaseOffer(),
-  purchaseOffer: state.purchaseOffer,
+  getPesanCuci: () => state.getPesanCuci(),
+  pesanCuci: state.pesanCuci,
   loading: state.loading,
 });
 

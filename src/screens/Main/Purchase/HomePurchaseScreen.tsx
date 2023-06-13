@@ -35,13 +35,13 @@ class HomePurchaseScreen extends React.PureComponent {
   }
 
   componentDidMount(): void {
-    setTimeout(() => {
-      const token = sessionStore.getState().token;
-      if (token) {
-        ApiServices.setHeader('Authorization', `Bearer ${token}`);
-      }
-      this.onRefresh();
-    }, 300);
+    // setTimeout(() => {
+    //   const token = sessionStore.getState().token;
+    //   if (token) {
+    //     ApiServices.setHeader('Authorization', `Bearer ${token}`);
+    //   }
+    this.onRefresh();
+    // }, 300);
   }
 
   onRefresh = () => {

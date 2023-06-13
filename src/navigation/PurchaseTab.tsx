@@ -133,7 +133,7 @@ const PurchaseTab = () => {
                 <View style={styles.justifyCenter}>
                   <Image source={Images.iconCartFilled} style={styles.icon} />
                   <Text family="semiBold" color={Colors.primary} size={11.67}>
-                    Beli
+                    Pesan Cuci
                   </Text>
                 </View>
               );
@@ -145,7 +145,7 @@ const PurchaseTab = () => {
                     family="regular"
                     color={Colors.fontSemiBlack}
                     size={11.67}>
-                    Beli
+                    Pesan Cuci
                   </Text>
                 </View>
               );

@@ -20,9 +20,23 @@ type Offer = {
 };
 
 type Pabrik = {
-  id_pabrik: Number;
+  id_pabrik: number;
   nama_pabrik: String;
-  status: Number;
+  status: number;
+};
+
+type PesanCuci = {
+  id_order_cuci: number;
+  no_pesan: String;
+  kd_produk: String;
+  url_foto: String;
+  nama_barang: String;
+  qty: String;
+  kadar: String;
+  jenis_barang: String;
+  tgl_pesan: String;
+  created_at: String;
+  status: number;
 };
 
 interface PurchaseModel extends StoreModel {
@@ -61,6 +75,14 @@ interface PurchaseModel extends StoreModel {
   submitQtyPesanBeli: (params: any, callback: () => void) => void;
   getPurchaseOrderDetail: (params: any, callback: (data: any) => void) => void;
   submitPurchaseOrder: (parmas: any, callback: () => void) => void;
+  getPesanCuci: () => void;
+  pesanCuci: {
+    current_page: 1;
+    data: PesanCuci[];
+    last_page: number;
+    per_page: number;
+    total: number;
+  };
 }
 
 export default PurchaseModel;

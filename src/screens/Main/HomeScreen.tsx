@@ -41,10 +41,10 @@ type Penawaran = {
 
 class HomeScreen extends React.PureComponent {
   componentDidMount(): void {
-    const token = sessionStore.getState().token;
-    if (token) {
-      ApiServices.setHeader('Authorization', `Bearer ${token}`);
-    }
+    // const token = sessionStore.getState().token;
+    // if (token) {
+    //   ApiServices.setHeader('Authorization', `Bearer ${token}`);
+    // }
     this.onRefresh();
     // sessionStore.getState().setLogin(false);
   }
@@ -91,7 +91,7 @@ class HomeScreen extends React.PureComponent {
 
           <HeaderCabang showLogout />
           <Spacer height={30} />
-          {homeData?.order?.length && (
+          {homeData?.order?.length ? (
             <>
               <View style={[styles.padding20, styles.flexRow]}>
                 <Text size={16} family="bold">
@@ -119,9 +119,11 @@ class HomeScreen extends React.PureComponent {
                 })}
               </View>
             </>
+          ) : (
+            <View />
           )}
 
-          {homeData?.penawaran?.length && (
+          {homeData?.penawaran?.length ? (
             <>
               <Spacer height={25} />
               <View style={[styles.padding20, styles.flexRow]}>
@@ -154,6 +156,8 @@ class HomeScreen extends React.PureComponent {
                 })}
               </View>
             </>
+          ) : (
+            <View />
           )}
         </ScrollView>
       </View>

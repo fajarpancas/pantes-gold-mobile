@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "555447790273",
+    "project_id": "pantesrequest",
+    "storage_bucket": "pantesrequest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555447790273:android:f6615e654dad2af3a14240",
+        "android_client_info": {
+          "package_name": "com.pantesrequest.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "555447790273-7ubtsdib9edpv614g260do4d86n59qrt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pantesrequest.staging",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "555447790273-21ho6o5s2chtmp7meflgbqvsuhcoro6i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTiQ7R5vi0QbgZWMdlnWdPOahGIj-CGxU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "555447790273-21ho6o5s2chtmp7meflgbqvsuhcoro6i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

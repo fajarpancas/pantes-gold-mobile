@@ -6,42 +6,15 @@ import {scale} from '../../services/Scale';
 import Text from '../../components/Text';
 import HeaderCabang from '../../components/HeaderCabang';
 import dayjs from 'dayjs';
+import {STATUS} from '../../const/Data';
 
 class OrderDetailScreen extends React.PureComponent {
   getStyles = (status: number) => {
-    let backgroundColor = {backgroundColor: '#f2f2f2'};
-    switch (status) {
-      case 3:
-        backgroundColor.backgroundColor = Colors.greenlight;
-        break;
-      case 2:
-        backgroundColor.backgroundColor = 'lightblue';
-        break;
-      case 1:
-        backgroundColor.backgroundColor = Colors.yellow;
-        break;
-      case -1:
-        backgroundColor.backgroundColor = Colors.red;
-        break;
-    }
-
-    return backgroundColor;
+    return {backgroundColor: STATUS[status - 1]?.color || Colors.outlineBase};
   };
 
   getItemStatus = (status: number) => {
-    if (status < 0) {
-      return 'Ditolak';
-    }
-
-    if (status === 1) {
-      return 'Diproses';
-    }
-
-    if (status === 2) {
-      return 'Dikirim';
-    }
-
-    return 'Selesai';
+    return STATUS[status - 1]?.name;
   };
 
   render(): React.ReactNode {
@@ -105,8 +78,13 @@ class OrderDetailScreen extends React.PureComponent {
         </View>
         <View>
           <View style={[this.getStyles(params?.status), styles.statusWrapper]}>
-            <Text family="bold" size={16}>
-              Pesanan {this.getItemStatus(params?.status)}
+            <Text
+              family="bold"
+              color={
+                STATUS[params?.status - 1]?.textColor ?? Colors.fontSemiBlack
+              }
+              size={16}>
+              {this.getItemStatus(params?.status)}
             </Text>
           </View>
         </View>
