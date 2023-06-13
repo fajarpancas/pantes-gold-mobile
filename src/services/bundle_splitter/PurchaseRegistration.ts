@@ -46,3 +46,8 @@ export const MenuAccountScreen = register({
   loader: () => require('../../screens/main/Purchase/MenuAccountScreen'),
   name: 'MenuAccountScreen',
 });
+
+export const AddPesanCuci = register({
+  loader: () => require('../../screens/main/Purchase/AddPesanCuci'),
+  name: 'AddPesanCuci',
+});

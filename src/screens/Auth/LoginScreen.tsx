@@ -50,8 +50,8 @@ class LoginScreen extends PureComponent<Props> {
 
     this.initialValue = __DEV__
       ? {
-          username: 'pedi',
-          password: '123456',
+          username: 'testingpusat',
+          password: 'asd123',
         }
       : {
           username: '',

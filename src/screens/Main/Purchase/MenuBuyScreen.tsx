@@ -17,6 +17,7 @@ import Spacer from '../../../components/Spacer';
 import Images from '../../../themes/Images';
 import OrderBuyCard from '../../../components/OrderBuyCard';
 import PesanCuciCard from '../../../components/PesanCuciCard';
+import FloatingAdd from './FloatingAdd';
 
 class MenuBuyScreen extends React.PureComponent {
   constructor(props) {
@@ -97,6 +98,10 @@ class MenuBuyScreen extends React.PureComponent {
             }
             return null;
           }}
+        />
+
+        <FloatingAdd
+          onPress={() => NavigationServices.navigate('AddPesanCuci', {})}
         />
       </View>
     );

@@ -10,20 +10,26 @@ type Props = {
   title: string;
   defaultValue?: Date;
   onSelectDate: (d: Date) => void;
+  padding?: number;
+  bgColor?: string;
 };
 
 const CustomDatePicker: React.FC<Props> = ({
   title,
   defaultValue,
   onSelectDate,
+  padding,
+  bgColor,
 }) => {
   const [open, setOpen] = useState(false);
   return (
     <>
       <TouchableOpacity
         style={{
-          backgroundColor: Colors.greenlight,
-          paddingVertical: scale(4),
+          borderColor: bgColor ? Colors.outlineBase : 'transparent',
+          borderWidth: bgColor ? 1 : 0,
+          backgroundColor: bgColor ?? Colors.greenlight,
+          paddingVertical: padding ? scale(padding) : scale(4),
           paddingHorizontal: scale(8),
           borderRadius: scale(8),
         }}

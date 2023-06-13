@@ -83,6 +83,7 @@ interface PurchaseModel extends StoreModel {
     per_page: number;
     total: number;
   };
+  submitPesanCuci: (params: any, callback: () => void) => void;
 }
 
 export default PurchaseModel;

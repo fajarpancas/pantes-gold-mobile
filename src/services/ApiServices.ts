@@ -59,6 +59,7 @@ class ApiServices {
     this.getPurchaseOrderDetail = this.getPurchaseOrderDetail.bind(this);
     this.submitPurchaseOrder = this.submitPurchaseOrder.bind(this);
     this.getPesanCuci = this.getPesanCuci.bind(this);
+    this.submitPesanCuci = this.submitPesanCuci.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
 
     this.api.addMonitor(this.handleResponseMonitoring);
@@ -222,6 +223,10 @@ class ApiServices {
 
   getPesanCuci(): Promise<any> {
     return this.api.get('/pusat/order-cuci');
+  }
+
+  submitPesanCuci(params: any): Promise<any> {
+    return this.api.post('/pusat/order-cuci', params);
   }
 }
 

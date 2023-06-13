@@ -441,6 +441,41 @@ const PurchaseActions = (set, get) => {
         );
       }
     },
+    submitPesanCuci: async (params: any, callback: () => void) => {
+      set(
+        produce((state: PurchaseModel) => {
+          state.loading = true;
+        }),
+      );
+      try {
+        const response = await ApiServices.submitPesanCuci(params);
+        if (response.ok) {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+            }),
+          );
+          if (typeof callback === 'function') {
+            callback();
+          }
+        } else {
+          set(
+            produce((state: PurchaseModel) => {
+              state.error = true;
+              state.loading = false;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: PurchaseModel) => {
+            state.error = true;
+            state.loading = false;
+          }),
+        );
+      }
+    },
   };
 };
 

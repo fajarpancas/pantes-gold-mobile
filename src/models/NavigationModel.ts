@@ -34,6 +34,7 @@ export type PurchaseStackParams = {
   PurchaseOfferDetailScreen: undefined;
   OrderBuyDetailScreen: undefined;
   PurchaseOrderDetailScreen: undefined;
+  AddPesanCuci: undefined;
 };
 
 type RootParamList = ReactNavigation.RootParamList;
