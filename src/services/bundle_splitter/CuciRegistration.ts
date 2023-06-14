@@ -9,3 +9,9 @@ export const MenuAccountScreen = register({
   loader: () => require('../../screens/main/Purchase/MenuAccountScreen'),
   name: 'MenuAccountScreen',
 });
+
+export const PusatPesanCuciDetailScreen = register({
+  loader: () =>
+    require('../../screens/main/Purchase/PusatPesanCuciDetailScreen'),
+  name: 'PusatPesanCuciDetailScreen',
+});

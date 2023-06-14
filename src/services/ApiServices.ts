@@ -61,6 +61,8 @@ class ApiServices {
     this.getPesanCuci = this.getPesanCuci.bind(this);
     this.submitPesanCuci = this.submitPesanCuci.bind(this);
     this.getPesanCuciDetail = this.getPesanCuciDetail.bind(this);
+    this.getPusatPesanCuci = this.getPusatPesanCuci.bind(this);
+    this.submitPusatPesanCuci = this.submitPusatPesanCuci.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
 
     this.api.addMonitor(this.handleResponseMonitoring);
@@ -126,8 +128,8 @@ class ApiServices {
     return this.api.get('/home');
   }
 
-  getCabang(): Promise<GetCabangResponse> {
-    return this.api.get('/get-cabang');
+  getCabang(params: any): Promise<GetCabangResponse> {
+    return this.api.get('/get-cabang', params);
   }
 
   createOrder(params: CreateOrderParams): Promise<any> {
@@ -232,6 +234,18 @@ class ApiServices {
 
   getPesanCuciDetail(params: any): Promise<any> {
     return this.api.get('/pusat/order-cuci/detail', params);
+  }
+
+  getPusatPesanCuci(params: any): Promise<any> {
+    return this.api.get('/cuci/order-cuci', params);
+  }
+
+  getPusatPesanCuciDetail(params: any): Promise<any> {
+    return this.api.get('/cuci/order-cuci/detail', params);
+  }
+
+  submitPusatPesanCuci(params: any): Promise<any> {
+    return this.api.post('/cuci/submit-order-cuci', params);
   }
 }
 

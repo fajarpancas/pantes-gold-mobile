@@ -98,7 +98,7 @@ const UserActions = (set, get) => {
         );
       }
     },
-    getCabang: async () => {
+    getCabang: async (params: any) => {
       set(
         produce((state: UserModel) => {
           state.loading = true;
@@ -106,7 +106,7 @@ const UserActions = (set, get) => {
       );
 
       try {
-        const response = await ApiServices.getCabang();
+        const response = await ApiServices.getCabang(params);
         if (response.ok) {
           set(
             produce((state: UserModel) => {

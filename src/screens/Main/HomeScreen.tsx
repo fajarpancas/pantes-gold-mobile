@@ -155,6 +155,7 @@ class HomeScreen extends React.PureComponent {
                   );
                 })}
               </View>
+              <Spacer height={30} />
             </>
           ) : (
             <View />

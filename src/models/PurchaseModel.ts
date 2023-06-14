@@ -85,7 +85,19 @@ interface PurchaseModel extends StoreModel {
   };
   submitPesanCuci: (params: any, callback: () => void) => void;
   getPesanCuciDetail: (params: any, callback: (res: any) => void) => void;
-  getPesanCuci2: (params: any, callback: (res: any) => void) => void;
+  getPusatPesanCuci: (params: any) => void;
+  pusatPesanCuci: {
+    current_page: 1;
+    data: PesanCuci[];
+    last_page: number;
+    per_page: number;
+    total: number;
+  };
+  getPusatPesanCuciDetail: (
+    params: any,
+    callback: (response: any) => void,
+  ) => void;
+  submitPusatPesanCuci: (params: any, callback: () => void) => void;
 }
 
 export default PurchaseModel;

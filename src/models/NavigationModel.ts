@@ -45,6 +45,7 @@ export type PurchaseStackParams = {
 
 export type CuciStackParams = {
   CuciMain: undefined;
+  PusatPesanCuciDetailScreen: undefined;
 };
 
 type RootParamList = ReactNavigation.RootParamList;

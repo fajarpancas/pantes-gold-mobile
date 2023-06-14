@@ -2,6 +2,7 @@ import React from 'react';
 import {
   FlatList,
   Image,
+  Modal,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
@@ -11,55 +12,60 @@ import Colors from '../../../themes/Colors';
 import {scale} from '../../../services/Scale';
 import Text from '../../../components/Text';
 import NavigationServices from '../../../services/NavigationServices';
-import UserModel from '../../../models/UserModel';
-import useUserStore from '../../../stores/user/UserStore';
 import {connect} from '../../../services/ZustandHelper';
 import usePurchaseStore from '../../../stores/purchase/PurchaseStore';
 import PurchaseModel from '../../../models/PurchaseModel';
 import Images from '../../../themes/Images';
-import ModalSelectCabang from './ModalSelectCabang';
 import OrderCard from '../../../components/OrderCard';
 import Spacer from '../../../components/Spacer';
+import {sessionStore} from '../../../stores/session/SessionStore';
+
+const STATUS = [
+  {
+    name: 'New',
+    color: Colors.outlineBase,
+    textColor: Colors.fontBlack,
+  },
+  {
+    name: 'Proses',
+    color: `${Colors.yellow}40`,
+    textColor: Colors.fontBlack,
+  },
+];
 
 class HomeCuciScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      topMenuSelected: 0,
       modalVisible: false,
-      cabangSelected: undefined,
+      statusSelected: undefined,
     };
   }
 
   componentDidMount(): void {
-    // setTimeout(() => {
-    //   const token = sessionStore.getState().token;
-    //   if (token) {
-    //     ApiServices.setHeader('Authorization', `Bearer ${token}`);
-    //   }
-    this.onRefresh();
-    // }, 300);
+    setTimeout(() => {
+      const role = sessionStore.getState().user?.id_role;
+      if (role === 3) {
+        this.onRefresh();
+      }
+    }, 300);
   }
 
   onRefresh = () => {
-    // const {getPurchaseOrder} = this.props;
-    // const {cabangSelected} = this.state;
-    // if (cabangSelected) {
-    //   getPurchaseOrder({kd_toko: cabangSelected?.kd_toko});
-    // } else {
-    //   getPurchaseOrder();
-    // }
-  };
-
-  navigate = () => {
-    NavigationServices.navigate('OrderScreen', {});
+    const {getPusatPesanCuci} = this.props;
+    const {statusSelected} = this.state;
+    if (typeof statusSelected === 'number') {
+      getPusatPesanCuci({status: statusSelected + 1});
+    } else {
+      getPusatPesanCuci();
+    }
   };
 
   render(): React.ReactNode {
-    const {loading, purchaseOrder, cabang} = this.props;
-    const {modalVisible, cabangSelected} = this.state;
-    const purchaseOrderLists = purchaseOrder?.data || [];
+    const {loading, pusatPesanCuci} = this.props;
+    const {modalVisible, statusSelected} = this.state;
+    const pusatPesanCuciLists = pusatPesanCuci?.data || [];
 
     return (
       <View style={styles.container}>
@@ -67,23 +73,21 @@ class HomeCuciScreen extends React.PureComponent {
 
         <View style={styles.searchWrapper}>
           <Text>
-            {cabangSelected ? cabangSelected?.nama_toko : 'Cari Cabang'}
+            {typeof statusSelected === 'number'
+              ? STATUS[statusSelected]?.name
+              : 'Filter status'}
           </Text>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() =>
-                this.setState({modalVisible: true}, () =>
-                  this.props.getCabang(),
-                )
-              }>
+              onPress={() => this.setState({modalVisible: true})}>
               <Image source={Images.iconFilter} style={styles.dropdown} />
             </TouchableOpacity>
-            {cabangSelected?.kd_toko ? (
+            {typeof statusSelected === 'number' ? (
               <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() =>
-                  this.setState({cabangSelected: undefined}, () => {
+                  this.setState({statusSelected: undefined}, () => {
                     setTimeout(() => {
                       this.onRefresh();
                     }, 500);
@@ -95,7 +99,7 @@ class HomeCuciScreen extends React.PureComponent {
           </View>
         </View>
         <FlatList
-          data={purchaseOrderLists}
+          data={pusatPesanCuciLists}
           numColumns={3}
           renderItem={({item, index}) => {
             return (
@@ -108,7 +112,7 @@ class HomeCuciScreen extends React.PureComponent {
                   item={item}
                   onPress={() => {
                     NavigationServices.navigate(
-                      'PurchaseOrderDetailScreen',
+                      'PusatPesanCuciDetailScreen',
                       item,
                     );
                   }}
@@ -119,7 +123,7 @@ class HomeCuciScreen extends React.PureComponent {
           onRefresh={this.onRefresh}
           refreshing={loading}
           contentContainerStyle={
-            purchaseOrderLists?.length
+            pusatPesanCuciLists?.length
               ? styles.paddingHorizontal
               : styles.emptyContainer
           }
@@ -138,18 +142,52 @@ class HomeCuciScreen extends React.PureComponent {
             return null;
           }}
         />
-        <ModalSelectCabang
-          cabang={cabang}
-          modalVisible={modalVisible}
-          onHide={() => this.setState({modalVisible: false})}
-          onSelected={c =>
-            this.setState({cabangSelected: c}, () => {
-              setTimeout(() => {
-                this.onRefresh();
-              }, 500);
-            })
-          }
-        />
+        <Modal transparent visible={modalVisible}>
+          <View style={styles.modalBackground} />
+          <View style={styles.modalContainer}>
+            <View style={styles.modalWrapper}>
+              <Text size={16} family="bold">
+                Pilih Status
+              </Text>
+              <Spacer height={10} />
+              <View style={{alignItems: 'center'}}>
+                {STATUS.map((s, index) => {
+                  const isSelected = index === statusSelected;
+                  return (
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.setState(
+                          {
+                            modalVisible: false,
+                            statusSelected: index,
+                          },
+                          () => {
+                            this.onRefresh();
+                          },
+                        )
+                      }
+                      style={{
+                        backgroundColor: isSelected
+                          ? Colors.primary
+                          : Colors.white,
+                        borderColor: Colors.outlineBase,
+                        borderWidth: 1,
+                        width: scale(320),
+                        borderRadius: scale(8),
+                        marginVertical: scale(2),
+                        alignItems: 'center',
+                        paddingVertical: scale(10),
+                      }}>
+                      <Text color={isSelected ? Colors.white : Colors.black}>
+                        {s.name}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -164,18 +202,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
-  },
-  menuWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: scale(30),
-    marginHorizontal: scale(20),
-  },
-  menuBox: {
-    width: scale(100),
-    height: scale(70),
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   dropdown: {
     width: scale(20),
@@ -219,22 +245,33 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  modalBackground: {
+    flex: 1,
+    position: 'absolute',
+    height: '100%',
+    width: scale(360),
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  modalWrapper: {
+    backgroundColor: Colors.white,
+    paddingBottom: scale(40),
+    paddingHorizontal: scale(20),
+    paddingTop: scale(20),
+    borderTopLeftRadius: scale(20),
+    borderTopRightRadius: scale(20),
+  },
 });
 
 const purchaseSelector = (state: PurchaseModel) => ({
-  getPurchaseOrder: (params: string) => state.getPurchaseOrder(params),
-  purchaseOrder: state.purchaseOrder,
+  getPusatPesanCuci: (params: string) => state.getPusatPesanCuci(params),
+  pusatPesanCuci: state.pusatPesanCuci,
   loading: state.loading,
 });
 
-const userSelector = (state: UserModel) => ({
-  getCabang: () => state.getCabang(),
-  cabang: state.cabang,
-});
-
-const stores = [
-  {store: usePurchaseStore, selector: purchaseSelector},
-  {store: useUserStore, selector: userSelector},
-];
+const stores = [{store: usePurchaseStore, selector: purchaseSelector}];
 
 export default connect(stores)(HomeCuciScreen);

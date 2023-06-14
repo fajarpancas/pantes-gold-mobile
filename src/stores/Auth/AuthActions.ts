@@ -19,9 +19,11 @@ const SessionActions = (set: any) => {
       try {
         const response = await ApiServices.login(params);
         if (response.ok) {
-          ApiServices.setHeaders({
-            Authorization: `Bearer ${response.data?.data?.token_user}`,
-          });
+          console.tron.error({response});
+          ApiServices.setHeader(
+            'Authorization',
+            `Bearer ${response.data?.data?.token_user}`,
+          );
           // setTimeout(() => {
           sessionStore.getState().setLogin(true);
           if (response?.data) {
