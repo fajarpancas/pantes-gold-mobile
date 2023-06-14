@@ -98,6 +98,16 @@ interface PurchaseModel extends StoreModel {
     callback: (response: any) => void,
   ) => void;
   submitPusatPesanCuci: (params: any, callback: () => void) => void;
+  getCabangPesanCuci: (params: any) => void;
+  getCabangPesanCuciDetail: (params: any, callback: () => void) => void;
+  submitCabangPesanCuci: (params: any, callback: () => void) => void;
+  cabangPesanCuci: {
+    current_page: 1;
+    data: PesanCuci[];
+    last_page: number;
+    per_page: number;
+    total: number;
+  };
 }
 
 export default PurchaseModel;

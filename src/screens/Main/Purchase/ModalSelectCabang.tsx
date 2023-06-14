@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   Image,
   Modal,
   ScrollView,
@@ -21,10 +22,11 @@ type Props = {
   modalVisible: boolean;
   onHide: () => void;
   onSelected: (c: {nama_toko: string; alamat: string}) => void;
+  loading?: Boolean;
 };
 
 const ModalSelectCabang: React.FC<Props> = props => {
-  const {cabang, modalVisible, onHide, onSelected} = props;
+  const {cabang, modalVisible, onHide, onSelected, loading} = props;
 
   return (
     <Modal visible={modalVisible} animationType="slide" transparent>
@@ -45,23 +47,27 @@ const ModalSelectCabang: React.FC<Props> = props => {
           </View>
 
           <Spacer height={20} />
-          <ScrollView style={{paddingHorizontal: scale(20)}}>
-            {cabang?.length
-              ? cabang.map(c => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        onSelected(c);
-                        onHide();
-                      }}
-                      style={styles.cabangItem}>
-                      <Text>{c.nama_toko}</Text>
-                      <Text> ({c.alamat}).</Text>
-                    </TouchableOpacity>
-                  );
-                })
-              : null}
-          </ScrollView>
+          {loading ? (
+            <ActivityIndicator color={Colors.primary} />
+          ) : (
+            <ScrollView style={{paddingHorizontal: scale(20)}}>
+              {cabang?.length
+                ? cabang.map(c => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          onSelected(c);
+                          onHide();
+                        }}
+                        style={styles.cabangItem}>
+                        <Text>{c.nama_toko}</Text>
+                        <Text> ({c.alamat}).</Text>
+                      </TouchableOpacity>
+                    );
+                  })
+                : null}
+            </ScrollView>
+          )}
           <Spacer height={40} />
         </View>
       </View>

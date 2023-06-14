@@ -47,7 +47,7 @@ class PusatPesanCuciDetailScreen extends React.PureComponent {
 
   submit = () => {
     const {qtyAcc, dataDetail} = this.state;
-    const {submitPusatPesanCuci} = this.props;
+    const {submitPusatPesanCuci, getPusatPesanCuci} = this.props;
     if (qtyAcc) {
       if (Number(qtyAcc) <= Number(dataDetail?.qty)) {
         submitPusatPesanCuci(
@@ -55,7 +55,10 @@ class PusatPesanCuciDetailScreen extends React.PureComponent {
             id_order_cuci: dataDetail?.id_order_cuci,
             qty_acc: qtyAcc,
           },
-          this.onRefresh,
+          () => {
+            this.onRefresh();
+            getPusatPesanCuci();
+          },
         );
       } else {
         DropdownAlertHolder.showError(
@@ -329,6 +332,7 @@ const styles = StyleSheet.create({
 });
 
 const purchaseSelector = (state: PurchaseModel) => ({
+  getPusatPesanCuci: (params: string) => state.getPusatPesanCuci(params),
   getPusatPesanCuciDetail: (
     params: {idOrderCuci: string},
     callback: (response: any) => void,

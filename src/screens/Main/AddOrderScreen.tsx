@@ -139,6 +139,7 @@ class AddOrderScreen extends React.PureComponent {
 
   renderForm = (props: any) => {
     const {photo} = this.state;
+    const userCategory = sessionStore.getState().user?.kategori;
     return (
       <View style={{flex: 1}}>
         <View style={{flex: 1}}>
@@ -275,6 +276,11 @@ class AddOrderScreen extends React.PureComponent {
             </Text>
           ) : null}
 
+          <Spacer height={15} />
+          <LabelTextInput
+            label={`Jenis Pesan: ${userCategory === 'pasar' ? 'Cuci' : 'Beli'}`}
+            size={12}
+          />
           <Spacer height={20} />
         </View>
         <View style={styles.buttonWrapper}>

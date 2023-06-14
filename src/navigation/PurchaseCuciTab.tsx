@@ -7,6 +7,7 @@ import Images from '../themes/Images';
 import {Image, StyleSheet, View} from 'react-native';
 import Text from '../components/Text';
 import {
+  CabangPesanCuciScreen,
   HomeCuciScreen,
   MenuAccountScreen,
 } from '../services/bundle_splitter/CuciRegistration';
@@ -59,7 +60,7 @@ const PurchaseCuciTab = () => {
                     style={styles.icon}
                   />
                   <Text family="semiBold" color={Colors.primary} size={11.67}>
-                    Pesan
+                    Pesanan Pusat
                   </Text>
                 </View>
               );
@@ -71,7 +72,33 @@ const PurchaseCuciTab = () => {
                     family="regular"
                     color={Colors.fontSemiBlack}
                     size={11.67}>
-                    Pesan
+                    Pesanan Pusat
+                  </Text>
+                </View>
+              );
+            }
+          } else if (route?.name === 'CabangPesanCuciScreen') {
+            if (focused) {
+              return (
+                <View style={styles.justifyCenter}>
+                  <Image
+                    source={Images.iconPesanBeliActive}
+                    style={styles.icon}
+                  />
+                  <Text family="semiBold" color={Colors.primary} size={11.67}>
+                    Pesanan Cabang
+                  </Text>
+                </View>
+              );
+            } else {
+              return (
+                <View style={styles.justifyCenter}>
+                  <Image source={Images.iconPesanBeli} style={styles.icon} />
+                  <Text
+                    family="regular"
+                    color={Colors.fontSemiBlack}
+                    size={11.67}>
+                    Pesanan Cabang
                   </Text>
                 </View>
               );
@@ -108,6 +135,11 @@ const PurchaseCuciTab = () => {
       <Tab.Screen
         name="HomeCuciScreen"
         component={HomeCuciScreen}
+        options={{headerShown: false}}
+      />
+      <Tab.Screen
+        name="CabangPesanCuciScreen"
+        component={CabangPesanCuciScreen}
         options={{headerShown: false}}
       />
       <Tab.Screen

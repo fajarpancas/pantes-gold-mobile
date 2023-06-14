@@ -614,6 +614,109 @@ const PurchaseActions = (set, get) => {
         );
       }
     },
+    getCabangPesanCuci: async (params: any) => {
+      set(
+        produce((state: PurchaseModel) => {
+          state.loading = true;
+        }),
+      );
+      try {
+        const response = await ApiServices.getCabangPesanCuci(params);
+        if (response.ok) {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+              state.cabangPesanCuci = response?.data?.data;
+            }),
+          );
+        } else {
+          set(
+            produce((state: PurchaseModel) => {
+              state.error = true;
+              state.loading = false;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: PurchaseModel) => {
+            state.error = true;
+            state.loading = false;
+          }),
+        );
+      }
+    },
+    getCabangPesanCuciDetail: async (params: any, callback: () => void) => {
+      set(
+        produce((state: PurchaseModel) => {
+          state.loading = true;
+        }),
+      );
+      try {
+        const response = await ApiServices.getCabangPesanCuciDetail(params);
+        if (response.ok) {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+            }),
+          );
+          if (typeof callback === 'function') {
+            callback(response?.data.data);
+          }
+        } else {
+          set(
+            produce((state: PurchaseModel) => {
+              state.error = true;
+              state.loading = false;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: PurchaseModel) => {
+            state.error = true;
+            state.loading = false;
+          }),
+        );
+      }
+    },
+    submitCabangPesanCuci: async (params: any, callback: () => void) => {
+      set(
+        produce((state: PurchaseModel) => {
+          state.loading = true;
+        }),
+      );
+      try {
+        const response = await ApiServices.submitCabangPesanCuci(params);
+        if (response.ok) {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+            }),
+          );
+          if (typeof callback === 'function') {
+            callback();
+          }
+        } else {
+          set(
+            produce((state: PurchaseModel) => {
+              state.error = true;
+              state.loading = false;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: PurchaseModel) => {
+            state.error = true;
+            state.loading = false;
+          }),
+        );
+      }
+    },
   };
 };
 

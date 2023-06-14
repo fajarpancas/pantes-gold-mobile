@@ -56,7 +56,7 @@ interface UserModel extends StoreModel {
     penawaran: Penawaran[];
   };
   getHome: () => void;
-  getCabang: (params: any) => void;
+  getCabang: (params?: any) => void;
   cabang: Cabang[];
   createOrder: (order: CreateOrderParams, callback: () => void) => void;
   getOrderList: (params: GetOrderListParams) => void;
