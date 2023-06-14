@@ -51,3 +51,8 @@ export const AddPesanCuci = register({
   loader: () => require('../../screens/main/Purchase/AddPesanCuci'),
   name: 'AddPesanCuci',
 });
+
+export const PesanCuciDetailScreen = register({
+  loader: () => require('../../screens/main/Purchase/PesanCuciDetailScreen'),
+  name: 'PesanCuciDetailScreen',
+});

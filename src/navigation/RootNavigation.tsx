@@ -7,6 +7,7 @@ import SessionModel from '../models/SessionModel';
 import useSessionStore from '../stores/session/SessionStore';
 import {connect} from '../services/ZustandHelper';
 import PurchaseNavigation from './PurchaseNavigation';
+import CuciNavigation from './CuciNavigation';
 
 const RootNavigation = ({isLogin, user}) => {
   const renderMain = () => {
@@ -17,6 +18,11 @@ const RootNavigation = ({isLogin, user}) => {
     if (user?.id_role === 2) {
       return <PurchaseNavigation />;
     }
+
+    if (user?.id_role === 3) {
+      return <CuciNavigation />;
+    }
+
     return <MainNavigation />;
   };
 

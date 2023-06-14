@@ -71,7 +71,7 @@ class MenuBuyScreen extends React.PureComponent {
               <PesanCuciCard
                 item={item}
                 onPress={() =>
-                  NavigationServices.navigate('OrderBuyDetailScreen', item)
+                  NavigationServices.navigate('PesanCuciDetailScreen', item)
                 }
               />
             </View>

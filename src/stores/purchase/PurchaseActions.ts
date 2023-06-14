@@ -476,6 +476,41 @@ const PurchaseActions = (set, get) => {
         );
       }
     },
+    getPesanCuciDetail: async (params: any, callback: (resp: any) => void) => {
+      set(
+        produce((state: PurchaseModel) => {
+          state.loading = true;
+        }),
+      );
+      try {
+        const response = await ApiServices.getPesanCuciDetail(params);
+        if (response.ok) {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+            }),
+          );
+          if (typeof callback === 'function') {
+            callback(response?.data?.data);
+          }
+        } else {
+          set(
+            produce((state: PurchaseModel) => {
+              state.error = true;
+              state.loading = false;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: PurchaseModel) => {
+            state.error = true;
+            state.loading = false;
+          }),
+        );
+      }
+    },
   };
 };
 

@@ -8,6 +8,7 @@ import {
   PurchaseOrderDetailScreen,
   OrderBuyDetailScreen,
   AddPesanCuci,
+  PesanCuciDetailScreen,
 } from '../services/bundle_splitter/PurchaseRegistration';
 const Stack = createNativeStackNavigator<PurchaseStackParams>();
 
@@ -52,6 +53,12 @@ const PurchaseNavigation = () => {
         name="AddPesanCuci"
         component={AddPesanCuci}
         options={{title: 'Tambah Pesan Cuci', headerShadowVisible: false}}
+      />
+
+      <Stack.Screen
+        name="PesanCuciDetailScreen"
+        component={PesanCuciDetailScreen}
+        options={{title: 'Pesan Cuci Detail', headerShadowVisible: false}}
       />
     </Stack.Navigator>
   );
