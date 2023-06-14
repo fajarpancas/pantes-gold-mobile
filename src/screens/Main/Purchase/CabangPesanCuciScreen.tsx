@@ -64,7 +64,7 @@ class CabangPesanCuciScreen extends React.PureComponent {
               activeOpacity={0.8}
               onPress={() =>
                 this.setState({modalVisible: true}, () =>
-                  this.props.getCabang({kategori: 'pasar'}),
+                  this.props.getCabang(),
                 )
               }>
               <Image source={Images.iconFilter} style={styles.dropdown} />

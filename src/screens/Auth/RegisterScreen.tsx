@@ -3,7 +3,6 @@ import {
   Image,
   ImageBackground,
   KeyboardAvoidingView,
-  Modal,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -29,6 +28,7 @@ import useUserStore from '../../stores/user/UserStore';
 import {RegisterParams} from '../../models/apimodel/ApiRequest';
 import AuthModel from '../../models/AuthModel';
 import useAuthStore from '../../stores/auth/AuthStore';
+import ModalSelectCabang from '../main/Purchase/ModalSelectCabang';
 
 const roleOptions = [
   {
@@ -185,7 +185,9 @@ class RegisterScreen extends PureComponent<Props> {
         <Spacer height={8} />
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => this.setState({modalVisible: true})}
+          onPress={() =>
+            this.setState({modalVisible: true}, () => this.props.getCabang())
+          }
           style={styles.selectCabang}>
           <Text>
             {props.values.cabangSelected?.nama_toko || 'Pilih cabang/toko'}
@@ -221,49 +223,12 @@ class RegisterScreen extends PureComponent<Props> {
             </Text>
           </TouchableOpacity>
         </View>
-        <Modal
-          visible={this.state.modalVisible}
-          animationType="slide"
-          transparent>
-          <View style={styles.modalBackground} />
-          <View style={styles.modalContainer}>
-            <View style={styles.modalWrapper}>
-              <Spacer height={20} />
-              <View style={styles.selectCabangHeader}>
-                <Text size={16} family="bold">
-                  Pilih Cabang/Toko
-                </Text>
-                <TouchableOpacity
-                  onPress={() => this.setState({modalVisible: false})}>
-                  <Image
-                    source={Images.iconClose}
-                    style={{width: scale(18), height: scale(18)}}
-                  />
-                </TouchableOpacity>
-              </View>
-
-              <Spacer height={20} />
-              <ScrollView style={{paddingHorizontal: scale(20)}}>
-                {cabang?.length
-                  ? cabang.map(c => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            props.setFieldValue('cabangSelected', c);
-                            this.setState({modalVisible: false});
-                          }}
-                          style={styles.cabangItem}>
-                          <Text>{c.nama_toko}</Text>
-                          <Text> ({c.alamat}).</Text>
-                        </TouchableOpacity>
-                      );
-                    })
-                  : null}
-              </ScrollView>
-              <Spacer height={40} />
-            </View>
-          </View>
-        </Modal>
+        <ModalSelectCabang
+          cabang={cabang}
+          modalVisible={this.state.modalVisible}
+          onHide={() => this.setState({modalVisible: false})}
+          onSelected={c => props.setFieldValue('cabangSelected', c)}
+        />
       </View>
     );
   }

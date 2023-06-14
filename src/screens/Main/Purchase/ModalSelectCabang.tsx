@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -27,6 +27,13 @@ type Props = {
 
 const ModalSelectCabang: React.FC<Props> = props => {
   const {cabang, modalVisible, onHide, onSelected, loading} = props;
+  const [filterCabang, setFilterCabang] = useState(null);
+
+  let cabangFiltered = cabang;
+
+  if (filterCabang) {
+    cabangFiltered = cabang?.filter(c => c.kategori === filterCabang);
+  }
 
   return (
     <Modal visible={modalVisible} animationType="slide" transparent>
@@ -46,13 +53,90 @@ const ModalSelectCabang: React.FC<Props> = props => {
             </TouchableOpacity>
           </View>
 
+          <Spacer height={15} />
+          <View style={{paddingLeft: scale(20)}}>
+            <Text>Filter kategori:</Text>
+            <Spacer height={10} />
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity
+                onPress={() => setFilterCabang(null)}
+                style={{
+                  width: scale(100),
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderColor: Colors.outlineBase,
+                  borderWidth: 1,
+                  borderRadius: scale(8),
+                  marginRight: scale(5),
+                  height: scale(30),
+                  backgroundColor: !filterCabang
+                    ? Colors.primary
+                    : Colors.white,
+                }}>
+                <Text color={!filterCabang ? Colors.white : Colors.fontBlack}>
+                  Semua
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setFilterCabang('mall')}
+                style={{
+                  width: scale(100),
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderColor: Colors.outlineBase,
+                  borderWidth: 1,
+                  borderRadius: scale(8),
+                  marginRight: scale(5),
+                  height: scale(30),
+                  backgroundColor:
+                    filterCabang && filterCabang === 'mall'
+                      ? Colors.primary
+                      : Colors.white,
+                }}>
+                <Text
+                  color={
+                    filterCabang && filterCabang === 'mall'
+                      ? Colors.white
+                      : Colors.fontBlack
+                  }>
+                  Mall
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setFilterCabang('pasar')}
+                style={{
+                  width: scale(100),
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderColor: Colors.outlineBase,
+                  borderWidth: 1,
+                  borderRadius: scale(8),
+                  marginRight: scale(5),
+                  height: scale(30),
+                  backgroundColor:
+                    filterCabang && filterCabang === 'pasar'
+                      ? Colors.primary
+                      : Colors.white,
+                }}>
+                <Text
+                  color={
+                    filterCabang && filterCabang === 'pasar'
+                      ? Colors.white
+                      : Colors.fontBlack
+                  }>
+                  Pasar
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
           <Spacer height={20} />
           {loading ? (
             <ActivityIndicator color={Colors.primary} />
           ) : (
             <ScrollView style={{paddingHorizontal: scale(20)}}>
-              {cabang?.length
-                ? cabang.map(c => {
+              {cabangFiltered?.length
+                ? cabangFiltered.map(c => {
                     return (
                       <TouchableOpacity
                         onPress={() => {
@@ -61,7 +145,7 @@ const ModalSelectCabang: React.FC<Props> = props => {
                         }}
                         style={styles.cabangItem}>
                         <Text>{c.nama_toko}</Text>
-                        <Text> ({c.alamat}).</Text>
+                        <Text>{`${c?.alamat ? `(${c.alamat})` : ''} `}.</Text>
                       </TouchableOpacity>
                     );
                   })
