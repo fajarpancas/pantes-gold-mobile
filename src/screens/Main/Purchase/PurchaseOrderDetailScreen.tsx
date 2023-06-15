@@ -37,6 +37,7 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
       tanggalBeliPusat: null,
       tgl_kirim: null,
       tanggalTerimaCabang: null,
+      tanggalClosed: null,
     };
   }
 
@@ -57,13 +58,13 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
     const {
       orderDetail,
       qtyAda,
-      qtyCuci,
       qtyBeli,
       noPO,
       tglTerimaPusat,
       tanggalBeliPusat,
       tglKirim,
       tanggalTerimaCabang,
+      tanggalClosed,
     } = this.state;
     const {submitPurchaseOrder, getPurchaseOrder} = this.props;
 
@@ -72,16 +73,16 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
     };
 
     if (orderDetail?.status === 1) {
-      if (!qtyAda || !qtyCuci) {
+      if (!qtyAda || !qtyBeli) {
         DropdownAlertHolder.showError(
           'Gagal',
-          'Qty ada dan qty cuci harus diisi',
+          'Qty ada dan qty beli harus diisi',
         );
       } else {
         paramData = {
           ...paramData,
           qty_ada: qtyAda,
-          qty_cuci: qtyCuci,
+          qty_beli: qtyBeli,
         };
         submitPurchaseOrder(paramData, () => {
           this.onRefresh();
@@ -91,15 +92,14 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
     }
 
     if (orderDetail?.status === 2) {
-      if (!qtyBeli || !noPO || !tanggalBeliPusat) {
+      if (!noPO || !tanggalBeliPusat) {
         DropdownAlertHolder.showError(
           'Gagal',
-          'Qty beli, tanggal beli dan nomor PO harus diisi',
+          'Tanggal beli dan nomor PO harus diisi',
         );
       } else {
         paramData = {
           ...paramData,
-          qty_beli: qtyBeli,
           no_po: noPO,
           tgl_beli_pusat: `${dayjs(tanggalBeliPusat).format(
             'YYYY-MM-DD',
@@ -113,10 +113,10 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
     }
 
     if (orderDetail?.status === 3) {
-      if (!tglTerimaPusat) {
+      if (!tglTerimaPusat && !tglKirim) {
         DropdownAlertHolder.showError(
           'Gagal',
-          'Tanggal terima pusat harus diisi',
+          'Tanggal terima pusat dan tanggal kirim harus diisi',
         );
       } else {
         paramData = {
@@ -124,20 +124,6 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
           tgl_terima_pusat: `${dayjs(tglTerimaPusat).format(
             'YYYY-MM-DD',
           )} 00:00:00`,
-        };
-        submitPurchaseOrder(paramData, () => {
-          this.onRefresh();
-          getPurchaseOrder();
-        });
-      }
-    }
-
-    if (orderDetail?.status === 4) {
-      if (!tglKirim) {
-        DropdownAlertHolder.showError('Gagal', 'Tanggal kirim harus diisi');
-      } else {
-        paramData = {
-          ...paramData,
           tgl_kirim: `${dayjs(tglKirim).format('YYYY-MM-DD')} 00:00:00`,
         };
         submitPurchaseOrder(paramData, () => {
@@ -147,7 +133,7 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
       }
     }
 
-    if (orderDetail?.status === 5) {
+    if (orderDetail?.status === 4) {
       if (!tanggalTerimaCabang) {
         DropdownAlertHolder.showError(
           'Gagal',
@@ -159,6 +145,21 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
           tgl_terima: `${dayjs(tanggalTerimaCabang).format(
             'YYYY-MM-DD',
           )} 00:00:00`,
+        };
+        submitPurchaseOrder(paramData, () => {
+          this.onRefresh();
+          getPurchaseOrder();
+        });
+      }
+    }
+
+    if (orderDetail?.status === 5) {
+      if (!tanggalClosed) {
+        DropdownAlertHolder.showError('Gagal', 'Tanggal closed harus diisi');
+      } else {
+        paramData = {
+          ...paramData,
+          tgl_closed: `${dayjs(tanggalClosed).format('YYYY-MM-DD')} 00:00:00`,
         };
         submitPurchaseOrder(paramData, () => {
           this.onRefresh();
@@ -315,18 +316,18 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
             <Spacer height={10} />
 
             <View style={styles.rowBetween}>
-              <Text family="bold">Qty Cuci</Text>
+              <Text family="bold">Qty Beli</Text>
               {orderDetail?.status === 1 ? (
                 <TextInput
                   placeholder="0"
                   placeholderTextColor={Colors.outlineBase}
                   style={styles.textInput2}
                   keyboardType="number-pad"
-                  onChangeText={text => this.setState({qtyCuci: text})}
+                  onChangeText={text => this.setState({qtyBeli: text})}
                 />
               ) : (
                 <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                  {orderDetail?.qty_cuci || '0'}
+                  {orderDetail?.qty_beli}
                 </Text>
               )}
             </View>
@@ -336,26 +337,6 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
 
             {orderDetail?.status > 1 ? (
               <>
-                <View style={styles.rowBetween}>
-                  <Text family="bold">Qty Beli</Text>
-                  {orderDetail?.status === 2 ? (
-                    <TextInput
-                      placeholder="0"
-                      placeholderTextColor={Colors.outlineBase}
-                      style={styles.textInput2}
-                      keyboardType="number-pad"
-                      onChangeText={text => this.setState({qtyBeli: text})}
-                    />
-                  ) : (
-                    <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                      {orderDetail?.qty_beli}
-                    </Text>
-                  )}
-                </View>
-                <Spacer height={5} />
-                <View style={styles.border} />
-                <Spacer height={10} />
-
                 <View style={styles.rowBetween}>
                   <Text family="bold">Tanggal Beli</Text>
                   {orderDetail?.status === 2 ? (
@@ -421,16 +402,10 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
                 <Spacer height={5} />
                 <View style={styles.border} />
                 <Spacer height={10} />
-              </>
-            ) : (
-              <View />
-            )}
 
-            {orderDetail?.status > 3 ? (
-              <>
                 <View style={styles.rowBetween}>
                   <Text family="bold">Tanggal Kirim</Text>
-                  {orderDetail?.status === 4 ? (
+                  {orderDetail?.status === 3 ? (
                     <CustomDatePicker
                       title="Pilih Tanggal Kirim"
                       defaultValue={this.state.tglKirim}
@@ -453,11 +428,11 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
               <View />
             )}
 
-            {orderDetail?.status > 4 ? (
+            {orderDetail?.status > 3 ? (
               <>
                 <View style={styles.rowBetween}>
                   <Text family="bold">Tanggal Terima Cabang</Text>
-                  {orderDetail?.status === 5 ? (
+                  {orderDetail?.status === 4 ? (
                     <CustomDatePicker
                       title="Pilih Tanggal Terima Cabang"
                       defaultValue={this.state.tanggalTerimaCabang}
@@ -469,6 +444,33 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
                     <Text color={Colors.fontSemiBlack} lineHeight={20}>
                       {dayjs(
                         orderDetail?.timestamp_terima_cabang,
+                        'YYYY-MM-DD',
+                      ).format('DD/MM/YYYY')}
+                    </Text>
+                  )}
+                </View>
+                <Spacer height={5} />
+                <View style={styles.border} />
+                <Spacer height={10} />
+              </>
+            ) : (
+              <View />
+            )}
+
+            {orderDetail?.status > 4 && orderDetail?.status !== 6 ? (
+              <>
+                <View style={styles.rowBetween}>
+                  <Text family="bold">Tanggal Closed</Text>
+                  {orderDetail?.status === 5 ? (
+                    <CustomDatePicker
+                      title="Pilih Tanggal Closed"
+                      defaultValue={this.state.tanggalClosed}
+                      onSelectDate={d => this.setState({tanggalClosed: d})}
+                    />
+                  ) : (
+                    <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                      {dayjs(
+                        orderDetail?.timestamp_closed,
                         'YYYY-MM-DD',
                       ).format('DD/MM/YYYY')}
                     </Text>

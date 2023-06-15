@@ -279,6 +279,42 @@ const UserActions = (set, get) => {
         );
       }
     },
+    getJenisBarang: async () => {
+      set(
+        produce((state: UserModel) => {
+          state.loading = true;
+        }),
+      );
+
+      try {
+        const response = await ApiServices.getJenisBarang();
+        if (response.ok) {
+          set(
+            produce((state: UserModel) => {
+              state.loading = false;
+              if (response?.data?.data) {
+                state.jenisBarang = response.data.data;
+              }
+            }),
+          );
+        } else {
+          set(
+            produce((state: UserModel) => {
+              state.loading = false;
+              state.error = true;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: UserModel) => {
+            state.loading = false;
+            state.error = true;
+          }),
+        );
+      }
+    },
   };
 };
 

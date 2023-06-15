@@ -17,6 +17,7 @@ export type ApiRequestModel = {
 
 export type CreateOrderParams = {
   nama_barang: string;
+  kd_barang: string;
   qty: number;
   berat: any;
   kadar: number;

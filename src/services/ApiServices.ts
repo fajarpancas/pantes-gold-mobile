@@ -66,6 +66,7 @@ class ApiServices {
     this.getCabangPesanCuci = this.getCabangPesanCuci.bind(this);
     this.getCabangPesanCuciDetail = this.getCabangPesanCuciDetail.bind(this);
     this.submitCabangPesanCuci = this.submitCabangPesanCuci.bind(this);
+    this.getJenisBarang = this.getJenisBarang.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
 
     this.api.addMonitor(this.handleResponseMonitoring);
@@ -261,6 +262,10 @@ class ApiServices {
 
   submitCabangPesanCuci(params: any): Promise<any> {
     return this.api.post('/cuci/order/submit', params);
+  }
+
+  getJenisBarang(): Promise<any> {
+    return this.api.get('/get-jenis-barang');
   }
 }
 

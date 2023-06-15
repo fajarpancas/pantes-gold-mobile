@@ -2,6 +2,7 @@ import React from 'react';
 import {
   FlatList,
   Image,
+  Modal,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
@@ -15,13 +16,13 @@ import UserModel from '../../../models/UserModel';
 import useUserStore from '../../../stores/user/UserStore';
 import {connect} from '../../../services/ZustandHelper';
 import {sessionStore} from '../../../stores/session/SessionStore';
-import ApiServices from '../../../services/ApiServices';
 import usePurchaseStore from '../../../stores/purchase/PurchaseStore';
 import PurchaseModel from '../../../models/PurchaseModel';
 import Images from '../../../themes/Images';
 import ModalSelectCabang from './ModalSelectCabang';
 import OrderCard from '../../../components/OrderCard';
 import Spacer from '../../../components/Spacer';
+import {STATUS} from '../../../const/Data';
 
 class HomePurchaseScreen extends React.PureComponent {
   constructor(props) {
@@ -30,7 +31,9 @@ class HomePurchaseScreen extends React.PureComponent {
     this.state = {
       topMenuSelected: 0,
       modalVisible: false,
+      modalStatusVisible: false,
       cabangSelected: undefined,
+      statusSelected: undefined,
     };
   }
 
@@ -45,12 +48,25 @@ class HomePurchaseScreen extends React.PureComponent {
 
   onRefresh = () => {
     const {getPurchaseOrder} = this.props;
-    const {cabangSelected} = this.state;
+    const {cabangSelected, statusSelected} = this.state;
+    let params = {};
+
     if (cabangSelected) {
-      getPurchaseOrder({kd_toko: cabangSelected?.kd_toko});
-    } else {
-      getPurchaseOrder();
+      params = {
+        ...params,
+        kd_toko: cabangSelected?.kd_toko,
+      };
     }
+
+    if (typeof statusSelected === 'number') {
+      params = {
+        ...params,
+        status: Number(statusSelected) + 1,
+      };
+    }
+
+    console.tron.error({params});
+    getPurchaseOrder(params);
   };
 
   navigate = () => {
@@ -59,27 +75,25 @@ class HomePurchaseScreen extends React.PureComponent {
 
   render(): React.ReactNode {
     const {loading, purchaseOrder, cabang} = this.props;
-    const {modalVisible, cabangSelected} = this.state;
+    const {modalVisible, cabangSelected, statusSelected} = this.state;
     const purchaseOrderLists = purchaseOrder?.data || [];
 
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
 
-        <View style={styles.searchWrapper}>
+        <Spacer height={20} />
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() =>
+            this.setState({modalVisible: true}, () => this.props.getCabang())
+          }
+          style={styles.searchWrapper}>
           <Text>
             {cabangSelected ? cabangSelected?.nama_toko : 'Cari Cabang'}
           </Text>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() =>
-                this.setState({modalVisible: true}, () =>
-                  this.props.getCabang(),
-                )
-              }>
-              <Image source={Images.iconFilter} style={styles.dropdown} />
-            </TouchableOpacity>
+            <Image source={Images.iconFilter} style={styles.dropdown} />
             {cabangSelected?.kd_toko ? (
               <TouchableOpacity
                 activeOpacity={0.8}
@@ -94,7 +108,33 @@ class HomePurchaseScreen extends React.PureComponent {
               </TouchableOpacity>
             ) : null}
           </View>
-        </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => this.setState({modalStatusVisible: true})}
+          style={styles.searchWrapper}>
+          <Text>
+            {typeof statusSelected === 'number'
+              ? STATUS[statusSelected]?.name
+              : 'Filter status'}
+          </Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={Images.iconDropdown} style={styles.dropdown} />
+            {typeof statusSelected === 'number' ? (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() =>
+                  this.setState({statusSelected: undefined}, () => {
+                    setTimeout(() => {
+                      this.onRefresh();
+                    }, 500);
+                  })
+                }>
+                <Image source={Images.iconClose} style={styles.close} />
+              </TouchableOpacity>
+            ) : null}
+          </View>
+        </TouchableOpacity>
         <FlatList
           data={purchaseOrderLists}
           numColumns={3}
@@ -151,6 +191,52 @@ class HomePurchaseScreen extends React.PureComponent {
             })
           }
         />
+        <Modal transparent visible={this.state.modalStatusVisible}>
+          <View style={styles.modalBackground} />
+          <View style={styles.modalContainer}>
+            <View style={styles.modalWrapper}>
+              <Text size={16} family="bold">
+                Pilih Status
+              </Text>
+              <Spacer height={10} />
+              <View style={{alignItems: 'center'}}>
+                {STATUS.map((s, index) => {
+                  const isSelected = index === statusSelected;
+                  return (
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.setState(
+                          {
+                            modalStatusVisible: false,
+                            statusSelected: index,
+                          },
+                          () => {
+                            this.onRefresh();
+                          },
+                        )
+                      }
+                      style={{
+                        backgroundColor: isSelected
+                          ? Colors.primary
+                          : Colors.white,
+                        borderColor: Colors.outlineBase,
+                        borderWidth: 1,
+                        width: scale(320),
+                        borderRadius: scale(8),
+                        marginVertical: scale(2),
+                        alignItems: 'center',
+                        paddingVertical: scale(10),
+                      }}>
+                      <Text color={isSelected ? Colors.white : Colors.black}>
+                        {s.name}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -171,6 +257,25 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: scale(30),
     marginHorizontal: scale(20),
+  },
+  modalBackground: {
+    flex: 1,
+    position: 'absolute',
+    height: '100%',
+    width: scale(360),
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  modalWrapper: {
+    backgroundColor: Colors.white,
+    paddingBottom: scale(40),
+    paddingHorizontal: scale(20),
+    paddingTop: scale(20),
+    borderTopLeftRadius: scale(20),
+    borderTopRightRadius: scale(20),
   },
   menuBox: {
     width: scale(100),
@@ -194,7 +299,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderColor: Colors.border,
-    marginVertical: scale(10),
+    marginBottom: scale(10),
     marginHorizontal: scale(20),
     paddingVertical: scale(10),
     paddingHorizontal: scale(20),

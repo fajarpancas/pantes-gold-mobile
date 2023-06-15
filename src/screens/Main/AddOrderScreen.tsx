@@ -28,6 +28,7 @@ import {CreateOrderParams} from '../../models/apimodel/ApiRequest';
 import useUserStore from '../../stores/user/UserStore';
 import {openImagePicker} from '../../services/ImagePickerHelper';
 import {sessionStore} from '../../stores/session/SessionStore';
+import ModalSelectJenisBarang from './Purchase/ModalSelectJenisBarang';
 
 type ImageResponse = {
   path: string;
@@ -48,6 +49,7 @@ class AddOrderScreen extends React.PureComponent {
       photoError: false,
       successModal: false,
       selectModalVisible: false,
+      modalVisible: false,
     };
 
     this.schema = Yup.object().shape({
@@ -56,7 +58,13 @@ class AddOrderScreen extends React.PureComponent {
         .min(1, 'Nilai berat emas hanya boleh angka dan lebih dari 0')
         .required('Berat emas harus diisi'),
       name: Yup.string().required('Nama barang harus dipilih'),
+      jenisBarang: Yup.object().required('Jenis barang harus dipilih'),
     });
+  }
+
+  componentDidMount(): void {
+    const {getJenisBarang} = this.props;
+    getJenisBarang();
   }
 
   onPressCamera = () => {
@@ -126,6 +134,7 @@ class AddOrderScreen extends React.PureComponent {
         kadar: props.kadar,
         nama_barang: props.name,
         qty: this.state.qty,
+        kd_barang: props.jenisBarang?.kd_barang,
         url_foto: `data:image/jpeg;base64,${this.state.photo?.data}`,
         jenis_pesan: userCategory === 'pasar' ? 'cuci' : 'beli',
       };
@@ -139,6 +148,8 @@ class AddOrderScreen extends React.PureComponent {
 
   renderForm = (props: any) => {
     const {photo} = this.state;
+    const {jenisBarang} = this.props;
+
     const userCategory = sessionStore.getState().user?.kategori;
     return (
       <View style={{flex: 1}}>
@@ -254,6 +265,30 @@ class AddOrderScreen extends React.PureComponent {
           ) : null}
 
           <Spacer height={15} />
+          <LabelTextInput label="Jenis barang" size={12} />
+          <Spacer height={5} />
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => this.setState({modalVisible: true})}
+            style={styles.selectCabang}>
+            <Text>
+              {props.values.jenisBarang?.nama_jenis_barang ||
+                'Pilih jenis barang'}
+            </Text>
+            <Image
+              source={Images.iconDropdown}
+              style={{width: scale(24), height: scale(24)}}
+            />
+          </TouchableOpacity>
+
+          {props.errors.jenisBarang ? (
+            <Text color={'red'} size={10}>
+              {props.errors.jenisBarang}
+            </Text>
+          ) : null}
+
+          <Spacer height={15} />
           <LabelTextInput label="Berat emas" size={12} />
           <Spacer height={5} />
           <View style={styles.textInputWrapper}>
@@ -345,6 +380,13 @@ class AddOrderScreen extends React.PureComponent {
             </View>
           </View>
         </Modal>
+
+        <ModalSelectJenisBarang
+          jenisBarang={jenisBarang || []}
+          modalVisible={this.state.modalVisible}
+          onHide={() => this.setState({modalVisible: false})}
+          onSelected={c => props.setFieldValue('jenisBarang', c)}
+        />
       </View>
     );
   };
@@ -385,6 +427,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
+  },
+  selectCabang: {
+    flexDirection: 'row',
+    backgroundColor: Colors.white,
+    height: scale(45),
+    borderRadius: scale(8),
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: scale(20),
+    borderWidth: 1,
+    borderColor: Colors.outlineBase,
   },
   modalBackground: {
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -528,6 +581,8 @@ const userSelector = (state: UserModel) => ({
   createOrder: (params: CreateOrderParams, callback: () => void) =>
     state.createOrder(params, callback),
   loading: state.loading,
+  getJenisBarang: () => state.getJenisBarang(),
+  jenisBarang: state.jenisBarang,
 });
 
 const stores = [{store: useUserStore, selector: userSelector}];

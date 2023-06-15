@@ -66,6 +66,11 @@ interface UserModel extends StoreModel {
   offerList: Penawaran[];
   getCartList: () => void;
   cartList: Cart[];
+  getJenisBarang: () => void;
+  jenisBarang: {
+    kd_barang: string;
+    nama_jenis_barang: string;
+  }[];
 }
 
 export default UserModel;
