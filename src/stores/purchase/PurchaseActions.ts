@@ -397,6 +397,9 @@ const PurchaseActions = (set, get) => {
               state.loading = false;
             }),
           );
+          if (typeof callback === 'function') {
+            callback();
+          }
           throw response.problem;
         }
       } catch (error) {

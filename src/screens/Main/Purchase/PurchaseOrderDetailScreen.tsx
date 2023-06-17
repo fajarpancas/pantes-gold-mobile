@@ -66,7 +66,8 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
       tanggalTerimaCabang,
       tanggalClosed,
     } = this.state;
-    const {submitPurchaseOrder, getPurchaseOrder} = this.props;
+    const {submitPurchaseOrder, getPurchaseOrder, route} = this.props;
+    const {params} = route;
 
     let paramData = {
       id_order: orderDetail?.id_order,
@@ -86,7 +87,23 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
         };
         submitPurchaseOrder(paramData, () => {
           this.onRefresh();
-          getPurchaseOrder();
+          let paramFilter = {};
+
+          if (params?.filter?.cabangSelected) {
+            paramFilter = {
+              ...paramFilter,
+              kd_toko: params?.filter?.cabangSelected?.kd_toko,
+            };
+          }
+
+          if (typeof params?.filter?.statusSelected === 'number') {
+            paramFilter = {
+              ...paramFilter,
+              status: Number(params?.filter?.statusSelected) + 1,
+            };
+          }
+
+          getPurchaseOrder(paramFilter);
         });
       }
     }
@@ -100,36 +117,98 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
       } else {
         paramData = {
           ...paramData,
-          no_po: noPO,
+          no_po: Number(noPO),
           tgl_beli_pusat: `${dayjs(tanggalBeliPusat).format(
             'YYYY-MM-DD',
           )} 00:00:00`,
         };
         submitPurchaseOrder(paramData, () => {
           this.onRefresh();
-          getPurchaseOrder();
+          let paramFilter = {};
+
+          if (params?.filter?.cabangSelected) {
+            paramFilter = {
+              ...paramFilter,
+              kd_toko: params?.filter?.cabangSelected?.kd_toko,
+            };
+          }
+
+          if (typeof params?.filter?.statusSelected === 'number') {
+            paramFilter = {
+              ...paramFilter,
+              status: Number(params?.filter?.statusSelected) + 1,
+            };
+          }
+
+          getPurchaseOrder(paramFilter);
         });
       }
     }
 
     if (orderDetail?.status === 3) {
-      if (!tglTerimaPusat && !tglKirim) {
-        DropdownAlertHolder.showError(
-          'Gagal',
-          'Tanggal terima pusat dan tanggal kirim harus diisi',
-        );
+      if (!orderDetail?.timestamp_terima_beli) {
+        if (!tglTerimaPusat) {
+          DropdownAlertHolder.showError(
+            'Gagal',
+            'Tanggal terima pusat harus diisi',
+          );
+        } else {
+          paramData = {
+            ...paramData,
+            tgl_terima_pusat: `${dayjs(tglTerimaPusat).format(
+              'YYYY-MM-DD',
+            )} 00:00:00`,
+          };
+          submitPurchaseOrder(paramData, () => {
+            this.onRefresh();
+            let paramFilter = {};
+
+            if (params?.filter?.cabangSelected) {
+              paramFilter = {
+                ...paramFilter,
+                kd_toko: params?.filter?.cabangSelected?.kd_toko,
+              };
+            }
+
+            if (typeof params?.filter?.statusSelected === 'number') {
+              paramFilter = {
+                ...paramFilter,
+                status: Number(params?.filter?.statusSelected) + 1,
+              };
+            }
+
+            getPurchaseOrder(paramFilter);
+          });
+        }
       } else {
-        paramData = {
-          ...paramData,
-          tgl_terima_pusat: `${dayjs(tglTerimaPusat).format(
-            'YYYY-MM-DD',
-          )} 00:00:00`,
-          tgl_kirim: `${dayjs(tglKirim).format('YYYY-MM-DD')} 00:00:00`,
-        };
-        submitPurchaseOrder(paramData, () => {
-          this.onRefresh();
-          getPurchaseOrder();
-        });
+        if (!tglKirim) {
+          DropdownAlertHolder.showError('Gagal', 'Tanggal kirim harus diisi');
+        } else {
+          paramData = {
+            ...paramData,
+            tgl_kirim: `${dayjs(tglKirim).format('YYYY-MM-DD')} 00:00:00`,
+          };
+          submitPurchaseOrder(paramData, () => {
+            this.onRefresh();
+            let paramFilter = {};
+
+            if (params?.filter?.cabangSelected) {
+              paramFilter = {
+                ...paramFilter,
+                kd_toko: params?.filter?.cabangSelected?.kd_toko,
+              };
+            }
+
+            if (typeof params?.filter?.statusSelected === 'number') {
+              paramFilter = {
+                ...paramFilter,
+                status: Number(params?.filter?.statusSelected) + 1,
+              };
+            }
+
+            getPurchaseOrder(paramFilter);
+          });
+        }
       }
     }
 
@@ -148,7 +227,23 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
         };
         submitPurchaseOrder(paramData, () => {
           this.onRefresh();
-          getPurchaseOrder();
+          let paramFilter = {};
+
+          if (params?.filter?.cabangSelected) {
+            paramFilter = {
+              ...paramFilter,
+              kd_toko: params?.filter?.cabangSelected?.kd_toko,
+            };
+          }
+
+          if (typeof params?.filter?.statusSelected === 'number') {
+            paramFilter = {
+              ...paramFilter,
+              status: Number(params?.filter?.statusSelected) + 1,
+            };
+          }
+
+          getPurchaseOrder(paramFilter);
         });
       }
     }
@@ -163,7 +258,23 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
         };
         submitPurchaseOrder(paramData, () => {
           this.onRefresh();
-          getPurchaseOrder();
+          let paramFilter = {};
+
+          if (params?.filter?.cabangSelected) {
+            paramFilter = {
+              ...paramFilter,
+              kd_toko: params?.filter?.cabangSelected?.kd_toko,
+            };
+          }
+
+          if (typeof params?.filter?.statusSelected === 'number') {
+            paramFilter = {
+              ...paramFilter,
+              status: Number(params?.filter?.statusSelected) + 1,
+            };
+          }
+
+          getPurchaseOrder(paramFilter);
         });
       }
     }
@@ -403,26 +514,32 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
                 <View style={styles.border} />
                 <Spacer height={10} />
 
-                <View style={styles.rowBetween}>
-                  <Text family="bold">Tanggal Kirim</Text>
-                  {orderDetail?.status === 3 ? (
-                    <CustomDatePicker
-                      title="Pilih Tanggal Kirim"
-                      defaultValue={this.state.tglKirim}
-                      onSelectDate={d => this.setState({tglKirim: d})}
-                    />
-                  ) : (
-                    <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                      {dayjs(
-                        orderDetail?.timestamp_kirim_cabang,
-                        'YYYY-MM-DD',
-                      ).format('DD/MM/YYYY')}
-                    </Text>
-                  )}
-                </View>
-                <Spacer height={5} />
-                <View style={styles.border} />
-                <Spacer height={10} />
+                {orderDetail?.timestamp_terima_beli ? (
+                  <>
+                    <View style={styles.rowBetween}>
+                      <Text family="bold">Tanggal Kirim</Text>
+                      {orderDetail?.status === 3 ? (
+                        <CustomDatePicker
+                          title="Pilih Tanggal Kirim"
+                          defaultValue={this.state.tglKirim}
+                          onSelectDate={d => this.setState({tglKirim: d})}
+                        />
+                      ) : (
+                        <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                          {dayjs(
+                            orderDetail?.timestamp_kirim_cabang,
+                            'YYYY-MM-DD',
+                          ).format('DD/MM/YYYY')}
+                        </Text>
+                      )}
+                    </View>
+                    <Spacer height={5} />
+                    <View style={styles.border} />
+                    <Spacer height={10} />
+                  </>
+                ) : (
+                  <View />
+                )}
               </>
             ) : (
               <View />

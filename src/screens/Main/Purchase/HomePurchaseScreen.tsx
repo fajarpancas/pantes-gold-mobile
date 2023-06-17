@@ -65,7 +65,6 @@ class HomePurchaseScreen extends React.PureComponent {
       };
     }
 
-    console.tron.error({params});
     getPurchaseOrder(params);
   };
 
@@ -148,10 +147,10 @@ class HomePurchaseScreen extends React.PureComponent {
                 <OrderCard
                   item={item}
                   onPress={() => {
-                    NavigationServices.navigate(
-                      'PurchaseOrderDetailScreen',
-                      item,
-                    );
+                    NavigationServices.navigate('PurchaseOrderDetailScreen', {
+                      ...item,
+                      filter: {cabangSelected, statusSelected},
+                    });
                   }}
                 />
               </View>
