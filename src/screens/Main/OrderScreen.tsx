@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, Image, StyleSheet, TextInput, View} from 'react-native';
 import Colors from '../../themes/Colors';
 import Spacer from '../../components/Spacer';
 import OrderCard from '../../components/OrderCard';
@@ -19,7 +12,6 @@ import UserModel from '../../models/UserModel';
 import {connect} from '../../services/ZustandHelper';
 import {GetOrderListParams} from '../../models/apimodel/ApiRequest';
 import Fonts from '../../themes/Fonts';
-import {debounce} from 'debounce';
 import Button from '../../components/Button';
 import NavigationServices from '../../services/NavigationServices';
 

@@ -108,6 +108,7 @@ interface PurchaseModel extends StoreModel {
     per_page: number;
     total: number;
   };
+  submitTerimaPesanCuci: (params: any, callback: () => void) => void;
 }
 
 export default PurchaseModel;

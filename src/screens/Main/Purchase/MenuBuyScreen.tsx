@@ -15,7 +15,6 @@ import usePurchaseStore from '../../../stores/purchase/PurchaseStore';
 import PurchaseModel from '../../../models/PurchaseModel';
 import Spacer from '../../../components/Spacer';
 import Images from '../../../themes/Images';
-import OrderBuyCard from '../../../components/OrderBuyCard';
 import PesanCuciCard from '../../../components/PesanCuciCard';
 import FloatingAdd from './FloatingAdd';
 

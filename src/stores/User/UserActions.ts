@@ -315,6 +315,79 @@ const UserActions = (set, get) => {
         );
       }
     },
+    getDetailOrder: async (params: any, callback: (res: any) => void) => {
+      set(
+        produce((state: UserModel) => {
+          state.loading = true;
+        }),
+      );
+
+      try {
+        const response = await ApiServices.getDetailOrder(params);
+        if (response.ok) {
+          set(
+            produce((state: UserModel) => {
+              state.loading = false;
+            }),
+          );
+
+          if (typeof callback === 'function') {
+            callback(response?.data?.data);
+          }
+        } else {
+          set(
+            produce((state: UserModel) => {
+              state.loading = false;
+              state.error = true;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: UserModel) => {
+            state.loading = false;
+            state.error = true;
+          }),
+        );
+      }
+    },
+    submitTerimaCabang: async (params: any, callback: () => void) => {
+      set(
+        produce((state: UserModel) => {
+          state.loading = true;
+        }),
+      );
+
+      try {
+        const response = await ApiServices.submitTerimaCabang(params);
+        if (response.ok) {
+          set(
+            produce((state: UserModel) => {
+              state.loading = false;
+            }),
+          );
+          if (typeof callback === 'function') {
+            callback();
+          }
+        } else {
+          set(
+            produce((state: UserModel) => {
+              state.loading = false;
+              state.error = true;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: UserModel) => {
+            state.loading = false;
+            state.error = true;
+          }),
+        );
+      }
+    },
   };
 };
 

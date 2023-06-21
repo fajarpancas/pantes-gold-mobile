@@ -99,8 +99,8 @@ android {
         applicationId "com.pantesrequest"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "1.0.4"
+        versionCode 3
+        versionName "1.0.5"
         multiDexEnabled true
     }
 
@@ -134,7 +134,7 @@ android {
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.debug
             applicationIdSuffix ".staging"
-            resValue "string", "app_name", "Staging - Pantest Request"
+            resValue "string", "app_name", "Pantest Request"
             resValue "string", "CodePushDeploymentKey", '"iTH8-27d_7T9x2rV4JR-vmicrIYsJCKt7TG7C"'
             buildConfigField "String", "BASE_URL", '"https://reqres.in/"'
             buildConfigField "String", "ENVIRONTMENT", '"STAGING"'

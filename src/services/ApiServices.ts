@@ -67,6 +67,9 @@ class ApiServices {
     this.getCabangPesanCuciDetail = this.getCabangPesanCuciDetail.bind(this);
     this.submitCabangPesanCuci = this.submitCabangPesanCuci.bind(this);
     this.getJenisBarang = this.getJenisBarang.bind(this);
+    this.submitTerimaPesanCuci = this.submitTerimaPesanCuci.bind(this);
+    this.getDetailOrder = this.getDetailOrder.bind(this);
+    this.submitTerimaCabang = this.submitTerimaCabang.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
 
     this.api.addMonitor(this.handleResponseMonitoring);
@@ -266,6 +269,18 @@ class ApiServices {
 
   getJenisBarang(): Promise<any> {
     return this.api.get('/get-jenis-barang');
+  }
+
+  submitTerimaPesanCuci(params: any): Promise<any> {
+    return this.api.post('/pusat/terima-barang-cuci', params);
+  }
+
+  getDetailOrder(params: any): Promise<any> {
+    return this.api.get('/order/detail', params);
+  }
+
+  submitTerimaCabang(params: any): Promise<any> {
+    return this.api.post('/terima-barang', params);
   }
 }
 

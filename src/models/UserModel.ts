@@ -67,6 +67,8 @@ interface UserModel extends StoreModel {
   getCartList: () => void;
   cartList: Cart[];
   getJenisBarang: () => void;
+  submitTerimaCabang: (params: any, callback: () => void) => void;
+  getDetailOrder: (params: any, callback: (res: any) => void) => void;
   jenisBarang: {
     kd_barang: string;
     nama_jenis_barang: string;

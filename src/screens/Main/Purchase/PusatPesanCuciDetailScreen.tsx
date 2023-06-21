@@ -19,6 +19,8 @@ import Fonts from '../../../themes/Fonts';
 import {STATUS} from '../../../const/Data';
 import Button from '../../../components/Button';
 import DropdownAlertHolder from '../../../services/DropdownAlertHolder';
+import CustomDatePicker from '../../../components/DatePicker';
+import dayjs from 'dayjs';
 
 class PusatPesanCuciDetailScreen extends React.PureComponent {
   constructor(props) {
@@ -27,6 +29,8 @@ class PusatPesanCuciDetailScreen extends React.PureComponent {
     this.state = {
       qtyAcc: null,
       dataDetail: null,
+      tglKirim: null,
+      tglClosed: null,
     };
   }
 
@@ -46,28 +50,56 @@ class PusatPesanCuciDetailScreen extends React.PureComponent {
   };
 
   submit = () => {
-    const {qtyAcc, dataDetail} = this.state;
+    const {dataDetail, qtyAcc, tglKirim, tglClosed} = this.state;
     const {submitPusatPesanCuci, getPusatPesanCuci} = this.props;
-    if (qtyAcc) {
-      if (Number(qtyAcc) <= Number(dataDetail?.qty)) {
-        submitPusatPesanCuci(
-          {
-            id_order_cuci: dataDetail?.id_order_cuci,
-            qty_acc: qtyAcc,
-          },
-          () => {
-            this.onRefresh();
-            getPusatPesanCuci();
-          },
-        );
+
+    let paramData = {
+      id_order_cuci: dataDetail?.id_order_cuci,
+    };
+
+    if (dataDetail?.status === 1) {
+      if (!qtyAcc) {
+        DropdownAlertHolder.showError('Gagal', 'Qty acc harus diisi');
       } else {
-        DropdownAlertHolder.showError(
-          'Gagal',
-          'Qty acc tidak boleh lebih dari qty permintaan',
-        );
+        paramData = {
+          ...paramData,
+          qty_acc: qtyAcc,
+        };
+        submitPusatPesanCuci(paramData, () => {
+          this.onRefresh();
+          getPusatPesanCuci();
+        });
       }
-    } else {
-      DropdownAlertHolder.showError('Gagal', 'Qty acc harus diisi');
+    }
+
+    if (dataDetail?.status === 2) {
+      if (!tglKirim) {
+        DropdownAlertHolder.showError('Gagal', 'Tanggal kirim harus diisi');
+      } else {
+        paramData = {
+          ...paramData,
+          tgl_kirim: `${dayjs(tglKirim).format('YYYY-MM-DD')} 00:00:00`,
+        };
+        submitPusatPesanCuci(paramData, () => {
+          this.onRefresh();
+          getPusatPesanCuci();
+        });
+      }
+    }
+
+    if (dataDetail?.status === 5) {
+      if (!tglClosed) {
+        DropdownAlertHolder.showError('Gagal', 'Tanggal closed harus diisi');
+      } else {
+        paramData = {
+          ...paramData,
+          tgl_closed: `${dayjs(tglClosed).format('YYYY-MM-DD')} 00:00:00`,
+        };
+        submitPusatPesanCuci(paramData, () => {
+          this.onRefresh();
+          getPusatPesanCuci();
+        });
+      }
     }
   };
 
@@ -143,22 +175,6 @@ class PusatPesanCuciDetailScreen extends React.PureComponent {
             <View style={styles.border} />
             <Spacer height={10} />
 
-            {typeof dataDetail?.qty_acc === 'string' ? (
-              <>
-                <View style={styles.rowBetween}>
-                  <Text family="bold">Qty Acc</Text>
-                  <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                    {dataDetail?.qty_acc}
-                  </Text>
-                </View>
-                <Spacer height={5} />
-                <View style={styles.border} />
-                <Spacer height={10} />
-              </>
-            ) : (
-              <View />
-            )}
-
             <View style={styles.rowBetween}>
               <Text family="bold">Kadar</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>
@@ -188,51 +204,108 @@ class PusatPesanCuciDetailScreen extends React.PureComponent {
             <Spacer height={5} />
             <View style={styles.border} />
             <Spacer height={10} />
+
+            {dataDetail?.timestamp_proses ? (
+              <>
+                <View style={styles.rowBetween}>
+                  <Text family="bold">Tanggal Proses</Text>
+                  <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                    {dataDetail?.timestamp_proses}
+                  </Text>
+                </View>
+                <Spacer height={5} />
+                <View style={styles.border} />
+                <Spacer height={10} />
+              </>
+            ) : (
+              <View />
+            )}
+            <View style={styles.rowBetween}>
+              <Text family="bold">Qty Acc</Text>
+              {dataDetail?.status === 1 ? (
+                <TextInput
+                  placeholder="0"
+                  placeholderTextColor={Colors.outlineBase}
+                  style={styles.textInput2}
+                  keyboardType="number-pad"
+                  onChangeText={text => this.setState({qtyAcc: text})}
+                />
+              ) : (
+                <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                  {dataDetail?.qty_acc || '0'}
+                </Text>
+              )}
+            </View>
+            <Spacer height={5} />
+            <View style={styles.border} />
+            <Spacer height={10} />
+
+            {dataDetail?.status > 1 ? (
+              <>
+                <View style={styles.rowBetween}>
+                  <Text family="bold">Tanggal Kirim</Text>
+                  {dataDetail?.status === 2 ? (
+                    <CustomDatePicker
+                      title="Pilih Tanggal Kirim"
+                      defaultValue={this.state.tglKirim}
+                      onSelectDate={d => this.setState({tglKirim: d})}
+                    />
+                  ) : (
+                    <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                      {dayjs(dataDetail?.timestamp_kirim, 'YYYY-MM-DD').format(
+                        'DD/MM/YYYY',
+                      )}
+                    </Text>
+                  )}
+                </View>
+                <Spacer height={5} />
+                <View style={styles.border} />
+                <Spacer height={10} />
+              </>
+            ) : (
+              <View />
+            )}
+
+            {dataDetail?.status === 5 ? (
+              <>
+                <View style={styles.rowBetween}>
+                  <Text family="bold">Tanggal Closed</Text>
+                  <CustomDatePicker
+                    title="Pilih Tanggal Closed"
+                    defaultValue={this.state.tglClosed}
+                    onSelectDate={d => this.setState({tglClosed: d})}
+                  />
+                </View>
+                <Spacer height={5} />
+                <View style={styles.border} />
+                <Spacer height={10} />
+              </>
+            ) : (
+              <View />
+            )}
           </View>
           <Spacer height={20} />
         </ScrollView>
 
-        {!loading && (
-          <View>
-            {typeof dataDetail?.qty_acc === 'string' ? (
-              <View
-                style={[
-                  this.getStyles(dataDetail?.status),
-                  styles.statusWrapper,
-                ]}>
-                <Text
-                  family="bold"
-                  color={
-                    STATUS[dataDetail?.status - 1]?.textColor ??
-                    Colors.fontSemiBlack
-                  }
-                  size={16}>
-                  {this.getItemStatus(dataDetail?.status)}
-                </Text>
-              </View>
+        <Spacer height={10} />
+        {dataDetail?.status !== 4 ? (
+          <View
+            style={{paddingHorizontal: scale(20), paddingBottom: scale(20)}}>
+            {dataDetail?.status < 6 ? (
+              <Button
+                title="Submit"
+                loading={loading}
+                color={Colors.primary}
+                onPress={this.submit}
+              />
             ) : (
-              <View
-                style={{
-                  width: scale(320),
-                  paddingBottom: scale(15),
-                  alignSelf: 'center',
-                }}>
-                <TextInput
-                  placeholder="Qty Acc"
-                  placeholderTextColor={'grey'}
-                  style={styles.textInput}
-                  keyboardType="number-pad"
-                  onChangeText={t => this.setState({qtyAcc: t})}
-                />
-                <Spacer height={10} />
-                <Button
-                  title="Submit Qty Acc"
-                  color={Colors.primary}
-                  onPress={this.submit}
-                />
+              <View style={{alignSelf: 'center'}}>
+                <Text color={'grey'}>Pesanan ini sudah close.</Text>
               </View>
             )}
           </View>
+        ) : (
+          <View />
         )}
       </View>
     );
@@ -262,6 +335,15 @@ const styles = StyleSheet.create({
   border: {
     borderBottomColor: Colors.outlineBase,
     borderBottomWidth: 0.6,
+  },
+  textInput2: {
+    width: scale(50),
+    height: scale(40),
+    borderWidth: 1,
+    textAlign: 'center',
+    borderColor: Colors.outlineBase,
+    borderRadius: scale(8),
+    color: Colors.fontSemiBlack,
   },
   selectionWrapper: {
     flexDirection: 'row',

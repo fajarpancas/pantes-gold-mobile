@@ -2,12 +2,9 @@ import React from 'react';
 import {
   ActivityIndicator,
   Image,
-  Modal,
   ScrollView,
   StatusBar,
   StyleSheet,
-  TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import Colors from '../../../themes/Colors';
@@ -20,6 +17,9 @@ import Spacer from '../../../components/Spacer';
 import Button from '../../../components/Button';
 import Fonts from '../../../themes/Fonts';
 import {STATUS} from '../../../const/Data';
+import CustomDatePicker from '../../../components/DatePicker';
+import dayjs from 'dayjs';
+import DropdownAlertHolder from '../../../services/DropdownAlertHolder';
 
 class PesanCuciDetailScreen extends React.PureComponent {
   constructor(props) {
@@ -27,6 +27,7 @@ class PesanCuciDetailScreen extends React.PureComponent {
 
     this.state = {
       dataDetail: null,
+      tglTerima: null,
     };
   }
 
@@ -51,6 +52,31 @@ class PesanCuciDetailScreen extends React.PureComponent {
 
   getItemStatus = (status: number) => {
     return STATUS[status - 1]?.name;
+  };
+
+  submit = () => {
+    const {dataDetail, tglTerima} = this.state;
+    const {submitTerimaPesanCuci, getPesanCuci, getPesanCuciDetail} =
+      this.props;
+
+    let paramData = {
+      id_order_cuci: dataDetail?.id_order_cuci,
+    };
+
+    if (dataDetail?.status === 4) {
+      if (!tglTerima) {
+        DropdownAlertHolder.showError('Gagal', 'Tanggal terima harus diisi');
+      } else {
+        paramData = {
+          ...paramData,
+          tgl_terima: `${dayjs(tglTerima).format('YYYY-MM-DD')} 00:00:00`,
+        };
+        submitTerimaPesanCuci(paramData, () => {
+          this.onRefresh();
+          getPesanCuci();
+        });
+      }
+    }
   };
 
   renderLoading = () => {
@@ -140,29 +166,108 @@ class PesanCuciDetailScreen extends React.PureComponent {
             <View style={styles.rowBetween}>
               <Text family="bold">Tanggal Pesan</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                {dataDetail?.tgl_pesan}
+                {dayjs(dataDetail?.tgl_pesan, 'YYYY-MM-DD').format(
+                  'DD/MM/YYYY',
+                )}
               </Text>
             </View>
             <Spacer height={5} />
             <View style={styles.border} />
             <Spacer height={10} />
+
+            {dataDetail?.timestamp_proses ? (
+              <>
+                <View style={styles.rowBetween}>
+                  <Text family="bold">Tanggal Proses</Text>
+                  <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                    {dayjs(dataDetail?.timestamp_proses, 'YYYY-MM-DD').format(
+                      'DD/MM/YYYY',
+                    )}
+                  </Text>
+                </View>
+                <Spacer height={5} />
+                <View style={styles.border} />
+                <Spacer height={10} />
+              </>
+            ) : (
+              <View />
+            )}
+
+            {dataDetail?.timestamp_kirim ? (
+              <>
+                <View style={styles.rowBetween}>
+                  <Text family="bold">Tanggal Kirim</Text>
+                  <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                    {dayjs(dataDetail?.timestamp_kirim, 'YYYY-MM-DD').format(
+                      'DD/MM/YYYY',
+                    )}
+                  </Text>
+                </View>
+                <Spacer height={5} />
+                <View style={styles.border} />
+                <Spacer height={10} />
+              </>
+            ) : (
+              <View />
+            )}
+
+            {dataDetail?.status > 3 ? (
+              <>
+                <View style={styles.rowBetween}>
+                  <Text family="bold">Tanggal Terima</Text>
+                  {dataDetail?.status === 4 ? (
+                    <CustomDatePicker
+                      title="Pilih Tanggal Terima"
+                      defaultValue={this.state.tglTerima}
+                      onSelectDate={d => this.setState({tglTerima: d})}
+                    />
+                  ) : (
+                    <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                      {dayjs(dataDetail?.timestamp_terima, 'YYYY-MM-DD').format(
+                        'DD/MM/YYYY',
+                      )}
+                    </Text>
+                  )}
+                </View>
+                <Spacer height={5} />
+                <View style={styles.border} />
+                <Spacer height={10} />
+              </>
+            ) : (
+              <View />
+            )}
           </View>
           <Spacer height={20} />
         </ScrollView>
 
         <View>
-          <View
-            style={[this.getStyles(dataDetail?.status), styles.statusWrapper]}>
-            <Text
-              family="bold"
-              color={
-                STATUS[dataDetail?.status - 1]?.textColor ??
-                Colors.fontSemiBlack
-              }
-              size={16}>
-              {this.getItemStatus(dataDetail?.status)}
-            </Text>
-          </View>
+          {dataDetail?.status === 4 ? (
+            <View
+              style={{paddingHorizontal: scale(20), paddingBottom: scale(20)}}>
+              <Button
+                title="Submit"
+                loading={loading}
+                color={Colors.primary}
+                onPress={this.submit}
+              />
+            </View>
+          ) : (
+            <View
+              style={[
+                this.getStyles(dataDetail?.status),
+                styles.statusWrapper,
+              ]}>
+              <Text
+                family="bold"
+                color={
+                  STATUS[dataDetail?.status - 1]?.textColor ??
+                  Colors.fontSemiBlack
+                }
+                size={16}>
+                {this.getItemStatus(dataDetail?.status)}
+              </Text>
+            </View>
+          )}
         </View>
       </View>
     );
@@ -266,6 +371,9 @@ const purchaseSelector = (state: PurchaseModel) => ({
     params: {idOrderCuci: string},
     callback: (response: any) => void,
   ) => state.getPesanCuciDetail(params, callback),
+  getPesanCuci: () => state.getPesanCuci(),
+  submitTerimaPesanCuci: (params: any, callback: () => void) =>
+    state.submitTerimaPesanCuci(params, callback),
   loading: state.loading,
 });
 

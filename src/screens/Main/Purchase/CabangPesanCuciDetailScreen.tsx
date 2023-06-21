@@ -270,7 +270,7 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
                 />
               ) : (
                 <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                  {orderDetail?.qty_beli + orderDetail?.qty_cuci || '0'}
+                  {orderDetail?.qty_acc}
                 </Text>
               )}
             </View>
@@ -325,7 +325,7 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
               <View />
             )}
 
-            {orderDetail?.status > 3 ? (
+            {/* {orderDetail?.status > 3 ? (
               <>
                 <View style={styles.rowBetween}>
                   <Text family="bold">Tanggal Terima</Text>
@@ -352,7 +352,7 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
               </>
             ) : (
               <View />
-            )}
+            )} */}
 
             {orderDetail?.status > 4 && orderDetail?.status !== 6 ? (
               <>
@@ -382,17 +382,23 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
             )}
 
             <Spacer height={10} />
-            {orderDetail?.status < 6 ? (
-              <Button
-                title="Submit"
-                loading={loading}
-                color={Colors.primary}
-                onPress={this.submit}
-              />
+            {orderDetail?.status !== 4 ? (
+              <>
+                {orderDetail?.status < 6 ? (
+                  <Button
+                    title="Submit"
+                    loading={loading}
+                    color={Colors.primary}
+                    onPress={this.submit}
+                  />
+                ) : (
+                  <View style={{alignSelf: 'center'}}>
+                    <Text color={'grey'}>Pesanan ini sudah close.</Text>
+                  </View>
+                )}
+              </>
             ) : (
-              <View style={{alignSelf: 'center'}}>
-                <Text color={'grey'}>Pesanan ini sudah close.</Text>
-              </View>
+              <View />
             )}
           </View>
           <Spacer height={40} />

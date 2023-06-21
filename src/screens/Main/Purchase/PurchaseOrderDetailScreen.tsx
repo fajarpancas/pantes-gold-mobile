@@ -212,41 +212,41 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
       }
     }
 
-    if (orderDetail?.status === 4) {
-      if (!tanggalTerimaCabang) {
-        DropdownAlertHolder.showError(
-          'Gagal',
-          'Tanggal terima cabang harus diisi',
-        );
-      } else {
-        paramData = {
-          ...paramData,
-          tgl_terima: `${dayjs(tanggalTerimaCabang).format(
-            'YYYY-MM-DD',
-          )} 00:00:00`,
-        };
-        submitPurchaseOrder(paramData, () => {
-          this.onRefresh();
-          let paramFilter = {};
+    // if (orderDetail?.status === 4) {
+    //   if (!tanggalTerimaCabang) {
+    //     DropdownAlertHolder.showError(
+    //       'Gagal',
+    //       'Tanggal terima cabang harus diisi',
+    //     );
+    //   } else {
+    //     paramData = {
+    //       ...paramData,
+    //       tgl_terima: `${dayjs(tanggalTerimaCabang).format(
+    //         'YYYY-MM-DD',
+    //       )} 00:00:00`,
+    //     };
+    //     submitPurchaseOrder(paramData, () => {
+    //       this.onRefresh();
+    //       let paramFilter = {};
 
-          if (params?.filter?.cabangSelected) {
-            paramFilter = {
-              ...paramFilter,
-              kd_toko: params?.filter?.cabangSelected?.kd_toko,
-            };
-          }
+    //       if (params?.filter?.cabangSelected) {
+    //         paramFilter = {
+    //           ...paramFilter,
+    //           kd_toko: params?.filter?.cabangSelected?.kd_toko,
+    //         };
+    //       }
 
-          if (typeof params?.filter?.statusSelected === 'number') {
-            paramFilter = {
-              ...paramFilter,
-              status: Number(params?.filter?.statusSelected) + 1,
-            };
-          }
+    //       if (typeof params?.filter?.statusSelected === 'number') {
+    //         paramFilter = {
+    //           ...paramFilter,
+    //           status: Number(params?.filter?.statusSelected) + 1,
+    //         };
+    //       }
 
-          getPurchaseOrder(paramFilter);
-        });
-      }
-    }
+    //       getPurchaseOrder(paramFilter);
+    //     });
+    //   }
+    // }
 
     if (orderDetail?.status === 5) {
       if (!tanggalClosed) {
@@ -545,26 +545,17 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
               <View />
             )}
 
-            {orderDetail?.status > 3 ? (
+            {orderDetail?.timestamp_terima_cabang ? (
               <>
                 <View style={styles.rowBetween}>
                   <Text family="bold">Tanggal Terima Cabang</Text>
-                  {orderDetail?.status === 4 ? (
-                    <CustomDatePicker
-                      title="Pilih Tanggal Terima Cabang"
-                      defaultValue={this.state.tanggalTerimaCabang}
-                      onSelectDate={d =>
-                        this.setState({tanggalTerimaCabang: d})
-                      }
-                    />
-                  ) : (
-                    <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                      {dayjs(
-                        orderDetail?.timestamp_terima_cabang,
-                        'YYYY-MM-DD',
-                      ).format('DD/MM/YYYY')}
-                    </Text>
-                  )}
+
+                  <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                    {dayjs(
+                      orderDetail?.timestamp_terima_cabang,
+                      'YYYY-MM-DD',
+                    ).format('DD/MM/YYYY')}
+                  </Text>
                 </View>
                 <Spacer height={5} />
                 <View style={styles.border} />
@@ -601,18 +592,24 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
               <View />
             )}
 
-            <Spacer height={10} />
-            {orderDetail?.status < 6 ? (
-              <Button
-                title="Submit"
-                loading={loading}
-                color={Colors.primary}
-                onPress={this.submit}
-              />
+            {orderDetail?.status !== 4 ? (
+              <>
+                <Spacer height={10} />
+                {orderDetail?.status < 6 ? (
+                  <Button
+                    title="Submit"
+                    loading={loading}
+                    color={Colors.primary}
+                    onPress={this.submit}
+                  />
+                ) : (
+                  <View style={{alignSelf: 'center'}}>
+                    <Text color={'grey'}>Pesanan ini sudah close.</Text>
+                  </View>
+                )}
+              </>
             ) : (
-              <View style={{alignSelf: 'center'}}>
-                <Text color={'grey'}>Pesanan ini sudah close.</Text>
-              </View>
+              <View />
             )}
           </View>
           <Spacer height={40} />
