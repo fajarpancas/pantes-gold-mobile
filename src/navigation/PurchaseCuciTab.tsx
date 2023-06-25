@@ -10,6 +10,7 @@ import {
   CabangPesanCuciScreen,
   HomeCuciScreen,
   MenuAccountScreen,
+  CuciOrderBuyScreen,
 } from '../services/bundle_splitter/CuciRegistration';
 
 const Tab = createBottomTabNavigator<CuciTabParams>();
@@ -85,8 +86,39 @@ const PurchaseCuciTab = () => {
                     source={Images.iconPesanBeliActive}
                     style={styles.icon}
                   />
-                  <Text family="semiBold" color={Colors.primary} size={11.67}>
+                  <Text
+                    style={{textAlign: 'center'}}
+                    family="semiBold"
+                    color={Colors.primary}
+                    size={11.67}>
                     Pesanan Cabang
+                  </Text>
+                </View>
+              );
+            } else {
+              return (
+                <View style={styles.justifyCenter}>
+                  <Image source={Images.iconPesanBeli} style={styles.icon} />
+                  <Text
+                    style={{textAlign: 'center'}}
+                    family="regular"
+                    color={Colors.fontSemiBlack}
+                    size={11.67}>
+                    Pesanan Cabang
+                  </Text>
+                </View>
+              );
+            }
+          } else if (route?.name === 'CuciOrderBuyScreen') {
+            if (focused) {
+              return (
+                <View style={styles.justifyCenter}>
+                  <Image
+                    source={Images.iconPesanBeliActive}
+                    style={styles.icon}
+                  />
+                  <Text family="semiBold" color={Colors.primary} size={11.67}>
+                    Pesan Beli
                   </Text>
                 </View>
               );
@@ -98,7 +130,7 @@ const PurchaseCuciTab = () => {
                     family="regular"
                     color={Colors.fontSemiBlack}
                     size={11.67}>
-                    Pesanan Cabang
+                    Pesan Beli
                   </Text>
                 </View>
               );
@@ -140,6 +172,11 @@ const PurchaseCuciTab = () => {
       <Tab.Screen
         name="CabangPesanCuciScreen"
         component={CabangPesanCuciScreen}
+        options={{headerShown: false}}
+      />
+      <Tab.Screen
+        name="CuciOrderBuyScreen"
+        component={CuciOrderBuyScreen}
         options={{headerShown: false}}
       />
       <Tab.Screen

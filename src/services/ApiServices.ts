@@ -282,6 +282,22 @@ class ApiServices {
   submitTerimaCabang(params: any): Promise<any> {
     return this.api.post('/terima-barang', params);
   }
+
+  createOrderCuci(params: CreateOrderParams): Promise<any> {
+    return this.api.post('', params);
+  }
+
+  getDetailOrderCuci(params: any): Promise<any> {
+    return this.api.get('', params);
+  }
+
+  getOrderCuciList(params: GetOrderListParams): Promise<any> {
+    return this.api.get('', params);
+  }
+
+  submitTerimaOrderCuci(params: any): Promise<any> {
+    return this.api.post('', params);
+  }
 }
 
 export default new ApiServices();

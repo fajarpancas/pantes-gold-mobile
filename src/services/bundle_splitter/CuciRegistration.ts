@@ -26,3 +26,18 @@ export const CabangPesanCuciDetailScreen = register({
     require('../../screens/main/Purchase/CabangPesanCuciDetailScreen'),
   name: 'CabangPesanCuciDetailScreen',
 });
+
+export const CuciOrderBuyScreen = register({
+  loader: () => require('../../screens/main/Cuci/CuciOrderBuyScreen'),
+  name: 'CuciOrderBuyScreen',
+});
+
+export const OrderDetailCuciScreen = register({
+  loader: () => require('../../screens/main/Cuci/OrderDetailCuciScreen'),
+  name: 'OrderDetailCuciScreen',
+});
+
+export const AddOrderCuciScreen = register({
+  loader: () => require('../../screens/main/Cuci/AddOrderCuciScreen'),
+  name: 'AddOrderCuciScreen',
+});

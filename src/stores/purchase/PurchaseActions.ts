@@ -4,6 +4,8 @@ import PurchaseModel from '../../models/PurchaseModel';
 import {CreateOffer} from './PurchaseTypes';
 import {purchaseStore} from './PurchaseStore';
 import {
+  CreateOrderParams,
+  GetOrderListParams,
   OfferDetailParams,
   PublishOfferParams,
 } from '../../models/apimodel/ApiRequest';
@@ -751,6 +753,152 @@ const PurchaseActions = (set, get) => {
           produce((state: PurchaseModel) => {
             state.error = true;
             state.loading = false;
+          }),
+        );
+      }
+    },
+    getDetailOrderCuci: async (params: any, callback: (res: any) => void) => {
+      set(
+        produce((state: PurchaseModel) => {
+          state.loading = true;
+        }),
+      );
+
+      try {
+        const response = await ApiServices.getDetailOrderCuci(params);
+        if (response.ok) {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+            }),
+          );
+
+          if (typeof callback === 'function') {
+            callback(response?.data?.data);
+          }
+        } else {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+              state.error = true;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: PurchaseModel) => {
+            state.loading = false;
+            state.error = true;
+          }),
+        );
+      }
+    },
+    submitTerimaOrderCuci: async (params: any, callback: () => void) => {
+      set(
+        produce((state: PurchaseModel) => {
+          state.loading = true;
+        }),
+      );
+
+      try {
+        const response = await ApiServices.submitTerimaOrderCuci(params);
+        if (response.ok) {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+            }),
+          );
+          if (typeof callback === 'function') {
+            callback();
+          }
+        } else {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+              state.error = true;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: PurchaseModel) => {
+            state.loading = false;
+            state.error = true;
+          }),
+        );
+      }
+    },
+    createOrder: async (
+      orderParams: CreateOrderParams,
+      callback: () => void,
+    ) => {
+      set(
+        produce((state: PurchaseModel) => {
+          state.loading = true;
+        }),
+      );
+
+      try {
+        const response = await ApiServices.createOrder(orderParams);
+        if (response.ok) {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+              callback();
+            }),
+          );
+        } else {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+              state.error = true;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: PurchaseModel) => {
+            state.loading = false;
+            state.error = true;
+          }),
+        );
+      }
+    },
+    getOrderCuciList: async (params: GetOrderListParams) => {
+      set(
+        produce((state: PurchaseModel) => {
+          state.loading = true;
+        }),
+      );
+
+      try {
+        const response = await ApiServices.getOrderCuciList(params);
+        if (response.ok) {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+              if (response?.data?.data) {
+                state.orderCuciList = response.data.data;
+              }
+            }),
+          );
+        } else {
+          set(
+            produce((state: PurchaseModel) => {
+              state.loading = false;
+              state.error = true;
+            }),
+          );
+          throw response.problem;
+        }
+      } catch (error) {
+        set(
+          produce((state: PurchaseModel) => {
+            state.loading = false;
+            state.error = true;
           }),
         );
       }

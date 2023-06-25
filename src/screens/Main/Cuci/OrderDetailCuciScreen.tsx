@@ -1,20 +1,20 @@
 import React from 'react';
 import {Image, ScrollView, StyleSheet, View} from 'react-native';
-import Colors from '../../themes/Colors';
-import Spacer from '../../components/Spacer';
-import {scale} from '../../services/Scale';
-import Text from '../../components/Text';
-import HeaderCabang from '../../components/HeaderCabang';
+import Colors from '../../../themes/Colors';
+import Spacer from '../../../components/Spacer';
+import {scale} from '../../../services/Scale';
+import Text from '../../../components/Text';
+import HeaderCabang from '../../../components/HeaderCabang';
 import dayjs from 'dayjs';
-import {STATUS} from '../../const/Data';
-import {connect} from '../../services/ZustandHelper';
-import useUserStore from '../../stores/user/UserStore';
-import UserModel from '../../models/UserModel';
-import Button from '../../components/Button';
-import DropdownAlertHolder from '../../services/DropdownAlertHolder';
-import CustomDatePicker from '../../components/DatePicker';
+import {STATUS} from '../../../const/Data';
+import {connect} from '../../../services/ZustandHelper';
+import Button from '../../../components/Button';
+import DropdownAlertHolder from '../../../services/DropdownAlertHolder';
+import CustomDatePicker from '../../../components/DatePicker';
+import PurchaseModel from '../../../models/PurchaseModel';
+import usePurchaseStore from '../../../stores/purchase/PurchaseStore';
 
-class OrderDetailScreen extends React.PureComponent {
+class OrderDetailCuciScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -31,7 +31,7 @@ class OrderDetailScreen extends React.PureComponent {
   onRefresh = () => {
     const {params} = this.props.route;
 
-    this.props.getDetailOrder({id_order: params?.id_order}, res => {
+    this.props.getDetailOrderCuci({id_order: params?.id_order}, res => {
       this.setState({orderDetail: res});
     });
   };
@@ -46,7 +46,7 @@ class OrderDetailScreen extends React.PureComponent {
 
   submit = () => {
     const {orderDetail, tglTerima} = this.state;
-    const {submitTerimaCabang, getHome} = this.props;
+    const {submitTerimaOrderCuci, getOrderCuciList} = this.props;
 
     let paramData = {
       id_order: orderDetail?.id_order,
@@ -60,9 +60,9 @@ class OrderDetailScreen extends React.PureComponent {
           ...paramData,
           tgl_terima: `${dayjs(tglTerima).format('YYYY-MM-DD')} 00:00:00`,
         };
-        submitTerimaCabang(paramData, () => {
+        submitTerimaOrderCuci(paramData, () => {
           this.onRefresh();
-          getHome();
+          getOrderCuciList();
         });
       }
     }
@@ -238,15 +238,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const userSelector = (state: UserModel) => ({
-  getDetailOrder: (params: string, callback: (res: any) => void) =>
-    state.getDetailOrder(params, callback),
-  getHome: () => state.getHome(),
+const purchaseSelector = (state: PurchaseModel) => ({
+  getDetailOrderCuci: (params: string, callback: (res: any) => void) =>
+    state.getDetailOrderCuci(params, callback),
+  getOrderCuciList: (params: any) => state.getOrderCuciList(params),
   loading: state.loading,
-  submitTerimaCabang: (params: any, callback: () => void) =>
-    state.submitTerimaCabang(params, callback),
+  submitTerimaOrderCuci: (params: any, callback: () => void) =>
+    state.submitTerimaOrderCuci(params, callback),
 });
 
-const stores = [{store: useUserStore, selector: userSelector}];
+const stores = [{store: usePurchaseStore, selector: purchaseSelector}];
 
-export default connect(stores)(OrderDetailScreen);
+export default connect(stores)(OrderDetailCuciScreen);

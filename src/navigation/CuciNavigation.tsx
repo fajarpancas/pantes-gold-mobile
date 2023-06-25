@@ -3,7 +3,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {CuciStackParams} from '../models/NavigationModel';
 import PurchaseCuciTab from './PurchaseCuciTab';
 import {
+  AddOrderCuciScreen,
   CabangPesanCuciDetailScreen,
+  OrderDetailCuciScreen,
   PusatPesanCuciDetailScreen,
 } from '../services/bundle_splitter/CuciRegistration';
 // import {} from '../services/bundle_splitter/CuciRegistration';
@@ -32,6 +34,18 @@ const CuciNavigation = () => {
         options={{title: 'Pesan Cuci Detail'}}
         name="CabangPesanCuciDetailScreen"
         component={CabangPesanCuciDetailScreen}
+      />
+
+      <Stack.Screen
+        options={{title: 'Tambah Pesan Beli'}}
+        name="AddOrderCuciScreen"
+        component={AddOrderCuciScreen}
+      />
+
+      <Stack.Screen
+        options={{title: 'Pesan Beli Detail'}}
+        name="OrderDetailCuciScreen"
+        component={OrderDetailCuciScreen}
       />
     </Stack.Navigator>
   );

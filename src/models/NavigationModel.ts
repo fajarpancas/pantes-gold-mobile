@@ -22,6 +22,7 @@ export type PurchaseTabParams = {
 export type CuciTabParams = {
   HomeCuciScreen: undefined;
   CabangPesanCuciScreen: undefined;
+  CuciOrderBuyScreen: undefined;
   MenuAccountScreen: undefined;
 };
 
@@ -48,6 +49,8 @@ export type CuciStackParams = {
   CuciMain: undefined;
   PusatPesanCuciDetailScreen: undefined;
   CabangPesanCuciDetailScreen: undefined;
+  AddOrderCuciScreen: undefined;
+  OrderDetailCuciScreen: undefined;
 };
 
 type RootParamList = ReactNavigation.RootParamList;

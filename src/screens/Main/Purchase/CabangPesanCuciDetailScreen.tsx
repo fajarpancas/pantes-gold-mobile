@@ -239,9 +239,9 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
             <Spacer height={10} />
 
             <View style={styles.rowBetween}>
-              <Text family="bold">Qty</Text>
+              <Text family="bold">Berat</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                {orderDetail?.qty}
+                {orderDetail?.berat}
               </Text>
             </View>
             <Spacer height={5} />
@@ -249,9 +249,9 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
             <Spacer height={10} />
 
             <View style={styles.rowBetween}>
-              <Text family="bold">Berat</Text>
+              <Text family="bold">Qty</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                {orderDetail?.berat}
+                {orderDetail?.qty}
               </Text>
             </View>
             <Spacer height={5} />
@@ -325,35 +325,6 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
               <View />
             )}
 
-            {/* {orderDetail?.status > 3 ? (
-              <>
-                <View style={styles.rowBetween}>
-                  <Text family="bold">Tanggal Terima</Text>
-                  {orderDetail?.status === 4 ? (
-                    <CustomDatePicker
-                      title="Pilih Tanggal Terima"
-                      defaultValue={this.state.tanggalTerimaCabang}
-                      onSelectDate={d =>
-                        this.setState({tanggalTerimaCabang: d})
-                      }
-                    />
-                  ) : (
-                    <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                      {dayjs(
-                        orderDetail?.timestamp_terima_cabang,
-                        'YYYY-MM-DD',
-                      ).format('DD/MM/YYYY')}
-                    </Text>
-                  )}
-                </View>
-                <Spacer height={5} />
-                <View style={styles.border} />
-                <Spacer height={10} />
-              </>
-            ) : (
-              <View />
-            )} */}
-
             {orderDetail?.status > 4 && orderDetail?.status !== 6 ? (
               <>
                 <View style={styles.rowBetween}>
@@ -380,29 +351,35 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
             ) : (
               <View />
             )}
-
-            <Spacer height={10} />
-            {orderDetail?.status !== 4 ? (
-              <>
-                {orderDetail?.status < 6 ? (
-                  <Button
-                    title="Submit"
-                    loading={loading}
-                    color={Colors.primary}
-                    onPress={this.submit}
-                  />
-                ) : (
-                  <View style={{alignSelf: 'center'}}>
-                    <Text color={'grey'}>Pesanan ini sudah close.</Text>
-                  </View>
-                )}
-              </>
-            ) : (
-              <View />
-            )}
           </View>
           <Spacer height={40} />
         </ScrollView>
+        <Spacer height={10} />
+        {orderDetail?.status !== 4 ? (
+          <>
+            {orderDetail?.status < 6 ? (
+              <View
+                style={{
+                  paddingHorizontal: scale(20),
+                  paddingBottom: scale(20),
+                }}>
+                <Button
+                  title="Submit"
+                  loading={loading}
+                  color={Colors.primary}
+                  onPress={this.submit}
+                />
+              </View>
+            ) : (
+              <View style={{alignSelf: 'center'}}>
+                <Text color={'grey'}>Pesanan ini sudah close.</Text>
+                <Spacer height={20} />
+              </View>
+            )}
+          </>
+        ) : (
+          <View />
+        )}
       </View>
     );
   }

@@ -109,15 +109,12 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
     }
 
     if (orderDetail?.status === 2) {
-      if (!noPO || !tanggalBeliPusat) {
-        DropdownAlertHolder.showError(
-          'Gagal',
-          'Tanggal beli dan nomor PO harus diisi',
-        );
+      if (!tanggalBeliPusat) {
+        DropdownAlertHolder.showError('Gagal', 'Tanggal beli harus diisi');
       } else {
         paramData = {
           ...paramData,
-          no_po: Number(noPO),
+          // no_po: Number(noPO),
           tgl_beli_pusat: `${dayjs(tanggalBeliPusat).format(
             'YYYY-MM-DD',
           )} 00:00:00`,
@@ -347,9 +344,9 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
             <Spacer height={10} />
 
             <View style={styles.rowBetween}>
-              <Text family="bold">Tanggal Pesan</Text>
+              <Text family="bold">No PO</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                {dayjs(orderDetail?.created_at).format('DD/MM/YYYY')}
+                {orderDetail?.no_order}
               </Text>
             </View>
             <Spacer height={5} />
@@ -360,6 +357,16 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
               <Text family="bold">No. Pesan</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>
                 {orderDetail?.id_order}
+              </Text>
+            </View>
+            <Spacer height={5} />
+            <View style={styles.border} />
+            <Spacer height={10} />
+
+            <View style={styles.rowBetween}>
+              <Text family="bold">Tanggal Pesan</Text>
+              <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                {dayjs(orderDetail?.created_at).format('DD/MM/YYYY')}
               </Text>
             </View>
             <Spacer height={5} />
@@ -387,9 +394,9 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
             <Spacer height={10} />
 
             <View style={styles.rowBetween}>
-              <Text family="bold">Qty</Text>
+              <Text family="bold">Berat</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                {orderDetail?.qty}
+                {orderDetail?.berat}
               </Text>
             </View>
             <Spacer height={5} />
@@ -397,9 +404,9 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
             <Spacer height={10} />
 
             <View style={styles.rowBetween}>
-              <Text family="bold">Berat</Text>
+              <Text family="bold">Qty</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                {orderDetail?.berat}
+                {orderDetail?.qty}
               </Text>
             </View>
             <Spacer height={5} />
@@ -418,7 +425,7 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
                 />
               ) : (
                 <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                  {orderDetail?.qty_beli + orderDetail?.qty_cuci || '0'}
+                  {orderDetail?.qty_acc}
                 </Text>
               )}
             </View>
@@ -467,25 +474,6 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
                 <Spacer height={5} />
                 <View style={styles.border} />
                 <Spacer height={10} />
-
-                <View style={styles.rowBetween}>
-                  <Text family="bold">No PO</Text>
-                  {orderDetail?.status === 2 ? (
-                    <TextInput
-                      placeholder="0"
-                      placeholderTextColor={Colors.outlineBase}
-                      style={styles.textInput2}
-                      onChangeText={text => this.setState({noPO: text})}
-                    />
-                  ) : (
-                    <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                      {orderDetail?.no_po ?? '-'}
-                    </Text>
-                  )}
-                </View>
-                <Spacer height={5} />
-                <View style={styles.border} />
-                <Spacer height={10} />
               </>
             ) : (
               <View />
@@ -495,7 +483,8 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
               <>
                 <View style={styles.rowBetween}>
                   <Text family="bold">Tanggal Terima Pusat</Text>
-                  {orderDetail?.status === 3 ? (
+                  {orderDetail?.status === 3 &&
+                  !orderDetail?.timestamp_terima_beli ? (
                     <CustomDatePicker
                       title="Pilih Tanggal Terima Pusat"
                       defaultValue={this.state.tglTerimaPusat}
@@ -591,29 +580,36 @@ class PurchaseOrderDetailScreen extends React.PureComponent {
             ) : (
               <View />
             )}
-
-            {orderDetail?.status !== 4 ? (
-              <>
-                <Spacer height={10} />
-                {orderDetail?.status < 6 ? (
-                  <Button
-                    title="Submit"
-                    loading={loading}
-                    color={Colors.primary}
-                    onPress={this.submit}
-                  />
-                ) : (
-                  <View style={{alignSelf: 'center'}}>
-                    <Text color={'grey'}>Pesanan ini sudah close.</Text>
-                  </View>
-                )}
-              </>
-            ) : (
-              <View />
-            )}
           </View>
           <Spacer height={40} />
         </ScrollView>
+
+        {orderDetail?.status !== 4 ? (
+          <>
+            <Spacer height={10} />
+            {orderDetail?.status < 6 ? (
+              <View
+                style={{
+                  paddingHorizontal: scale(20),
+                  paddingBottom: scale(20),
+                }}>
+                <Button
+                  title="Submit"
+                  loading={loading}
+                  color={Colors.primary}
+                  onPress={this.submit}
+                />
+              </View>
+            ) : (
+              <View style={{alignSelf: 'center'}}>
+                <Text color={'grey'}>Pesanan ini sudah close.</Text>
+                <Spacer height={20} />
+              </View>
+            )}
+          </>
+        ) : (
+          <View />
+        )}
       </View>
     );
   }

@@ -136,6 +136,34 @@ class PusatPesanCuciDetailScreen extends React.PureComponent {
 
             <Spacer height={20} />
             <View style={styles.rowBetween}>
+              <Text family="bold">Status</Text>
+              <View
+                style={{
+                  paddingHorizontal: scale(15),
+                  borderRadius: scale(8),
+                  backgroundColor: dataDetail?.status
+                    ? STATUS[dataDetail?.status - 1]?.color
+                    : Colors.outlineBase,
+                }}>
+                <Text
+                  family="semiBold"
+                  color={
+                    dataDetail?.status
+                      ? STATUS[dataDetail?.status - 1]?.textColor
+                      : Colors.fontSemiBlack
+                  }
+                  lineHeight={20}>
+                  {dataDetail?.status
+                    ? STATUS[dataDetail?.status - 1]?.name
+                    : '-'}
+                </Text>
+              </View>
+            </View>
+            <Spacer height={5} />
+            <View style={styles.border} />
+            <Spacer height={10} />
+
+            <View style={styles.rowBetween}>
               <Text family="bold">Nomor Pesan</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>
                 {dataDetail?.no_pesan}
@@ -166,10 +194,42 @@ class PusatPesanCuciDetailScreen extends React.PureComponent {
             <Spacer height={10} />
 
             <View style={styles.rowBetween}>
+              <Text family="bold">Tanggal Pesan</Text>
+              <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                {dayjs(dataDetail?.tgl_pesan, 'YYYY-MM-DD').format(
+                  'DD/MM/YYYY',
+                )}
+              </Text>
+            </View>
+            <Spacer height={5} />
+            <View style={styles.border} />
+            <Spacer height={10} />
+
+            <View style={styles.rowBetween}>
               <Text family="bold">Qty</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>
                 {dataDetail?.qty}
               </Text>
+            </View>
+            <Spacer height={5} />
+            <View style={styles.border} />
+            <Spacer height={10} />
+
+            <View style={styles.rowBetween}>
+              <Text family="bold">Qty Acc</Text>
+              {dataDetail?.status === 1 ? (
+                <TextInput
+                  placeholder="0"
+                  placeholderTextColor={Colors.outlineBase}
+                  style={styles.textInput2}
+                  keyboardType="number-pad"
+                  onChangeText={text => this.setState({qtyAcc: text})}
+                />
+              ) : (
+                <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                  {dataDetail?.qty_acc || '0'}
+                </Text>
+              )}
             </View>
             <Spacer height={5} />
             <View style={styles.border} />
@@ -195,22 +255,14 @@ class PusatPesanCuciDetailScreen extends React.PureComponent {
             <View style={styles.border} />
             <Spacer height={10} />
 
-            <View style={styles.rowBetween}>
-              <Text family="bold">Tanggal Pesan</Text>
-              <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                {dataDetail?.tgl_pesan}
-              </Text>
-            </View>
-            <Spacer height={5} />
-            <View style={styles.border} />
-            <Spacer height={10} />
-
             {dataDetail?.timestamp_proses ? (
               <>
                 <View style={styles.rowBetween}>
                   <Text family="bold">Tanggal Proses</Text>
                   <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                    {dataDetail?.timestamp_proses}
+                    {dayjs(dataDetail?.timestamp_proses, 'YYYY-MM-DD').format(
+                      'DD/MM/YYYY',
+                    )}
                   </Text>
                 </View>
                 <Spacer height={5} />
@@ -220,25 +272,6 @@ class PusatPesanCuciDetailScreen extends React.PureComponent {
             ) : (
               <View />
             )}
-            <View style={styles.rowBetween}>
-              <Text family="bold">Qty Acc</Text>
-              {dataDetail?.status === 1 ? (
-                <TextInput
-                  placeholder="0"
-                  placeholderTextColor={Colors.outlineBase}
-                  style={styles.textInput2}
-                  keyboardType="number-pad"
-                  onChangeText={text => this.setState({qtyAcc: text})}
-                />
-              ) : (
-                <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                  {dataDetail?.qty_acc || '0'}
-                </Text>
-              )}
-            </View>
-            <Spacer height={5} />
-            <View style={styles.border} />
-            <Spacer height={10} />
 
             {dataDetail?.status > 1 ? (
               <>
@@ -293,7 +326,7 @@ class PusatPesanCuciDetailScreen extends React.PureComponent {
             style={{paddingHorizontal: scale(20), paddingBottom: scale(20)}}>
             {dataDetail?.status < 6 ? (
               <Button
-                title="Submit"
+                title={'Submit'}
                 loading={loading}
                 color={Colors.primary}
                 onPress={this.submit}
@@ -301,6 +334,7 @@ class PusatPesanCuciDetailScreen extends React.PureComponent {
             ) : (
               <View style={{alignSelf: 'center'}}>
                 <Text color={'grey'}>Pesanan ini sudah close.</Text>
+                <Spacer height={20} />
               </View>
             )}
           </View>

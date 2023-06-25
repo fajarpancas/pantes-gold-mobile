@@ -1,6 +1,11 @@
 import {CreateOffer} from '../stores/purchase/PurchaseTypes';
 import StoreModel from './StoreModel';
-import {OfferDetailParams, PublishOfferParams} from './apimodel/ApiRequest';
+import {
+  CreateOrderParams,
+  GetOrderListParams,
+  OfferDetailParams,
+  PublishOfferParams,
+} from './apimodel/ApiRequest';
 
 type Order = {
   id_order: number;
@@ -109,6 +114,11 @@ interface PurchaseModel extends StoreModel {
     total: number;
   };
   submitTerimaPesanCuci: (params: any, callback: () => void) => void;
+  getOrderCuciList: (params: GetOrderListParams) => void;
+  getDetailOrderCuci: (params: any, callback: (res: any) => void) => void;
+  submitTerimaOrderCuci: (params: any, callback: () => void) => void;
+  createOrderCuci: (order: CreateOrderParams, callback: () => void) => void;
+  orderCuciList: Order[];
 }
 
 export default PurchaseModel;
