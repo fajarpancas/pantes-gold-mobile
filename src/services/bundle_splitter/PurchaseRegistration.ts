@@ -56,3 +56,14 @@ export const PesanCuciDetailScreen = register({
   loader: () => require('../../screens/main/Purchase/PesanCuciDetailScreen'),
   name: 'PesanCuciDetailScreen',
 });
+
+export const PesanBeliCuciListScreen = register({
+  loader: () => require('../../screens/main/Cuci/PesanBeliCuciListScreen'),
+  name: 'PesanBeliCuciListScreen',
+});
+
+export const PurchaseOrderDetailCuciScreen = register({
+  loader: () =>
+    require('../../screens/main/Cuci/PurchaseOrderDetailCuciScreen'),
+  name: 'PurchaseOrderDetailCuciScreen',
+});

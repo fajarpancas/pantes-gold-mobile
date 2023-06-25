@@ -26,7 +26,14 @@ const PurchaseActions = (set, get) => {
             produce((state: PurchaseModel) => {
               state.loading = false;
               if (response?.data?.data) {
-                state.purchaseOrder = response.data.data;
+                if (
+                  typeof params?.kd_toko === 'number' &&
+                  params.kd_toko === 0
+                ) {
+                  state.purchaseOrderCuci = response.data.data;
+                } else {
+                  state.purchaseOrder = response.data.data;
+                }
               }
             }),
           );
@@ -830,7 +837,7 @@ const PurchaseActions = (set, get) => {
         );
       }
     },
-    createOrder: async (
+    createOrderCuci: async (
       orderParams: CreateOrderParams,
       callback: () => void,
     ) => {
@@ -841,7 +848,7 @@ const PurchaseActions = (set, get) => {
       );
 
       try {
-        const response = await ApiServices.createOrder(orderParams);
+        const response = await ApiServices.createOrderCuci(orderParams);
         if (response.ok) {
           set(
             produce((state: PurchaseModel) => {

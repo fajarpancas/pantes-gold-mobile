@@ -145,7 +145,14 @@ const ModalSelectCabang: React.FC<Props> = props => {
                         }}
                         style={styles.cabangItem}>
                         <Text>{c.nama_toko}</Text>
-                        <Text>{`${c?.alamat ? `(${c.alamat})` : ''} `}.</Text>
+                        <Text>
+                          {`${
+                            c?.alamat && c?.alamat !== '-'
+                              ? `(${c.alamat})`
+                              : ''
+                          } `}
+                          .
+                        </Text>
                       </TouchableOpacity>
                     );
                   })

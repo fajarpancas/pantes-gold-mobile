@@ -18,6 +18,7 @@ import Images from '../../../themes/Images';
 import Spacer from '../../../components/Spacer';
 import OrderBuyCard from '../../../components/OrderBuyCard';
 import FloatingAdd from '../Purchase/FloatingAdd';
+import OrderCard from '../../../components/OrderCard';
 
 class CuciOrderBuyScreen extends React.PureComponent {
   constructor(props) {
@@ -55,8 +56,7 @@ class CuciOrderBuyScreen extends React.PureComponent {
 
   render(): React.ReactNode {
     const {loading, orderCuciList} = this.props;
-    const orderCuciLists = orderCuciList || [];
-
+    const orderCuciLists = orderCuciList?.data || [];
     if (orderCuciList?.length === 0 && loading) {
       return (
         <View style={styles.container}>
@@ -80,27 +80,29 @@ class CuciOrderBuyScreen extends React.PureComponent {
         <Spacer height={20} />
         <FlatList
           data={orderCuciLists}
-          renderItem={({item, index}) => (
-            <View
-              style={[
-                styles.padding,
-                index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
-              ]}>
-              <OrderBuyCard
-                item={item}
-                onPress={() =>
-                  NavigationServices.navigate('OrderDetailCuciScreen', item)
-                }
-              />
-            </View>
-          )}
+          refreshing={loading}
+          onRefresh={this.onRefresh}
+          renderItem={({item, index}) => {
+            return (
+              <View
+                style={[
+                  styles.padding,
+                  index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
+                ]}>
+                <OrderCard
+                  item={item}
+                  onPress={() =>
+                    NavigationServices.navigate('OrderDetailCuciScreen', item)
+                  }
+                />
+              </View>
+            );
+          }}
           contentContainerStyle={
             orderCuciLists?.length
               ? styles.paddingHorizontal
               : styles.emptyContainer
           }
-          refreshing={loading}
-          onRefresh={this.onRefresh}
           numColumns={3}
           ListEmptyComponent={() => {
             if (!loading) {
@@ -109,7 +111,7 @@ class CuciOrderBuyScreen extends React.PureComponent {
                   <Spacer height={60} />
                   <Image source={Images.iconEmpty} style={styles.emptyIcon} />
                   <Text size={16} textAlign="center" lineHeight={21.86}>
-                    Belum ada pesanan beli{'\n'}yang dibuat
+                    Belum ada pesanan yang anda buat
                   </Text>
                 </View>
               );

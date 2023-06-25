@@ -54,6 +54,13 @@ interface PurchaseModel extends StoreModel {
     per_page: number;
     total: number;
   };
+  purchaseOrderCuci: {
+    current_page: 1;
+    data: Order[];
+    last_page: number;
+    per_page: number;
+    total: number;
+  };
   purchaseOffer: {
     current_page: 1;
     data: Offer[];

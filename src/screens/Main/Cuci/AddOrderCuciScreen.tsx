@@ -126,7 +126,6 @@ class AddOrderCuciScreen extends React.PureComponent {
 
   handleSubmit = props => {
     const {photo} = this.state;
-    const userCategory = sessionStore.getState().user?.kategori;
 
     if (!photo) {
       this.setState({photoError: true});
@@ -140,9 +139,8 @@ class AddOrderCuciScreen extends React.PureComponent {
         url_foto: `data:image/jpeg;base64,${this.state.photo?.data}`,
         jenis_pesan: 'beli',
       };
-
       this.props.createOrderCuci(params, () => {
-        this.props.getHome();
+        this.props.getOrderCuciList();
         this.setState({successModal: true});
       });
     }
@@ -152,7 +150,6 @@ class AddOrderCuciScreen extends React.PureComponent {
     const {photo} = this.state;
     const {jenisBarang} = this.props;
 
-    const userCategory = sessionStore.getState().user?.kategori;
     return (
       <View style={{flex: 1}}>
         <View style={{flex: 1}}>
@@ -579,7 +576,6 @@ const styles = StyleSheet.create({
 });
 
 const userSelector = (state: UserModel) => ({
-  getHome: () => state.getHome(),
   getJenisBarang: () => state.getJenisBarang(),
   jenisBarang: state.jenisBarang,
 });
@@ -587,6 +583,7 @@ const userSelector = (state: UserModel) => ({
 const purchaseSelector = (state: PurchaseModel) => ({
   createOrderCuci: (params: CreateOrderParams, callback: () => void) =>
     state.createOrderCuci(params, callback),
+  getOrderCuciList: (params: any) => state.getOrderCuciList(params),
   loading: state.loading,
 });
 

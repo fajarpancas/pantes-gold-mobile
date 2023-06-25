@@ -75,7 +75,6 @@ class OrderDetailCuciScreen extends React.PureComponent {
       <View style={styles.bgContainer}>
         <ScrollView>
           <View style={{flex: 1}}>
-            <HeaderCabang />
             <View style={styles.container}>
               <Spacer height={30} />
               <Image

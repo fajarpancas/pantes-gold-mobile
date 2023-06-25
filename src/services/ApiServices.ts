@@ -71,8 +71,10 @@ class ApiServices {
     this.getDetailOrder = this.getDetailOrder.bind(this);
     this.submitTerimaCabang = this.submitTerimaCabang.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
-
-    this.api.addMonitor(this.handleResponseMonitoring);
+    this.createOrderCuci = this.createOrderCuci.bind(this);
+    this.getDetailOrderCuci = this.getDetailOrderCuci.bind(this);
+    this.getOrderCuciList = this.getOrderCuciList.bind(this);
+    this.submitTerimaOrderCuci = this.submitTerimaOrderCuci.bind(this);
   }
 
   setHeaders(headers: HEADERS) {
@@ -284,19 +286,19 @@ class ApiServices {
   }
 
   createOrderCuci(params: CreateOrderParams): Promise<any> {
-    return this.api.post('', params);
+    return this.api.post('/cuci/order-pusat/create', params);
   }
 
   getDetailOrderCuci(params: any): Promise<any> {
-    return this.api.get('', params);
+    return this.api.get('/cuci/order-pusat/detail', params);
   }
 
   getOrderCuciList(params: GetOrderListParams): Promise<any> {
-    return this.api.get('', params);
+    return this.api.get('/cuci/order-pusat', params);
   }
 
   submitTerimaOrderCuci(params: any): Promise<any> {
-    return this.api.post('', params);
+    return this.api.post('/cuci/order-pusat/terima-barang', params);
   }
 }
 

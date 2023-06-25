@@ -15,6 +15,7 @@ export type PurchaseTabParams = {
   HomePurchaseScreen: undefined;
   MenuOfferScreen: undefined;
   MenuOrderBuyScreen: undefined;
+  PesanBeliCuciScreen: undefined;
   MenuBuyScreen: undefined;
   MenuAccountScreen: undefined;
 };
@@ -43,6 +44,7 @@ export type PurchaseStackParams = {
   PurchaseOrderDetailScreen: undefined;
   AddPesanCuci: undefined;
   PesanCuciDetailScreen: undefined;
+  PurchaseOrderDetailCuciScreen: undefined;
 };
 
 export type CuciStackParams = {
