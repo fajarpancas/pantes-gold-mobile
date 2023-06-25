@@ -60,7 +60,7 @@ const PurchaseCuciTab = () => {
                     source={Images.iconPesanBeliActive}
                     style={styles.icon}
                   />
-                  <Text family="semiBold" color={Colors.primary} size={11.67}>
+                  <Text family="semiBold" color={Colors.primary} size={10}>
                     Pesanan Pusat
                   </Text>
                 </View>
@@ -69,10 +69,7 @@ const PurchaseCuciTab = () => {
               return (
                 <View style={styles.justifyCenter}>
                   <Image source={Images.iconPesanBeli} style={styles.icon} />
-                  <Text
-                    family="regular"
-                    color={Colors.fontSemiBlack}
-                    size={11.67}>
+                  <Text family="regular" color={Colors.fontSemiBlack} size={10}>
                     Pesanan Pusat
                   </Text>
                 </View>
@@ -90,7 +87,7 @@ const PurchaseCuciTab = () => {
                     style={{textAlign: 'center'}}
                     family="semiBold"
                     color={Colors.primary}
-                    size={11.67}>
+                    size={10}>
                     Pesanan Cabang
                   </Text>
                 </View>
@@ -103,7 +100,7 @@ const PurchaseCuciTab = () => {
                     style={{textAlign: 'center'}}
                     family="regular"
                     color={Colors.fontSemiBlack}
-                    size={11.67}>
+                    size={10}>
                     Pesanan Cabang
                   </Text>
                 </View>
@@ -117,7 +114,7 @@ const PurchaseCuciTab = () => {
                     source={Images.iconPesanBeliActive}
                     style={styles.icon}
                   />
-                  <Text family="semiBold" color={Colors.primary} size={11.67}>
+                  <Text family="semiBold" color={Colors.primary} size={10}>
                     Pesan Beli
                   </Text>
                 </View>
@@ -126,10 +123,7 @@ const PurchaseCuciTab = () => {
               return (
                 <View style={styles.justifyCenter}>
                   <Image source={Images.iconPesanBeli} style={styles.icon} />
-                  <Text
-                    family="regular"
-                    color={Colors.fontSemiBlack}
-                    size={11.67}>
+                  <Text family="regular" color={Colors.fontSemiBlack} size={10}>
                     Pesan Beli
                   </Text>
                 </View>
@@ -143,7 +137,7 @@ const PurchaseCuciTab = () => {
                     source={Images.iconAccountActive}
                     style={styles.icon}
                   />
-                  <Text family="semiBold" color={Colors.primary} size={11.67}>
+                  <Text family="semiBold" color={Colors.primary} size={10}>
                     Akun
                   </Text>
                 </View>
@@ -152,10 +146,7 @@ const PurchaseCuciTab = () => {
               return (
                 <View style={styles.justifyCenter}>
                   <Image source={Images.iconAccount2} style={styles.icon} />
-                  <Text
-                    family="regular"
-                    color={Colors.fontSemiBlack}
-                    size={11.67}>
+                  <Text family="regular" color={Colors.fontSemiBlack} size={10}>
                     Akun
                   </Text>
                 </View>
