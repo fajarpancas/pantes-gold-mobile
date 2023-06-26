@@ -70,11 +70,11 @@ class ApiServices {
     this.submitTerimaPesanCuci = this.submitTerimaPesanCuci.bind(this);
     this.getDetailOrder = this.getDetailOrder.bind(this);
     this.submitTerimaCabang = this.submitTerimaCabang.bind(this);
-    this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
     this.createOrderCuci = this.createOrderCuci.bind(this);
     this.getDetailOrderCuci = this.getDetailOrderCuci.bind(this);
     this.getOrderCuciList = this.getOrderCuciList.bind(this);
     this.submitTerimaOrderCuci = this.submitTerimaOrderCuci.bind(this);
+    this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
   }
 
   setHeaders(headers: HEADERS) {
@@ -88,12 +88,17 @@ class ApiServices {
   handleResponseMonitoring(response: ApiResponse<any>) {
     const {problem, data} = response;
 
+    console.tron.error({response});
     switch (problem) {
       case 'CLIENT_ERROR': {
         if (data?.message === 'Token is Expired') {
           sessionStore.getState().setLogin(false);
         }
-        DropdownAlertHolder.showError('Request Gagal', data?.message);
+        console.tron.error({data});
+        DropdownAlertHolder.showError(
+          'Request Gagal',
+          data?.message || data?.error,
+        );
         break;
       }
       case 'CONNECTION_ERROR':

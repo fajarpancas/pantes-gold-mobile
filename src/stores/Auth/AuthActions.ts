@@ -5,6 +5,7 @@ import ApiServices from '../../services/ApiServices';
 import {sessionStore} from '../session/SessionStore';
 import LoadingHelper from '../../services/LoadingHelper';
 import NavigationServices from '../../services/NavigationServices';
+import DropdownAlertHolder from '../../services/DropdownAlertHolder';
 
 const SessionActions = (set: any) => {
   return {
@@ -19,7 +20,6 @@ const SessionActions = (set: any) => {
       try {
         const response = await ApiServices.login(params);
         if (response.ok) {
-          console.tron.error({response});
           ApiServices.setHeader(
             'Authorization',
             `Bearer ${response.data?.data?.token_user}`,
@@ -33,6 +33,12 @@ const SessionActions = (set: any) => {
           LoadingHelper.hide();
           // }, 500);
         } else {
+          DropdownAlertHolder.showError(
+            'Login gagal',
+            response?.data?.message ||
+              response?.data?.error ||
+              'Username atau password salah',
+          );
           LoadingHelper.hide();
           throw response.problem;
         }
