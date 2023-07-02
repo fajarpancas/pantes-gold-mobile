@@ -70,7 +70,7 @@ interface PurchaseModel extends StoreModel {
   };
   pabrikList: Pabrik[];
   getPurchaseOrder: (params: string) => void;
-  getPurchaseOffer: () => void;
+  getPurchaseOffer: (params: any) => void;
   createPurchaseOffer: (params: CreateOffer, callback: () => void) => void;
   getPabrik: () => void;
   getOfferDetail: (

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   Modal,
@@ -36,21 +37,50 @@ class CabangPesanCuciScreen extends React.PureComponent {
     this.onRefresh();
   }
 
-  onRefresh = () => {
+  onRefresh = (page: number) => {
     const {getCabangPesanCuci} = this.props;
     const {cabangSelected} = this.state;
     if (cabangSelected) {
-      getCabangPesanCuci({kd_toko: cabangSelected?.kd_toko});
+      getCabangPesanCuci({
+        per_page: 15,
+        page,
+        kd_toko: cabangSelected?.kd_toko,
+      });
     } else {
-      getCabangPesanCuci();
+      getCabangPesanCuci({per_page: 15, page});
     }
+  };
+
+  onLoadMore = () => {
+    const {loading, cabangPesanCuci} = this.props;
+
+    if (
+      !loading &&
+      cabangPesanCuci?.current_page < cabangPesanCuci?.last_page
+    ) {
+      this.onRefresh(cabangPesanCuci?.current_page + 1);
+    }
+  };
+
+  renderLoading = () => {
+    const {loading, cabangPesanCuci} = this.props;
+    if (loading && cabangPesanCuci?.current_page) {
+      return (
+        <View style={styles.flexCenter}>
+          <Spacer height={10} />
+          <ActivityIndicator size={'small'} color={Colors.primary} />
+          <Spacer height={10} />
+        </View>
+      );
+    }
+    return null;
   };
 
   render(): React.ReactNode {
     const {loading, cabang, cabangPesanCuci, loadingCabang} = this.props;
     const {modalVisible, cabangSelected} = this.state;
     const cabangPesanCuciLists = cabangPesanCuci?.data || [];
-
+    console.tron.error({cabangPesanCuciLists});
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
@@ -86,7 +116,6 @@ class CabangPesanCuciScreen extends React.PureComponent {
         </View>
         <FlatList
           data={cabangPesanCuciLists}
-          numColumns={3}
           renderItem={({item, index}) => {
             return (
               <View
@@ -106,7 +135,15 @@ class CabangPesanCuciScreen extends React.PureComponent {
               </View>
             );
           }}
-          onRefresh={this.onRefresh}
+          onRefresh={() => this.onRefresh(1)}
+          numColumns={3}
+          onEndReachedThreshold={1}
+          onEndReached={(distance: any) => {
+            console.tron.log('onEndReached ', distance);
+            if (distance.distanceFromEnd > 110) {
+              this.onLoadMore();
+            }
+          }}
           refreshing={loading}
           contentContainerStyle={
             cabangPesanCuciLists?.length
@@ -127,6 +164,7 @@ class CabangPesanCuciScreen extends React.PureComponent {
             }
             return null;
           }}
+          ListFooterComponent={this.renderLoading}
         />
         <ModalSelectCabang
           cabang={cabang}

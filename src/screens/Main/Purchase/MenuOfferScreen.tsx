@@ -32,14 +32,22 @@ class MenuOfferScreen extends React.PureComponent {
 
   componentDidMount(): void {
     setTimeout(() => {
-      this.onRefresh();
+      this.onRefresh(1);
     }, 300);
     // sessionStore.getState().setLogin(false);
   }
 
-  onRefresh = () => {
+  onRefresh = (page: number) => {
     const {getPurchaseOffer} = this.props;
-    getPurchaseOffer();
+    getPurchaseOffer({page});
+  };
+
+  onLoadMore = () => {
+    const {loading, purchaseOffer} = this.props;
+
+    if (!loading && purchaseOffer?.current_page < purchaseOffer?.last_page) {
+      this.onRefresh(purchaseOffer?.current_page + 1);
+    }
   };
 
   navigate = () => {
@@ -47,14 +55,17 @@ class MenuOfferScreen extends React.PureComponent {
   };
 
   renderLoading = () => {
-    return (
-      <View style={styles.container}>
+    const {loading, purchaseOffer} = this.props;
+    if (loading && purchaseOffer?.current_page) {
+      return (
         <View style={styles.flexCenter}>
-          <ActivityIndicator size={'large'} color={Colors.primary} />
-          <Text color={Colors.primary}>Loading data</Text>
+          <Spacer height={10} />
+          <ActivityIndicator size={'small'} color={Colors.primary} />
+          <Spacer height={10} />
         </View>
-      </View>
-    );
+      );
+    }
+    return null;
   };
 
   render(): React.ReactNode {
@@ -105,8 +116,15 @@ class MenuOfferScreen extends React.PureComponent {
               : styles.emptyContainer
           }
           refreshing={loading}
-          onRefresh={this.onRefresh}
+          onRefresh={() => this.onRefresh(1)}
           numColumns={3}
+          onEndReachedThreshold={1}
+          onEndReached={(distance: any) => {
+            console.tron.log('onEndReached ', distance);
+            if (distance.distanceFromEnd > 110) {
+              this.onLoadMore();
+            }
+          }}
           ListEmptyComponent={() => {
             if (!loading) {
               return (
@@ -121,6 +139,7 @@ class MenuOfferScreen extends React.PureComponent {
             }
             return null;
           }}
+          ListFooterComponent={this.renderLoading}
         />
 
         <FloatingAdd
@@ -165,7 +184,7 @@ const styles = StyleSheet.create({
 });
 
 const purchaseSelector = (state: PurchaseModel) => ({
-  getPurchaseOffer: () => state.getPurchaseOffer(),
+  getPurchaseOffer: (params: any) => state.getPurchaseOffer(params),
   purchaseOffer: state.purchaseOffer,
   loading: state.loading,
 });

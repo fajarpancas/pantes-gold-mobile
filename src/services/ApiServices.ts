@@ -181,8 +181,8 @@ class ApiServices {
     return this.api.get('pusat/order', params);
   }
 
-  getPurchaseOffer(): Promise<any> {
-    return this.api.get('pusat/penawaran');
+  getPurchaseOffer(params: any): Promise<any> {
+    return this.api.get('pusat/penawaran', params);
   }
 
   createPurchaseOffer(params: CreateOffer): Promise<any> {

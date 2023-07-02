@@ -64,7 +64,7 @@ const PurchaseActions = (set, get) => {
         );
       }
     },
-    getPurchaseOffer: async () => {
+    getPurchaseOffer: async (params: any) => {
       set(
         produce((state: PurchaseModel) => {
           state.loading = true;
@@ -72,13 +72,20 @@ const PurchaseActions = (set, get) => {
       );
 
       try {
-        const response = await ApiServices.getPurchaseOffer();
+        const response = await ApiServices.getPurchaseOffer(params);
         if (response.ok) {
           set(
             produce((state: PurchaseModel) => {
               state.loading = false;
               if (response?.data?.data) {
-                state.purchaseOffer = response.data.data;
+                const tempData = state.purchaseOffer?.data;
+                let newData = response?.data?.data?.data;
+
+                if (params?.page > 1) {
+                  newData = tempData?.concat(newData);
+                }
+
+                state.purchaseOffer = {...response.data.data, data: newData};
               }
             }),
           );
@@ -553,8 +560,15 @@ const PurchaseActions = (set, get) => {
         if (response.ok) {
           set(
             produce((state: PurchaseModel) => {
+              const tempData = state.pusatPesanCuci?.data;
+              let newData = response?.data?.data?.data;
+
+              if (params?.page > 1) {
+                newData = tempData?.concat(newData);
+              }
+
               state.loading = false;
-              state.pusatPesanCuci = response?.data?.data;
+              state.pusatPesanCuci = {...response.data.data, data: newData};
             }),
           );
         } else {
@@ -656,8 +670,15 @@ const PurchaseActions = (set, get) => {
         if (response.ok) {
           set(
             produce((state: PurchaseModel) => {
+              const tempData = state.cabangPesanCuci?.data;
+              let newData = response?.data?.data?.data;
+
+              if (params?.page > 1) {
+                newData = tempData?.concat(newData);
+              }
+
               state.loading = false;
-              state.cabangPesanCuci = response?.data?.data;
+              state.cabangPesanCuci = {...response.data.data, data: newData};
             }),
           );
         } else {
@@ -907,7 +928,13 @@ const PurchaseActions = (set, get) => {
             produce((state: PurchaseModel) => {
               state.loading = false;
               if (response?.data?.data) {
-                state.orderCuciList = response.data.data;
+                const tempData = state.orderCuciList?.data;
+                let newData = response?.data?.data?.data;
+
+                if (params?.page > 1) {
+                  newData = tempData?.concat(newData);
+                }
+                state.orderCuciList = {...response.data.data, data: newData};
               }
             }),
           );

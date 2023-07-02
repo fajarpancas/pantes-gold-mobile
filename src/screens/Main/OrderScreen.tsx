@@ -1,5 +1,12 @@
 import React from 'react';
-import {FlatList, Image, StyleSheet, TextInput, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  StyleSheet,
+  TextInput,
+  View,
+} from 'react-native';
 import Colors from '../../themes/Colors';
 import Spacer from '../../components/Spacer';
 import OrderCard from '../../components/OrderCard';
@@ -34,13 +41,13 @@ class OrderScreen extends React.PureComponent {
   }
 
   componentDidMount(): void {
-    this.onRefresh();
+    this.onRefresh(1);
   }
 
-  onRefresh = () => {
+  onRefresh = (page: number) => {
     let paramData: GetOrderListParams = {
-      per_page: 50,
-      page: this.page,
+      per_page: 20,
+      page,
     };
 
     if (this.search !== '') {
@@ -74,16 +81,39 @@ class OrderScreen extends React.PureComponent {
     this.props.getOrderList(paramData);
   };
 
+  onLoadMore = () => {
+    const {loading, orderList} = this.props;
+
+    if (!loading && orderList?.current_page < orderList?.last_page) {
+      this.onRefresh(orderList?.current_page + 1);
+    }
+  };
+
+  renderLoading = () => {
+    const {loading, orderList} = this.props;
+    if (loading && orderList?.current_page) {
+      return (
+        <View style={styles.flexCenter}>
+          <Spacer height={10} />
+          <ActivityIndicator size={'small'} color={Colors.primary} />
+          <Spacer height={10} />
+        </View>
+      );
+    }
+    return null;
+  };
+
   render(): React.ReactNode {
     const {modalVisible} = this.state;
     const {orderList, loading} = this.props;
     const listData = orderList?.data?.length ? orderList?.data : [];
+
     return (
       <View style={styles.container}>
         <FlatList
           data={listData}
           refreshing={loading}
-          onRefresh={this.onRefresh}
+          onRefresh={() => this.onRefresh(1)}
           renderItem={({item, index}) => {
             return (
               <View
@@ -168,7 +198,7 @@ class OrderScreen extends React.PureComponent {
                 </View>
                 <Spacer height={10} />
                 <View style={{flexDirection: 'row'}}>
-                  <View style={styles.wrapperInput}>
+                  {/* <View style={styles.wrapperInput}>
                     <TextInput
                       placeholder="Kadar"
                       maxLength={3}
@@ -183,8 +213,8 @@ class OrderScreen extends React.PureComponent {
                         K
                       </Text>
                     </View>
-                  </View>
-                  <Spacer width={10} />
+                  </View> */}
+                  {/* <Spacer width={10} /> */}
                   <View style={styles.wrapperInput}>
                     <TextInput
                       placeholder="Berat"
@@ -258,6 +288,13 @@ class OrderScreen extends React.PureComponent {
             )
           }
           numColumns={3}
+          onEndReachedThreshold={1}
+          onEndReached={(distance: any) => {
+            console.tron.log('onEndReached ', distance);
+            if (distance.distanceFromEnd > 110) {
+              this.onLoadMore();
+            }
+          }}
           ListEmptyComponent={() => {
             if (!loading) {
               return (
@@ -272,6 +309,7 @@ class OrderScreen extends React.PureComponent {
             }
             return null;
           }}
+          ListFooterComponent={this.renderLoading}
         />
         <ModalFilter
           visible={modalVisible}

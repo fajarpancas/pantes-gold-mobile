@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   Modal,
@@ -47,19 +48,42 @@ class HomeCuciScreen extends React.PureComponent {
     setTimeout(() => {
       const role = sessionStore.getState().user?.id_role;
       if (role === 3) {
-        this.onRefresh();
+        this.onRefresh(1);
       }
     }, 300);
   }
 
-  onRefresh = () => {
+  onRefresh = (page: number) => {
     const {getPusatPesanCuci} = this.props;
     const {statusSelected} = this.state;
+
     if (typeof statusSelected === 'number') {
-      getPusatPesanCuci({status: statusSelected + 1});
+      getPusatPesanCuci({per_page: 15, page, status: statusSelected + 1});
     } else {
-      getPusatPesanCuci();
+      getPusatPesanCuci({per_page: 15, page});
     }
+  };
+
+  onLoadMore = () => {
+    const {loading, pusatPesanCuci} = this.props;
+
+    if (!loading && pusatPesanCuci?.current_page < pusatPesanCuci?.last_page) {
+      this.onRefresh(pusatPesanCuci?.current_page + 1);
+    }
+  };
+
+  renderLoading = () => {
+    const {loading, pusatPesanCuci} = this.props;
+    if (loading && pusatPesanCuci?.current_page) {
+      return (
+        <View style={styles.flexCenter}>
+          <Spacer height={10} />
+          <ActivityIndicator size={'small'} color={Colors.primary} />
+          <Spacer height={10} />
+        </View>
+      );
+    }
+    return null;
   };
 
   render(): React.ReactNode {
@@ -100,7 +124,6 @@ class HomeCuciScreen extends React.PureComponent {
         </View>
         <FlatList
           data={pusatPesanCuciLists}
-          numColumns={3}
           renderItem={({item, index}) => {
             return (
               <View
@@ -120,7 +143,15 @@ class HomeCuciScreen extends React.PureComponent {
               </View>
             );
           }}
-          onRefresh={this.onRefresh}
+          onRefresh={() => this.onRefresh(1)}
+          numColumns={3}
+          onEndReachedThreshold={1}
+          onEndReached={(distance: any) => {
+            console.tron.log('onEndReached ', distance);
+            if (distance.distanceFromEnd > 110) {
+              this.onLoadMore();
+            }
+          }}
           refreshing={loading}
           contentContainerStyle={
             pusatPesanCuciLists?.length
@@ -141,6 +172,7 @@ class HomeCuciScreen extends React.PureComponent {
             }
             return null;
           }}
+          ListFooterComponent={this.renderLoading}
         />
         <Modal transparent visible={modalVisible}>
           <View style={styles.modalBackground} />

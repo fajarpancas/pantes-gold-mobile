@@ -34,9 +34,17 @@ class CuciOrderBuyScreen extends React.PureComponent {
     this.onRefresh();
   }
 
-  onRefresh = () => {
+  onRefresh = (page: number) => {
     const {getOrderCuciList} = this.props;
-    getOrderCuciList();
+    getOrderCuciList({per_page: 15, page});
+  };
+
+  onLoadMore = () => {
+    const {loading, orderCuciList} = this.props;
+
+    if (!loading && orderCuciList?.current_page < orderCuciList?.last_page) {
+      this.onRefresh(orderCuciList?.current_page + 1);
+    }
   };
 
   navigate = () => {
@@ -44,14 +52,17 @@ class CuciOrderBuyScreen extends React.PureComponent {
   };
 
   renderLoading = () => {
-    return (
-      <View style={styles.container}>
+    const {loading, orderCuciList} = this.props;
+    if (loading && orderCuciList?.current_page) {
+      return (
         <View style={styles.flexCenter}>
-          <ActivityIndicator size={'large'} color={Colors.primary} />
-          <Text color={Colors.primary}>Loading data</Text>
+          <Spacer height={10} />
+          <ActivityIndicator size={'small'} color={Colors.primary} />
+          <Spacer height={10} />
         </View>
-      </View>
-    );
+      );
+    }
+    return null;
   };
 
   render(): React.ReactNode {
@@ -81,7 +92,7 @@ class CuciOrderBuyScreen extends React.PureComponent {
         <FlatList
           data={orderCuciLists}
           refreshing={loading}
-          onRefresh={this.onRefresh}
+          onRefresh={() => this.onRefresh(1)}
           renderItem={({item, index}) => {
             return (
               <View
@@ -104,6 +115,13 @@ class CuciOrderBuyScreen extends React.PureComponent {
               : styles.emptyContainer
           }
           numColumns={3}
+          onEndReachedThreshold={1}
+          onEndReached={(distance: any) => {
+            console.tron.log('onEndReached ', distance);
+            if (distance.distanceFromEnd > 110) {
+              this.onLoadMore();
+            }
+          }}
           ListEmptyComponent={() => {
             if (!loading) {
               return (
@@ -118,6 +136,7 @@ class CuciOrderBuyScreen extends React.PureComponent {
             }
             return null;
           }}
+          ListFooterComponent={this.renderLoading}
         />
         <FloatingAdd
           onPress={() => {

@@ -148,7 +148,14 @@ const UserActions = (set, get) => {
             produce((state: UserModel) => {
               state.loading = false;
               if (response?.data?.data) {
-                state.orderList = response.data.data;
+                const tempData = state.orderList?.data;
+                let newData = response?.data?.data?.data;
+
+                if (params?.page > 1) {
+                  newData = tempData?.concat(newData);
+                }
+
+                state.orderList = {...response.data.data, data: newData};
               }
             }),
           );
@@ -184,7 +191,13 @@ const UserActions = (set, get) => {
             produce((state: UserModel) => {
               state.loading = false;
               if (response?.data?.data) {
-                state.offerList = response.data.data;
+                const tempData = state.offerList?.data;
+                let newData = response?.data?.data?.data;
+
+                if (params?.page > 1) {
+                  newData = tempData?.concat(newData);
+                }
+                state.offerList = {...response.data.data, data: newData};
               }
             }),
           );
