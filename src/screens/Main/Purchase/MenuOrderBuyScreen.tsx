@@ -5,6 +5,7 @@ import {
   Image,
   StatusBar,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import Colors from '../../../themes/Colors';
@@ -17,6 +18,14 @@ import PurchaseModel from '../../../models/PurchaseModel';
 import Images from '../../../themes/Images';
 import Spacer from '../../../components/Spacer';
 import OrderBuyCard from '../../../components/OrderBuyCard';
+import ModalSelectPabrik from './ModalSelectPabrik';
+import ModalSelectJenisBarang from './ModalSelectJenisBarang';
+import useUserStore from '../../../stores/user/UserStore';
+import UserModel from '../../../models/UserModel';
+import ModalSelectCabang from './ModalSelectCabang';
+import ModalSelectKadar from './ModalSelectKadar';
+
+const KADAR = ['muda', 'tua'];
 
 class MenuOrderBuyScreen extends React.PureComponent {
   constructor(props) {
@@ -25,17 +34,60 @@ class MenuOrderBuyScreen extends React.PureComponent {
     this.state = {
       topMenuSelected: 0,
       modalVisible: false,
+      modalVisibleJenis: false,
+      modalCabangVisible: false,
+      modalKadarVisible: false,
+      pabrikSelected: undefined,
+      jenisSelected: undefined,
       cabangSelected: undefined,
+      kadarSelected: undefined,
     };
   }
 
   componentDidMount(): void {
+    const {getPabrik, getJenisBarang} = this.props;
+    getPabrik();
+    getJenisBarang();
+
     this.onRefresh();
   }
 
   onRefresh = () => {
     const {getPesanBeli} = this.props;
-    getPesanBeli();
+    const {pabrikSelected, kadarSelected, jenisSelected, cabangSelected} =
+      this.state;
+
+    let params = {};
+
+    if (pabrikSelected?.nama_pabrik) {
+      params = {
+        ...params,
+        id_pabrik: pabrikSelected?.id_pabrik,
+      };
+    }
+
+    if (jenisSelected?.kd_barang) {
+      params = {
+        ...params,
+        jenis_barang: jenisSelected?.kd_barang,
+      };
+    }
+
+    if (cabangSelected) {
+      params = {
+        ...params,
+        kd_toko: cabangSelected?.kd_toko,
+      };
+    }
+
+    if (kadarSelected) {
+      params = {
+        ...params,
+        kadar: kadarSelected,
+      };
+    }
+
+    getPesanBeli(params);
   };
 
   navigate = () => {
@@ -54,30 +106,159 @@ class MenuOrderBuyScreen extends React.PureComponent {
   };
 
   render(): React.ReactNode {
-    const {loading, pesanBeli} = this.props;
+    const {loading, pesanBeli, pabrikList, jenisBarang, cabang} = this.props;
     const pesanBeliLists = pesanBeli || [];
-
-    if (pesanBeli?.length === 0 && loading) {
-      return (
-        <View style={styles.container}>
-          <View style={styles.flexCenter}>
-            <ActivityIndicator size={'large'} color={Colors.primary} />
-            <Text color={Colors.primary}>Loading data</Text>
-          </View>
-        </View>
-      );
-    }
+    const {
+      pabrikSelected,
+      jenisSelected,
+      kadarSelected,
+      cabangSelected,
+      modalCabangVisible,
+    } = this.state;
+    const pabrikLists = pabrikList?.length ? pabrikList : [];
 
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
-        <Spacer height={30} />
-        <View style={{paddingHorizontal: scale(20)}}>
-          <Text size={16} family="bold">
-            Pesan Beli
-          </Text>
-        </View>
         <Spacer height={20} />
+
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginHorizontal: scale(20),
+          }}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() =>
+              this.setState({modalCabangVisible: true}, () =>
+                this.props.getCabang(),
+              )
+            }
+            style={styles.searchWrapper}>
+            <View
+              style={{
+                width: cabangSelected?.nama_toko ? scale(50) : scale(75),
+              }}>
+              <Text numberOfLines={1}>
+                {cabangSelected ? cabangSelected?.nama_toko : 'Cari Cabang'}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image source={Images.iconFilter} style={styles.dropdown} />
+              {cabangSelected?.kd_toko ? (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() =>
+                    this.setState({cabangSelected: undefined}, () => {
+                      setTimeout(() => {
+                        this.onRefresh();
+                      }, 500);
+                    })
+                  }>
+                  <Image source={Images.iconClose} style={styles.close} />
+                </TouchableOpacity>
+              ) : null}
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => this.setState({modalVisibleJenis: true})}
+            style={styles.searchWrapper}>
+            <View
+              style={{
+                width: jenisSelected?.nama_jenis_barang ? scale(50) : scale(75),
+              }}>
+              <Text numberOfLines={1}>
+                {jenisSelected
+                  ? jenisSelected?.nama_jenis_barang
+                  : 'Jenis Barang'}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image source={Images.iconFilter} style={styles.dropdown} />
+              {jenisSelected?.nama_jenis_barang ? (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() =>
+                    this.setState({jenisSelected: undefined}, () => {
+                      setTimeout(() => {
+                        this.onRefresh();
+                      }, 500);
+                    })
+                  }>
+                  <Image source={Images.iconClose} style={styles.close} />
+                </TouchableOpacity>
+              ) : null}
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginHorizontal: scale(20),
+          }}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => this.setState({modalVisible: true})}
+            style={styles.searchWrapper}>
+            <View
+              style={{
+                width: pabrikSelected?.nama_pabrik ? scale(50) : scale(75),
+              }}>
+              <Text numberOfLines={1}>
+                {pabrikSelected ? pabrikSelected?.nama_pabrik : 'Cari Pabrik'}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image source={Images.iconFilter} style={styles.dropdown} />
+              {pabrikSelected?.id_pabrik ? (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() =>
+                    this.setState({pabrikSelected: undefined}, () => {
+                      setTimeout(() => {
+                        this.onRefresh();
+                      }, 500);
+                    })
+                  }>
+                  <Image source={Images.iconClose} style={styles.close} />
+                </TouchableOpacity>
+              ) : null}
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => this.setState({modalKadarVisible: true})}
+            style={styles.searchWrapper}>
+            <View
+              style={{
+                width: kadarSelected ? scale(50) : scale(75),
+              }}>
+              <Text numberOfLines={1} textTransform="capitalize">
+                {kadarSelected ? kadarSelected : 'Kadar'}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image source={Images.iconDropdown} style={styles.dropdown} />
+              {kadarSelected ? (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() =>
+                    this.setState({kadarSelected: undefined}, () => {
+                      setTimeout(() => {
+                        this.onRefresh();
+                      }, 500);
+                    })
+                  }>
+                  <Image source={Images.iconClose} style={styles.close} />
+                </TouchableOpacity>
+              ) : null}
+            </View>
+          </TouchableOpacity>
+        </View>
         <FlatList
           data={pesanBeliLists}
           renderItem={({item, index}) => (
@@ -117,6 +298,45 @@ class MenuOrderBuyScreen extends React.PureComponent {
             return null;
           }}
         />
+
+        <ModalSelectPabrik
+          pabrik={pabrikLists}
+          modalVisible={this.state.modalVisible}
+          onHide={() => this.setState({modalVisible: false})}
+          onSelected={p =>
+            this.setState({pabrikSelected: p}, () => {
+              this.onRefresh();
+            })
+          }
+        />
+        <ModalSelectJenisBarang
+          jenisBarang={jenisBarang || []}
+          modalVisible={this.state.modalVisibleJenis}
+          onHide={() => this.setState({modalVisibleJenis: false})}
+          onSelected={c =>
+            this.setState({jenisSelected: c}, () => this.onRefresh())
+          }
+        />
+
+        <ModalSelectCabang
+          cabang={cabang}
+          modalVisible={modalCabangVisible}
+          onHide={() => this.setState({modalCabangVisible: false})}
+          onSelected={c =>
+            this.setState({cabangSelected: c}, () => {
+              setTimeout(() => {
+                this.onRefresh();
+              }, 500);
+            })
+          }
+        />
+
+        <ModalSelectKadar
+          kadar={KADAR}
+          modalVisible={this.state.modalKadarVisible}
+          onHide={() => this.setState({modalKadarVisible: false})}
+          onSelected={c => this.setState({kadarSelected: c}, this.onRefresh)}
+        />
       </View>
     );
   }
@@ -153,14 +373,48 @@ const styles = StyleSheet.create({
   padding: {
     paddingVertical: scale(5),
   },
+  searchWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.border,
+    marginBottom: scale(10),
+    paddingVertical: scale(10),
+    paddingHorizontal: scale(20),
+    borderRadius: scale(10),
+    width: scale(155),
+  },
+  dropdown: {
+    width: scale(20),
+    height: scale(20),
+  },
+  close: {
+    tintColor: 'red',
+    width: scale(17),
+    height: scale(17),
+    marginLeft: scale(20),
+  },
 });
 
 const purchaseSelector = (state: PurchaseModel) => ({
-  getPesanBeli: () => state.getPesanBeli(),
+  getPesanBeli: (params: any) => state.getPesanBeli(params),
   pesanBeli: state.pesanBeli,
   loading: state.loading,
+  getPabrik: () => state.getPabrik(),
+  pabrikList: state.pabrikList,
 });
 
-const stores = [{store: usePurchaseStore, selector: purchaseSelector}];
+const userSelector = (state: UserModel) => ({
+  getCabang: () => state.getCabang(),
+  cabang: state.cabang,
+  getJenisBarang: () => state.getJenisBarang(),
+  jenisBarang: state.jenisBarang,
+});
+
+const stores = [
+  {store: usePurchaseStore, selector: purchaseSelector},
+  {store: useUserStore, selector: userSelector},
+];
 
 export default connect(stores)(MenuOrderBuyScreen);

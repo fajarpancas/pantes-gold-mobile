@@ -215,8 +215,8 @@ class ApiServices {
     return this.api.post('/pusat/penawaran/publish', body);
   }
 
-  getPesanBeli(): Promise<any> {
-    return this.api.get('/pusat/penawaran-rekap');
+  getPesanBeli(params: any): Promise<any> {
+    return this.api.get('/pusat/penawaran-rekap', params);
   }
 
   getPesanBeliDetail(params: {kd_produk: string}): Promise<any> {
@@ -238,8 +238,8 @@ class ApiServices {
     return this.api.post('/pusat/order/submit', params);
   }
 
-  getPesanCuci(): Promise<any> {
-    return this.api.get('/pusat/order-cuci');
+  getPesanCuci(params: any): Promise<any> {
+    return this.api.get('/pusat/order-cuci', params);
   }
 
   submitPesanCuci(params: any): Promise<any> {

@@ -30,27 +30,41 @@ class MenuBuyScreen extends React.PureComponent {
   }
 
   componentDidMount(): void {
-    this.onRefresh();
+    this.onRefresh(1);
   }
 
-  onRefresh = () => {
+  onRefresh = (page: number) => {
     const {getPesanCuci} = this.props;
-    getPesanCuci();
+    const params = {
+      page,
+    };
+    getPesanCuci(params);
   };
 
   navigate = () => {
     NavigationServices.navigate('OrderScreen', {});
   };
 
+  onLoadMore = () => {
+    const {loading, pesanCuci} = this.props;
+
+    if (!loading && pesanCuci?.current_page < pesanCuci?.last_page) {
+      this.onRefresh(pesanCuci?.current_page + 1);
+    }
+  };
+
   renderLoading = () => {
-    return (
-      <View style={styles.container}>
+    const {loading, pesanCuci} = this.props;
+    if (loading && pesanCuci?.current_page) {
+      return (
         <View style={styles.flexCenter}>
-          <ActivityIndicator size={'large'} color={Colors.primary} />
-          <Text color={Colors.primary}>Loading data</Text>
+          <Spacer height={10} />
+          <ActivityIndicator size={'small'} color={Colors.primary} />
+          <Spacer height={10} />
         </View>
-      </View>
-    );
+      );
+    }
+    return null;
   };
 
   render(): React.ReactNode {
@@ -81,8 +95,15 @@ class MenuBuyScreen extends React.PureComponent {
               : styles.emptyContainer
           }
           refreshing={loading}
-          onRefresh={this.onRefresh}
+          onRefresh={() => this.onRefresh(1)}
           numColumns={3}
+          onEndReachedThreshold={1}
+          onEndReached={(distance: any) => {
+            console.tron.log('onEndReached ', distance);
+            if (distance.distanceFromEnd > 110) {
+              this.onLoadMore();
+            }
+          }}
           ListEmptyComponent={() => {
             if (!loading) {
               return (
@@ -97,6 +118,7 @@ class MenuBuyScreen extends React.PureComponent {
             }
             return null;
           }}
+          ListFooterComponent={this.renderLoading}
         />
 
         <FloatingAdd
@@ -140,7 +162,7 @@ const styles = StyleSheet.create({
 });
 
 const purchaseSelector = (state: PurchaseModel) => ({
-  getPesanCuci: () => state.getPesanCuci(),
+  getPesanCuci: (params: any) => state.getPesanCuci(params),
   pesanCuci: state.pesanCuci,
   loading: state.loading,
 });

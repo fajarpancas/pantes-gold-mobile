@@ -78,7 +78,7 @@ interface PurchaseModel extends StoreModel {
     callback: (data: any) => void,
   ) => void;
   publishOffer: (params: PublishOfferParams, callback: () => void) => void;
-  getPesanBeli: () => void;
+  getPesanBeli: (params: any) => void;
   pesanBeli: any[];
   getPesanBeliDetail: (
     params: {kd_produk: string},
@@ -87,7 +87,7 @@ interface PurchaseModel extends StoreModel {
   submitQtyPesanBeli: (params: any, callback: () => void) => void;
   getPurchaseOrderDetail: (params: any, callback: (data: any) => void) => void;
   submitPurchaseOrder: (parmas: any, callback: () => void) => void;
-  getPesanCuci: () => void;
+  getPesanCuci: (params: any) => void;
   pesanCuci: {
     current_page: 1;
     data: PesanCuci[];

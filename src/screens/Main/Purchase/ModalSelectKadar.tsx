@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   Image,
   Modal,
   ScrollView,
@@ -14,17 +15,15 @@ import {scale} from '../../../services/Scale';
 import Colors from '../../../themes/Colors';
 
 type Props = {
-  pabrik: {
-    id_pabrik: number;
-    nama_pabrik: string;
-  }[];
+  kadar: string[];
   modalVisible: boolean;
   onHide: () => void;
-  onSelected: (c: {id_pabrik: number; nama_pabrik: string}) => void;
+  onSelected: (c: string) => void;
+  loading?: Boolean;
 };
 
-const ModalSelectPabrik: React.FC<Props> = props => {
-  const {pabrik, modalVisible, onHide, onSelected} = props;
+const ModalSelectKadar: React.FC<Props> = props => {
+  const {kadar, modalVisible, onHide, onSelected, loading} = props;
 
   return (
     <Modal visible={modalVisible} animationType="slide" transparent>
@@ -34,7 +33,7 @@ const ModalSelectPabrik: React.FC<Props> = props => {
           <Spacer height={20} />
           <View style={styles.selectCabangHeader}>
             <Text size={16} family="bold">
-              Pilih Pabrik
+              Pilih Kadar
             </Text>
             <TouchableOpacity onPress={onHide}>
               <Image
@@ -44,23 +43,29 @@ const ModalSelectPabrik: React.FC<Props> = props => {
             </TouchableOpacity>
           </View>
 
+          <Spacer height={15} />
+
           <Spacer height={20} />
-          <ScrollView style={{paddingHorizontal: scale(20)}}>
-            {pabrik?.length
-              ? pabrik.map(p => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        onSelected(p);
-                        onHide();
-                      }}
-                      style={styles.cabangItem}>
-                      <Text> {p.nama_pabrik}</Text>
-                    </TouchableOpacity>
-                  );
-                })
-              : null}
-          </ScrollView>
+          {loading ? (
+            <ActivityIndicator color={Colors.primary} />
+          ) : (
+            <ScrollView style={{paddingHorizontal: scale(20)}}>
+              {kadar?.length
+                ? kadar.map(c => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          onSelected(c);
+                          onHide();
+                        }}
+                        style={styles.cabangItem}>
+                        <Text textTransform="capitalize">{c}</Text>
+                      </TouchableOpacity>
+                    );
+                  })
+                : null}
+            </ScrollView>
+          )}
           <Spacer height={40} />
         </View>
       </View>
@@ -113,4 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ModalSelectPabrik;
+export default ModalSelectKadar;

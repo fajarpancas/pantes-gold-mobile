@@ -2,7 +2,6 @@ import produce from 'immer';
 import ApiServices from '../../services/ApiServices';
 import PurchaseModel from '../../models/PurchaseModel';
 import {CreateOffer} from './PurchaseTypes';
-import {purchaseStore} from './PurchaseStore';
 import {
   CreateOrderParams,
   GetOrderListParams,
@@ -32,7 +31,17 @@ const PurchaseActions = (set, get) => {
                 ) {
                   state.purchaseOrderCuci = response.data.data;
                 } else {
-                  state.purchaseOrder = response.data.data;
+                  const tempData = state.purchaseOrder?.data;
+                  let newData = response?.data?.data?.data;
+
+                  if (params?.page > 1) {
+                    newData = tempData?.concat(newData);
+                  }
+
+                  state.purchaseOrder = {
+                    ...response.data.data,
+                    data: newData,
+                  };
                 }
               }
             }),
@@ -229,14 +238,14 @@ const PurchaseActions = (set, get) => {
         );
       }
     },
-    getPesanBeli: async () => {
+    getPesanBeli: async (params: any) => {
       set(
         produce((state: PurchaseModel) => {
           state.loading = true;
         }),
       );
       try {
-        const response = await ApiServices.getPesanBeli();
+        const response = await ApiServices.getPesanBeli(params);
         if (response.ok) {
           set(
             produce((state: PurchaseModel) => {
@@ -420,19 +429,29 @@ const PurchaseActions = (set, get) => {
         );
       }
     },
-    getPesanCuci: async () => {
+    getPesanCuci: async (params: any) => {
       set(
         produce((state: PurchaseModel) => {
           state.loading = true;
         }),
       );
       try {
-        const response = await ApiServices.getPesanCuci();
+        const response = await ApiServices.getPesanCuci(params);
         if (response.ok) {
           set(
             produce((state: PurchaseModel) => {
+              const tempData = state.pesanCuci?.data;
+              let newData = response?.data?.data?.data;
+
+              if (params?.page > 1) {
+                newData = tempData?.concat(newData);
+              }
+
               state.loading = false;
-              state.pesanCuci = response?.data?.data;
+              state.pesanCuci = {
+                ...response.data.data,
+                data: newData,
+              };
             }),
           );
         } else {
