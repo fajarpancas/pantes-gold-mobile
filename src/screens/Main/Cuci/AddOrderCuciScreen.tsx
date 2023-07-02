@@ -583,7 +583,7 @@ const userSelector = (state: UserModel) => ({
 const purchaseSelector = (state: PurchaseModel) => ({
   createOrderCuci: (params: CreateOrderParams, callback: () => void) =>
     state.createOrderCuci(params, callback),
-  getOrderCuciList: (params: any) => state.getOrderCuciList(params),
+  getOrderCuciList: () => state.getOrderCuciList({per_page: 20, page: 1}),
   loading: state.loading,
 });
 

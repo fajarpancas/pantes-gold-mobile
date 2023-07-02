@@ -448,7 +448,7 @@ const styles = StyleSheet.create({
 });
 
 const purchaseSelector = (state: PurchaseModel) => ({
-  getPusatPesanCuci: (params: string) => state.getPusatPesanCuci(params),
+  getPusatPesanCuci: () => state.getPusatPesanCuci({per_page: 20, page: 1}),
   getPusatPesanCuciDetail: (
     params: {idOrderCuci: string},
     callback: (response: any) => void,

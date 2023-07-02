@@ -160,7 +160,7 @@ class PurchaseOfferDetailScreen extends React.PureComponent {
             <View style={styles.rowBetween}>
               <Text family="bold">Jenis</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                {offerDetail?.jenis}
+                {offerDetail?.jenis || '-'}
               </Text>
             </View>
             <Spacer height={5} />

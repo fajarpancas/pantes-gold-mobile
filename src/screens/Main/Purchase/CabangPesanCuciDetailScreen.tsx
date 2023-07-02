@@ -470,7 +470,7 @@ const purchaseSelector = (state: PurchaseModel) => ({
     state.submitCabangPesanCuci(params, callback),
   getCabangPesanCuciDetail: (params: any, callback: () => void) =>
     state.getCabangPesanCuciDetail(params, callback),
-  getCabangPesanCuci: (params: string) => state.getCabangPesanCuci(params),
+  getCabangPesanCuci: () => state.getCabangPesanCuci({per_page: 20, page: 1}),
 });
 
 const stores = [{store: usePurchaseStore, selector: purchaseSelector}];

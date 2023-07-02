@@ -27,6 +27,9 @@ import usePurchaseStore from '../../../stores/purchase/PurchaseStore';
 import PurchaseModel from '../../../models/PurchaseModel';
 import CustomDatePicker from '../../../components/DatePicker';
 import dayjs from 'dayjs';
+import UserModel from '../../../models/UserModel';
+import useUserStore from '../../../stores/user/UserStore';
+import ModalSelectJenisBarang from './ModalSelectJenisBarang';
 
 type ImageResponse = {
   path: string;
@@ -66,6 +69,7 @@ class AddPesanCuci extends React.PureComponent {
       successModal: false,
       selectModalVisible: false,
       modalVisible: false,
+      modalJenisVisible: false,
     };
 
     this.schema = Yup.object().shape({
@@ -74,11 +78,16 @@ class AddPesanCuci extends React.PureComponent {
       noPesan: Yup.string().required('Nomor pesan harus diisi'),
       tgl: Yup.string(),
       type: Yup.string().required('Kadar harus dipilih'),
-      jenis: Yup.string().required('Jenis barang harus diisi'),
+      jenis: Yup.object().required('Jenis barang harus diisi'),
       qty: Yup.number()
         .min(1, 'Berat emas hanya boleh angka dan lebih dari 0')
         .required('Berat barang harus diisi'),
     });
+  }
+
+  componentDidMount(): void {
+    const {getJenisBarang} = this.props;
+    getJenisBarang();
   }
 
   onPressCamera = () => {
@@ -147,7 +156,7 @@ class AddPesanCuci extends React.PureComponent {
         nama_barang: props.productName,
         tgl_pesan: dayjs(props.tgl).format('YYYY-MM-DD HH:mm:ss'),
         kadar: props.type,
-        jenis_barang: props.jenis,
+        jenis_barang: props.jenis?.kd_barang,
         qty: props.qty,
         url_foto: `data:image/jpeg;base64,${photo?.data}`,
       };
@@ -308,20 +317,22 @@ class AddPesanCuci extends React.PureComponent {
           ) : null}
 
           <Spacer height={15} />
-          <LabelTextInput label="Jenis Barang" size={12} />
+          <LabelTextInput label="Jenis barang" size={12} />
           <Spacer height={5} />
-          <View style={styles.textInputWrapper}>
-            <TextInput
-              style={[
-                styles.textInput,
-                {width: scale(320), borderRadius: scale(8)},
-              ]}
-              defaultValue={props.values.jenis}
-              placeholder="Masukkan nama jenis barang"
-              placeholderTextColor={Colors.placeholder}
-              onChangeText={text => props.setFieldValue('jenis', text)}
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => this.setState({modalJenisVisible: true})}
+            style={styles.selectCabang}>
+            <Text>
+              {props.values.jenis?.nama_jenis_barang || 'Pilih jenis barang'}
+            </Text>
+            <Image
+              source={Images.iconDropdown}
+              style={{width: scale(24), height: scale(24)}}
             />
-          </View>
+          </TouchableOpacity>
+
           {props.errors.jenis ? (
             <Text color={'red'} size={10}>
               {props.errors.jenis}
@@ -412,6 +423,13 @@ class AddPesanCuci extends React.PureComponent {
             </View>
           </View>
         </Modal>
+
+        <ModalSelectJenisBarang
+          jenisBarang={this.props.jenisBarang || []}
+          modalVisible={this.state.modalJenisVisible}
+          onHide={() => this.setState({modalJenisVisible: false})}
+          onSelected={c => props.setFieldValue('jenis', c)}
+        />
       </View>
     );
   };
@@ -554,15 +572,34 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  selectCabang: {
+    flexDirection: 'row',
+    backgroundColor: Colors.white,
+    height: scale(45),
+    borderRadius: scale(8),
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: scale(20),
+    borderWidth: 1,
+    borderColor: Colors.outlineBase,
+  },
 });
 
 const purchaseSelector = (state: PurchaseModel) => ({
   submitPesanCuci: (params: any, callback: () => void) =>
     state.submitPesanCuci(params, callback),
-  getPesanCuci: () => state.getPesanCuci(),
+  getPesanCuci: () => state.getPesanCuci({per_page: 20, page: 1}),
   loading: state.loading,
 });
 
-const stores = [{store: usePurchaseStore, selector: purchaseSelector}];
+const userSelector = (state: UserModel) => ({
+  getJenisBarang: () => state.getJenisBarang(),
+  jenisBarang: state.jenisBarang,
+});
+
+const stores = [
+  {store: usePurchaseStore, selector: purchaseSelector},
+  {store: useUserStore, selector: userSelector},
+];
 
 export default connect(stores)(AddPesanCuci);

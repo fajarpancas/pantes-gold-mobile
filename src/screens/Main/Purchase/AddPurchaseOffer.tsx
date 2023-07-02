@@ -27,6 +27,9 @@ import usePurchaseStore from '../../../stores/purchase/PurchaseStore';
 import {CreateOffer} from '../../../stores/purchase/PurchaseTypes';
 import PurchaseModel from '../../../models/PurchaseModel';
 import ModalSelectPabrik from './ModalSelectPabrik';
+import useUserStore from '../../../stores/user/UserStore';
+import UserModel from '../../../models/UserModel';
+import ModalSelectJenisBarang from './ModalSelectJenisBarang';
 
 type ImageResponse = {
   path: string;
@@ -68,6 +71,7 @@ class AddPurchaseOffer extends React.PureComponent {
       successModal: false,
       selectModalVisible: false,
       modalVisible: false,
+      modalJenisVisible: false,
     };
 
     this.schema = Yup.object().shape({
@@ -76,7 +80,7 @@ class AddPurchaseOffer extends React.PureComponent {
       pabrik: Yup.object().required('Pabrik harus diisi'),
       collection: Yup.string().required('Koleksi harus diisi'),
       type: Yup.string().required('Kadar harus dipilih'),
-      jenis: Yup.string().required('Jenis barang harus diisi'),
+      jenis: Yup.object().required('Jenis barang harus diisi'),
       weight: Yup.string()
         .min(1, 'Berat emas hanya boleh angka dan lebih dari 0')
         .required('Berat barang harus diisi'),
@@ -85,8 +89,9 @@ class AddPurchaseOffer extends React.PureComponent {
   }
 
   componentDidMount(): void {
-    const {getPabrik} = this.props;
+    const {getPabrik, getJenisBarang} = this.props;
     getPabrik();
+    getJenisBarang();
   }
 
   onPressCamera = () => {
@@ -155,8 +160,8 @@ class AddPurchaseOffer extends React.PureComponent {
         keterangan_produk: props.productName,
         deskripsi: props.info,
         koleksi: props.collection,
-        kadar: props.kadar,
-        jenis_barang: props.jenis,
+        kadar: props.type,
+        jenis_barang: props.jenis?.kd_barang,
         berat: props.weight,
         url_foto: `data:image/jpeg;base64,${photo?.data}`,
       };
@@ -170,7 +175,7 @@ class AddPurchaseOffer extends React.PureComponent {
 
   renderForm = (props: any) => {
     const {photo, modalVisible} = this.state;
-    const {pabrikList} = this.props;
+    const {pabrikList, jenisBarang} = this.props;
     const pabrikLists = pabrikList?.length ? pabrikList : [];
 
     return (
@@ -334,20 +339,22 @@ class AddPurchaseOffer extends React.PureComponent {
           ) : null}
 
           <Spacer height={15} />
-          <LabelTextInput label="Jenis Barang" size={12} />
+          <LabelTextInput label="Jenis barang" size={12} />
           <Spacer height={5} />
-          <View style={styles.textInputWrapper}>
-            <TextInput
-              style={[
-                styles.textInput,
-                {width: scale(320), borderRadius: scale(8)},
-              ]}
-              defaultValue={props.values.jenis}
-              placeholder="Masukkan nama jenis barang"
-              placeholderTextColor={Colors.placeholder}
-              onChangeText={text => props.setFieldValue('jenis', text)}
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => this.setState({modalJenisVisible: true})}
+            style={styles.selectCabang}>
+            <Text>
+              {props.values.jenis?.nama_jenis_barang || 'Pilih jenis barang'}
+            </Text>
+            <Image
+              source={Images.iconDropdown}
+              style={{width: scale(24), height: scale(24)}}
             />
-          </View>
+          </TouchableOpacity>
+
           {props.errors.jenis ? (
             <Text color={'red'} size={10}>
               {props.errors.jenis}
@@ -465,6 +472,12 @@ class AddPurchaseOffer extends React.PureComponent {
           onHide={() => this.setState({modalVisible: false})}
           onSelected={p => props.setFieldValue('pabrik', p)}
         />
+        <ModalSelectJenisBarang
+          jenisBarang={jenisBarang || []}
+          modalVisible={this.state.modalJenisVisible}
+          onHide={() => this.setState({modalJenisVisible: false})}
+          onSelected={c => props.setFieldValue('jenis', c)}
+        />
       </View>
     );
   };
@@ -504,6 +517,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
+  },
+  selectCabang: {
+    flexDirection: 'row',
+    backgroundColor: Colors.white,
+    height: scale(45),
+    borderRadius: scale(8),
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: scale(20),
+    borderWidth: 1,
+    borderColor: Colors.outlineBase,
   },
   modalBackground: {
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -610,7 +634,7 @@ const styles = StyleSheet.create({
 });
 
 const purchaseSelector = (state: PurchaseModel) => ({
-  getPurchaseOffer: () => state.getPurchaseOffer(),
+  getPurchaseOffer: () => state.getPurchaseOffer({per_page: 20, page: 1}),
   createPurchaseOffer: (params: CreateOffer, callback: () => void) =>
     state.createPurchaseOffer(params, callback),
   loading: state.loading,
@@ -618,6 +642,14 @@ const purchaseSelector = (state: PurchaseModel) => ({
   pabrikList: state.pabrikList,
 });
 
-const stores = [{store: usePurchaseStore, selector: purchaseSelector}];
+const userSelector = (state: UserModel) => ({
+  getJenisBarang: () => state.getJenisBarang(),
+  jenisBarang: state.jenisBarang,
+});
+
+const stores = [
+  {store: usePurchaseStore, selector: purchaseSelector},
+  {store: useUserStore, selector: userSelector},
+];
 
 export default connect(stores)(AddPurchaseOffer);
