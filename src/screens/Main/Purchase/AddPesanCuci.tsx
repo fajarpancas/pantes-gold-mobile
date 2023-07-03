@@ -25,11 +25,12 @@ import {connect} from '../../../services/ZustandHelper';
 import {openImagePicker} from '../../../services/ImagePickerHelper';
 import usePurchaseStore from '../../../stores/purchase/PurchaseStore';
 import PurchaseModel from '../../../models/PurchaseModel';
-import CustomDatePicker from '../../../components/DatePicker';
 import dayjs from 'dayjs';
 import UserModel from '../../../models/UserModel';
 import useUserStore from '../../../stores/user/UserStore';
 import ModalSelectJenisBarang from './ModalSelectJenisBarang';
+import ColorSelection from '../../../components/ColorSelection';
+import CustomDatePicker from '../../../components/DatePicker';
 
 type ImageResponse = {
   path: string;
@@ -58,6 +59,7 @@ class AddPesanCuci extends React.PureComponent {
         type: '',
         jenis: '',
         qty: '',
+        warna: '',
       };
 
   constructor(props: any) {
@@ -80,8 +82,9 @@ class AddPesanCuci extends React.PureComponent {
       type: Yup.string().required('Kadar harus dipilih'),
       jenis: Yup.object().required('Jenis barang harus diisi'),
       qty: Yup.number()
-        .min(1, 'Berat emas hanya boleh angka dan lebih dari 0')
+        .min(0.000001, 'Berat emas hanya boleh angka dan lebih dari 0')
         .required('Berat barang harus diisi'),
+      warna: Yup.string().required('Warna harus dipilih'),
     });
   }
 
@@ -156,6 +159,7 @@ class AddPesanCuci extends React.PureComponent {
         nama_barang: props.productName,
         tgl_pesan: dayjs(props.tgl).format('YYYY-MM-DD HH:mm:ss'),
         kadar: props.type,
+        warna: props.warna,
         jenis_barang: props.jenis?.kd_barang,
         qty: props.qty,
         url_foto: `data:image/jpeg;base64,${photo?.data}`,
@@ -315,6 +319,15 @@ class AddPesanCuci extends React.PureComponent {
               {props.errors.type}
             </Text>
           ) : null}
+
+          <Spacer height={15} />
+          <LabelTextInput label="Warna" size={12} />
+          <Spacer height={5} />
+          <ColorSelection
+            value={props.values.warna}
+            onSelect={val => props.setFieldValue('warna', val)}
+            error={props.errors.warna}
+          />
 
           <Spacer height={15} />
           <LabelTextInput label="Jenis barang" size={12} />

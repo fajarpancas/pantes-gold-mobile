@@ -154,6 +154,16 @@ class PesanCuciDetailScreen extends React.PureComponent {
             <Spacer height={10} />
 
             <View style={styles.rowBetween}>
+              <Text family="bold">Warna</Text>
+              <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                {dataDetail?.warna || '-'}
+              </Text>
+            </View>
+            <Spacer height={5} />
+            <View style={styles.border} />
+            <Spacer height={10} />
+
+            <View style={styles.rowBetween}>
               <Text family="bold">Jenis Barang</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>
                 {dataDetail?.jenis_barang}
@@ -371,7 +381,7 @@ const purchaseSelector = (state: PurchaseModel) => ({
     params: {idOrderCuci: string},
     callback: (response: any) => void,
   ) => state.getPesanCuciDetail(params, callback),
-  getPesanCuci: () => state.getPesanCuci(),
+  getPesanCuci: () => state.getPesanCuci({page: 1, per_page: 20}),
   submitTerimaPesanCuci: (params: any, callback: () => void) =>
     state.submitTerimaPesanCuci(params, callback),
   loading: state.loading,

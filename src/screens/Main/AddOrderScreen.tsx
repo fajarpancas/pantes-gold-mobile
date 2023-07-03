@@ -29,6 +29,7 @@ import useUserStore from '../../stores/user/UserStore';
 import {openImagePicker} from '../../services/ImagePickerHelper';
 import {sessionStore} from '../../stores/session/SessionStore';
 import ModalSelectJenisBarang from './Purchase/ModalSelectJenisBarang';
+import ColorSelection from '../../components/ColorSelection';
 
 type ImageResponse = {
   path: string;
@@ -55,10 +56,11 @@ class AddOrderScreen extends React.PureComponent {
     this.schema = Yup.object().shape({
       kadar: Yup.string().required('Kadar emas harus diisi'),
       weight: Yup.number()
-        .min(1, 'Nilai berat emas hanya boleh angka dan lebih dari 0')
+        .min(0.0001, 'Nilai berat emas hanya boleh angka dan lebih dari 0')
         .required('Berat emas harus diisi'),
       name: Yup.string().required('Nama barang harus dipilih'),
       jenisBarang: Yup.object().required('Jenis barang harus dipilih'),
+      warna: Yup.string().required('Warna harus dipilih'),
     });
   }
 
@@ -133,6 +135,7 @@ class AddOrderScreen extends React.PureComponent {
         berat: parseFloat(props.weight),
         kadar: props.kadar,
         nama_barang: props.name,
+        warna: props.warna,
         qty: this.state.qty,
         kd_barang: props.jenisBarang?.kd_barang,
         url_foto: `data:image/jpeg;base64,${this.state.photo?.data}`,
@@ -265,6 +268,15 @@ class AddOrderScreen extends React.PureComponent {
           ) : null}
 
           <Spacer height={15} />
+          <LabelTextInput label="Warna" size={12} />
+          <Spacer height={5} />
+          <ColorSelection
+            value={props.values.warna}
+            onSelect={val => props.setFieldValue('warna', val)}
+            error={props.errors.warna}
+          />
+
+          <Spacer height={15} />
           <LabelTextInput label="Jenis barang" size={12} />
           <Spacer height={5} />
 
@@ -296,8 +308,12 @@ class AddOrderScreen extends React.PureComponent {
               style={styles.textInput}
               placeholder="Masukkan berat emas"
               placeholderTextColor={Colors.placeholder}
+              defaultValue={props.values.weight}
               keyboardType="number-pad"
-              onChangeText={text => props.setFieldValue('weight', text)}
+              onChangeText={text => {
+                const parse = text?.replace(',', '.');
+                props.setFieldValue('weight', parse);
+              }}
             />
             <View style={styles.rightLabel}>
               <Text family="bold" color={Colors.primary}>

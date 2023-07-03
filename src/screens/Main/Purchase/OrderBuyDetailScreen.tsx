@@ -166,6 +166,19 @@ class OrderBuyDetailScreen extends React.PureComponent {
             <Spacer height={5} />
             <View style={styles.border} />
             <Spacer height={10} />
+            {orderBuyDetail?.warna ? (
+              <>
+                <View style={styles.rowBetween}>
+                  <Text family="bold">Warna</Text>
+                  <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                    {orderBuyDetail?.warna}
+                  </Text>
+                </View>
+                <Spacer height={5} />
+                <View style={styles.border} />
+                <Spacer height={10} />
+              </>
+            ) : null}
           </View>
           <Spacer height={20} />
 

@@ -30,6 +30,7 @@ import ModalSelectPabrik from './ModalSelectPabrik';
 import useUserStore from '../../../stores/user/UserStore';
 import UserModel from '../../../models/UserModel';
 import ModalSelectJenisBarang from './ModalSelectJenisBarang';
+import ColorSelection from '../../../components/ColorSelection';
 
 type ImageResponse = {
   path: string;
@@ -60,6 +61,7 @@ class AddPurchaseOffer extends React.PureComponent {
         jenis: '',
         weight: '',
         info: '',
+        warna: '',
       };
 
   constructor(props: any) {
@@ -82,9 +84,10 @@ class AddPurchaseOffer extends React.PureComponent {
       type: Yup.string().required('Kadar harus dipilih'),
       jenis: Yup.object().required('Jenis barang harus diisi'),
       weight: Yup.string()
-        .min(1, 'Berat emas hanya boleh angka dan lebih dari 0')
+        .min(0.0001, 'Berat emas hanya boleh angka dan lebih dari 0')
         .required('Berat barang harus diisi'),
       info: Yup.string().required('Keterangan harus diisi'),
+      warna: Yup.string().required('Warna harus dipilih'),
     });
   }
 
@@ -161,6 +164,7 @@ class AddPurchaseOffer extends React.PureComponent {
         deskripsi: props.info,
         koleksi: props.collection,
         kadar: props.type,
+        warna: props.warna,
         jenis_barang: props.jenis?.kd_barang,
         berat: props.weight,
         url_foto: `data:image/jpeg;base64,${photo?.data}`,
@@ -339,6 +343,15 @@ class AddPurchaseOffer extends React.PureComponent {
           ) : null}
 
           <Spacer height={15} />
+          <LabelTextInput label="Warna" size={12} />
+          <Spacer height={5} />
+          <ColorSelection
+            value={props.values.warna}
+            onSelect={val => props.setFieldValue('warna', val)}
+            error={props.errors.warna}
+          />
+
+          <Spacer height={15} />
           <LabelTextInput label="Jenis barang" size={12} />
           <Spacer height={5} />
 
@@ -373,7 +386,10 @@ class AddPurchaseOffer extends React.PureComponent {
               defaultValue={props.values.weight}
               placeholder="Masukkan berat barang"
               placeholderTextColor={Colors.placeholder}
-              onChangeText={text => props.setFieldValue('weight', text)}
+              onChangeText={text => {
+                const parse = text?.replace(',', '.');
+                props.setFieldValue('weight', parse);
+              }}
             />
           </View>
           {props.errors.weight ? (

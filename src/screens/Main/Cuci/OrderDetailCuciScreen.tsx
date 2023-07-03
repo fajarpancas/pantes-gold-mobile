@@ -130,6 +130,21 @@ class OrderDetailCuciScreen extends React.PureComponent {
                 </Text>
               </View>
 
+              {orderDetail?.warna ? (
+                <>
+                  <Spacer height={5} />
+                  <View style={styles.border} />
+                  <Spacer height={10} />
+
+                  <View style={styles.rowBetween}>
+                    <Text family="bold">Warna</Text>
+                    <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                      {orderDetail?.warna}
+                    </Text>
+                  </View>
+                </>
+              ) : null}
+
               <Spacer height={5} />
               <View style={styles.border} />
               <Spacer height={10} />

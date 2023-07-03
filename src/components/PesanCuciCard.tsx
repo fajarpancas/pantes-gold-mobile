@@ -46,12 +46,22 @@ const PesanCuciCard: React.FC<Props> = ({item, onPress}) => {
       <Text numberOfLines={1}>
         {dayjs(item?.created_at).format('DD/MM/YYYY')}
       </Text>
-      <Text numberOfLines={1}>{item?.no_pesan}</Text>
-      <Text numberOfLines={1}>Produk {item?.kd_produk}</Text>
       <Text numberOfLines={1}>{item?.nama_barang}</Text>
-      <Text numberOfLines={1}>Qty {item?.qty}</Text>
-      <Text numberOfLines={1}>Kadar {item?.kadar}</Text>
-      <Text numberOfLines={1}>Jenis {item?.jenis_barang}</Text>
+      <Text numberOfLines={1} family="bold">
+        {item?.no_pesan}
+      </Text>
+      <Text numberOfLines={1}>
+        Produk <Text family="bold">{item?.kd_produk}</Text>
+      </Text>
+      <Text numberOfLines={1}>
+        Qty <Text family="bold">{item?.qty}</Text>
+      </Text>
+      <Text numberOfLines={1}>
+        Kadar <Text family="bold">{item?.kadar}</Text>
+      </Text>
+      <Text numberOfLines={1}>
+        Jenis <Text family="bold">{item?.jenis_barang}</Text>
+      </Text>
 
       <Spacer height={6} />
 

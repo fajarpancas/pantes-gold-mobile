@@ -228,6 +228,20 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
             <View style={styles.border} />
             <Spacer height={10} />
 
+            {orderDetail?.warna ? (
+              <>
+                <View style={styles.rowBetween}>
+                  <Text family="bold">Warna</Text>
+                  <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                    {orderDetail?.warna}
+                  </Text>
+                </View>
+                <Spacer height={5} />
+                <View style={styles.border} />
+                <Spacer height={10} />
+              </>
+            ) : null}
+
             <View style={styles.rowBetween}>
               <Text family="bold">Jenis Barang</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>

@@ -147,13 +147,6 @@ class ApiServices {
   }
 
   createOrder(params: CreateOrderParams): Promise<any> {
-    let body = new FormData();
-    body.append('berat', params?.berat);
-    body.append('kadar', params?.kadar);
-    body.append('jenis_pesan', params?.jenis_pesan);
-    body.append('nama_barang', params?.nama_barang);
-    body.append('url_foto', params?.url_foto);
-    body.append('qty', params?.qty);
     return this.api.post('/order/create', params);
   }
 
@@ -197,7 +190,7 @@ class ApiServices {
     body.append('berat', params?.berat);
     body.append('keterangan', params?.keterangan);
     body.append('url_foto', params?.url_foto);
-    return this.api.post('pusat/penawaran/create', body);
+    return this.api.post('pusat/penawaran/create', params);
   }
 
   getPabrik(): Promise<any> {

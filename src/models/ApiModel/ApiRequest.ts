@@ -23,6 +23,7 @@ export type CreateOrderParams = {
   kadar: number;
   jenis_pesan: string;
   url_foto: string;
+  warna: string;
 };
 
 export type CreateOfferParams = {

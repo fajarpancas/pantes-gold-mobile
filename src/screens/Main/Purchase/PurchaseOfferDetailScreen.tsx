@@ -158,6 +158,16 @@ class PurchaseOfferDetailScreen extends React.PureComponent {
             <Spacer height={10} />
 
             <View style={styles.rowBetween}>
+              <Text family="bold">Warna</Text>
+              <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                {offerDetail?.warna || '-'}
+              </Text>
+            </View>
+            <Spacer height={5} />
+            <View style={styles.border} />
+            <Spacer height={10} />
+
+            <View style={styles.rowBetween}>
               <Text family="bold">Jenis</Text>
               <Text color={Colors.fontSemiBlack} lineHeight={20}>
                 {offerDetail?.jenis || '-'}

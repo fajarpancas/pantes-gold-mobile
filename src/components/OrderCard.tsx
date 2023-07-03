@@ -44,13 +44,13 @@ const OrderCard: React.FC<Props> = ({item, onPress}) => {
       </Text>
       <Spacer height={8} />
       <Text>{dayjs(item?.created_at).format('DD/MM/YYYY')}</Text>
-      <Text>
+      <Text numberOfLines={1}>
         Qantity<Text family="bold"> {item?.qty}</Text>
       </Text>
-      <Text>
+      <Text numberOfLines={1}>
         Kadar<Text family="bold"> {item?.kadar}</Text>
       </Text>
-      <Text>
+      <Text numberOfLines={1}>
         Berat<Text family="bold"> {item?.berat}gr</Text>
       </Text>
 

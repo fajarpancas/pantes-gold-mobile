@@ -24,3 +24,9 @@ export const STATUS = [
   {name: 'Terima', color: Colors.primary, textColor: Colors.white},
   {name: 'Close', color: 'red', textColor: Colors.white},
 ];
+
+export const WARNA = [
+  {color: 'gold', colorCode: '#D4AF37'},
+  {color: 'alloy', colorCode: '#c46210'},
+  {color: 'rosegold', colorCode: '#B76E79'},
+];
