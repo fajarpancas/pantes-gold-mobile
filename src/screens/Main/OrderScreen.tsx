@@ -5,6 +5,7 @@ import {
   Image,
   StyleSheet,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import Colors from '../../themes/Colors';
@@ -21,22 +22,21 @@ import {GetOrderListParams} from '../../models/apimodel/ApiRequest';
 import Fonts from '../../themes/Fonts';
 import Button from '../../components/Button';
 import NavigationServices from '../../services/NavigationServices';
-
-const STATUS = ['Semua status', 'Diproses', 'Ditolak', 'Selesai'];
+import ModalSelectWarna from './Purchase/ModalSelectWarna';
 
 class OrderScreen extends React.PureComponent {
-  page = 1;
-  search = '';
-  kadar = null;
-  berat = null;
-  qty = null;
-
   constructor(props) {
     super(props);
 
     this.state = {
       filterStatus: 0,
+      warnaSelected: null,
       modalVisible: false,
+      modalWarnaVisible: false,
+      search: '',
+      warna: null,
+      berat: null,
+      qty: null,
     };
   }
 
@@ -50,31 +50,31 @@ class OrderScreen extends React.PureComponent {
       page,
     };
 
-    if (this.search !== '') {
+    if (this.state.search !== '') {
       paramData = {
         ...paramData,
-        search: this.search,
+        search: this.state.search,
       };
     }
 
-    if (this.kadar) {
+    if (this.state.warnaSelected) {
       paramData = {
         ...paramData,
-        kadar: this.kadar,
+        warna: this.state.warnaSelected,
       };
     }
 
-    if (this.berat) {
+    if (this.state.berat) {
       paramData = {
         ...paramData,
-        berat: this.berat,
+        berat: this.state.berat,
       };
     }
 
-    if (this.qty) {
+    if (this.state.qty) {
       paramData = {
         ...paramData,
-        qty: this.qty,
+        qty: this.state.qty,
       };
     }
 
@@ -104,7 +104,7 @@ class OrderScreen extends React.PureComponent {
   };
 
   render(): React.ReactNode {
-    const {modalVisible} = this.state;
+    const {modalVisible, warnaSelected} = this.state;
     const {orderList, loading} = this.props;
     const listData = orderList?.data?.length ? orderList?.data : [];
 
@@ -132,19 +132,19 @@ class OrderScreen extends React.PureComponent {
           }}
           contentContainerStyle={
             listData?.length ||
-            this.search ||
-            this.berat ||
-            this.kadar ||
-            this.qty
+            this.state.search ||
+            this.state.berat ||
+            this.state.warna ||
+            this.state.qty
               ? styles.paddingHorizontal
               : styles.emptyContainer
           }
           ListHeaderComponent={
             listData?.length ||
-            this.search ||
-            this.berat ||
-            this.kadar ||
-            this.qty ? (
+            this.state.search ||
+            this.state.berat ||
+            this.state.warna ||
+            this.state.qty ? (
               <>
                 <Spacer height={5} />
 
@@ -180,8 +180,8 @@ class OrderScreen extends React.PureComponent {
                     <TextInput
                       placeholder="Nama barang..."
                       placeholderTextColor={'grey'}
-                      defaultValue={this.search}
-                      onChangeText={text => (this.search = text)}
+                      defaultValue={this.state.search}
+                      onChangeText={text => this.setState({search: text})}
                       style={styles.textInput}
                     />
                   </View>
@@ -190,12 +190,44 @@ class OrderScreen extends React.PureComponent {
                     placeholder="Quantity"
                     placeholderTextColor={'grey'}
                     keyboardType="number-pad"
-                    defaultValue={this.qty}
+                    defaultValue={this.state.qty}
                     maxLength={3}
-                    onChangeText={text => (this.qty = text)}
+                    onChangeText={text => this.setState({qty: text})}
                     style={styles.textInputQty}
                   />
                 </View>
+                <Spacer height={10} />
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => this.setState({modalWarnaVisible: true})}
+                  style={styles.searchWrapper2}>
+                  <Text
+                    numberOfLines={1}
+                    color={warnaSelected ? Colors.fontBlack : 'grey'}
+                    size={14}
+                    textTransform="capitalize">
+                    {warnaSelected ? warnaSelected : 'Warna'}
+                  </Text>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Image
+                      source={Images.iconDropdown}
+                      style={styles.dropdown}
+                    />
+                    {warnaSelected ? (
+                      <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={() =>
+                          this.setState({warnaSelected: undefined}, () => {
+                            setTimeout(() => {
+                              this.onRefresh(1);
+                            }, 500);
+                          })
+                        }>
+                        <Image source={Images.iconClose} style={styles.close} />
+                      </TouchableOpacity>
+                    ) : null}
+                  </View>
+                </TouchableOpacity>
                 <Spacer height={10} />
                 <View style={{flexDirection: 'row'}}>
                   {/* <View style={styles.wrapperInput}>
@@ -220,8 +252,8 @@ class OrderScreen extends React.PureComponent {
                       placeholder="Berat"
                       placeholderTextColor={'grey'}
                       maxLength={3}
-                      defaultValue={this.berat}
-                      onChangeText={text => (this.berat = text)}
+                      defaultValue={this.state.berat}
+                      onChangeText={text => this.setState({berat: text})}
                       keyboardType="number-pad"
                       style={styles.textInputKadar}
                     />
@@ -236,10 +268,12 @@ class OrderScreen extends React.PureComponent {
                     <Button
                       title="Reset"
                       onPress={() => {
-                        this.search = '';
-                        this.berat = null;
-                        this.kadar = null;
-                        this.qty = null;
+                        this.setState({
+                          search: '',
+                          berat: null,
+                          kadar: null,
+                          qty: null,
+                        });
                         setTimeout(() => {
                           this.onRefresh();
                         }, 100);
@@ -251,7 +285,7 @@ class OrderScreen extends React.PureComponent {
                   <View style={{width: scale(62)}}>
                     <Button
                       title="Cari"
-                      onPress={this.onRefresh}
+                      onPress={() => this.onRefresh(1)}
                       color={Colors.primary}
                     />
                   </View>
@@ -317,6 +351,13 @@ class OrderScreen extends React.PureComponent {
             this.setState({modalVisible: false});
           }}
         />
+        <ModalSelectWarna
+          modalVisible={this.state.modalWarnaVisible}
+          onHide={() => this.setState({modalWarnaVisible: false})}
+          onSelected={c =>
+            this.setState({warnaSelected: c?.color}, () => this.onRefresh(1))
+          }
+        />
       </View>
     );
   }
@@ -344,6 +385,12 @@ const styles = StyleSheet.create({
   padding: {
     paddingVertical: scale(5),
   },
+  close: {
+    tintColor: 'red',
+    width: scale(17),
+    height: scale(17),
+    marginLeft: scale(20),
+  },
   emptyIcon: {
     height: scale(88),
     width: scale(88),
@@ -368,6 +415,22 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: scale(12),
     paddingLeft: scale(10),
+  },
+  dropdown: {
+    width: scale(20),
+    height: scale(20),
+  },
+  searchWrapper2: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: Colors.white,
+    borderColor: Colors.border,
+    paddingVertical: scale(10),
+    paddingHorizontal: scale(20),
+    borderRadius: scale(10),
+    elevation: 5,
+    height: scale(40),
   },
   statusWrapper: {
     borderRadius: scale(12),
