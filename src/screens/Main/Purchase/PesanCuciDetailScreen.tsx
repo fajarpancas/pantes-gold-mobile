@@ -153,15 +153,19 @@ class PesanCuciDetailScreen extends React.PureComponent {
             <View style={styles.border} />
             <Spacer height={10} />
 
-            <View style={styles.rowBetween}>
-              <Text family="bold">Warna</Text>
-              <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                {dataDetail?.warna || '-'}
-              </Text>
-            </View>
-            <Spacer height={5} />
-            <View style={styles.border} />
-            <Spacer height={10} />
+            {dataDetail?.warna ? (
+              <>
+                <View style={styles.rowBetween}>
+                  <Text family="bold">Warna</Text>
+                  <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                    {dataDetail?.warna || '-'}
+                  </Text>
+                </View>
+                <Spacer height={5} />
+                <View style={styles.border} />
+                <Spacer height={10} />
+              </>
+            ) : null}
 
             <View style={styles.rowBetween}>
               <Text family="bold">Jenis Barang</Text>

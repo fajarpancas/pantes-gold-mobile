@@ -24,6 +24,7 @@ import useUserStore from '../../../stores/user/UserStore';
 import UserModel from '../../../models/UserModel';
 import ModalSelectCabang from './ModalSelectCabang';
 import ModalSelectKadar from './ModalSelectKadar';
+import ModalSelectWarna from './ModalSelectWarna';
 
 const KADAR = ['muda', 'tua'];
 
@@ -41,6 +42,8 @@ class MenuOrderBuyScreen extends React.PureComponent {
       jenisSelected: undefined,
       cabangSelected: undefined,
       kadarSelected: undefined,
+      warnaSelected: undefined,
+      modalVisibleWarna: false,
     };
   }
 
@@ -54,8 +57,13 @@ class MenuOrderBuyScreen extends React.PureComponent {
 
   onRefresh = () => {
     const {getPesanBeli} = this.props;
-    const {pabrikSelected, kadarSelected, jenisSelected, cabangSelected} =
-      this.state;
+    const {
+      pabrikSelected,
+      warnaSelected,
+      kadarSelected,
+      jenisSelected,
+      cabangSelected,
+    } = this.state;
 
     let params = {};
 
@@ -77,6 +85,13 @@ class MenuOrderBuyScreen extends React.PureComponent {
       params = {
         ...params,
         kd_toko: cabangSelected?.kd_toko,
+      };
+    }
+
+    if (warnaSelected) {
+      params = {
+        ...params,
+        warna: warnaSelected,
       };
     }
 
@@ -112,6 +127,7 @@ class MenuOrderBuyScreen extends React.PureComponent {
       pabrikSelected,
       jenisSelected,
       kadarSelected,
+      warnaSelected,
       cabangSelected,
       modalCabangVisible,
     } = this.state;
@@ -145,7 +161,7 @@ class MenuOrderBuyScreen extends React.PureComponent {
               </Text>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image source={Images.iconFilter} style={styles.dropdown} />
+              <Image source={Images.iconDropdown} style={styles.dropdown} />
               {cabangSelected?.kd_toko ? (
                 <TouchableOpacity
                   activeOpacity={0.8}
@@ -176,7 +192,7 @@ class MenuOrderBuyScreen extends React.PureComponent {
               </Text>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image source={Images.iconFilter} style={styles.dropdown} />
+              <Image source={Images.iconDropdown} style={styles.dropdown} />
               {jenisSelected?.nama_jenis_barang ? (
                 <TouchableOpacity
                   activeOpacity={0.8}
@@ -213,7 +229,7 @@ class MenuOrderBuyScreen extends React.PureComponent {
               </Text>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image source={Images.iconFilter} style={styles.dropdown} />
+              <Image source={Images.iconDropdown} style={styles.dropdown} />
               {pabrikSelected?.id_pabrik ? (
                 <TouchableOpacity
                   activeOpacity={0.8}
@@ -259,6 +275,36 @@ class MenuOrderBuyScreen extends React.PureComponent {
             </View>
           </TouchableOpacity>
         </View>
+
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => this.setState({modalVisibleWarna: true})}
+          style={{...styles.searchWrapper, marginLeft: scale(20)}}>
+          <View
+            style={{
+              width: warnaSelected ? scale(50) : scale(75),
+            }}>
+            <Text numberOfLines={1} textTransform="capitalize">
+              {warnaSelected ?? 'Warna'}
+            </Text>
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={Images.iconDropdown} style={styles.dropdown} />
+            {warnaSelected ? (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() =>
+                  this.setState({warnaSelected: undefined}, () => {
+                    setTimeout(() => {
+                      this.onRefresh(1);
+                    }, 500);
+                  })
+                }>
+                <Image source={Images.iconClose} style={styles.close} />
+              </TouchableOpacity>
+            ) : null}
+          </View>
+        </TouchableOpacity>
         <FlatList
           data={pesanBeliLists}
           renderItem={({item, index}) => (
@@ -328,6 +374,14 @@ class MenuOrderBuyScreen extends React.PureComponent {
                 this.onRefresh();
               }, 500);
             })
+          }
+        />
+
+        <ModalSelectWarna
+          modalVisible={this.state.modalVisibleWarna}
+          onHide={() => this.setState({modalVisibleWarna: false})}
+          onSelected={c =>
+            this.setState({warnaSelected: c?.color}, () => this.onRefresh(1))
           }
         />
 

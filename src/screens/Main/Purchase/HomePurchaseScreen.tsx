@@ -26,6 +26,7 @@ import Spacer from '../../../components/Spacer';
 import {STATUS} from '../../../const/Data';
 import ModalSelectJenisBarang from './ModalSelectJenisBarang';
 import ModalSelectKadar from './ModalSelectKadar';
+import ModalSelectWarna from './ModalSelectWarna';
 
 const KADAR = ['muda', 'tua'];
 
@@ -43,6 +44,8 @@ class HomePurchaseScreen extends React.PureComponent {
       statusSelected: undefined,
       jenisSelected: undefined,
       kadarSelected: undefined,
+      warnaSelected: undefined,
+      modalVisibleWarna: false,
     };
   }
 
@@ -59,8 +62,13 @@ class HomePurchaseScreen extends React.PureComponent {
 
   onRefresh = (page: number) => {
     const {getPurchaseOrder} = this.props;
-    const {cabangSelected, statusSelected, jenisSelected, kadarSelected} =
-      this.state;
+    const {
+      cabangSelected,
+      warnaSelected,
+      statusSelected,
+      jenisSelected,
+      kadarSelected,
+    } = this.state;
     let params = {
       page,
     };
@@ -90,6 +98,13 @@ class HomePurchaseScreen extends React.PureComponent {
       params = {
         ...params,
         kadar: kadarSelected,
+      };
+    }
+
+    if (warnaSelected) {
+      params = {
+        ...params,
+        warna: warnaSelected,
       };
     }
 
@@ -130,6 +145,7 @@ class HomePurchaseScreen extends React.PureComponent {
       kadarSelected,
       statusSelected,
       jenisSelected,
+      warnaSelected,
     } = this.state;
     const purchaseOrderLists = purchaseOrder?.data || [];
 
@@ -160,7 +176,7 @@ class HomePurchaseScreen extends React.PureComponent {
               </Text>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image source={Images.iconFilter} style={styles.dropdown} />
+              <Image source={Images.iconDropdown} style={styles.dropdown} />
               {cabangSelected?.kd_toko ? (
                 <TouchableOpacity
                   activeOpacity={0.8}
@@ -191,7 +207,7 @@ class HomePurchaseScreen extends React.PureComponent {
               </Text>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image source={Images.iconFilter} style={styles.dropdown} />
+              <Image source={Images.iconDropdown} style={styles.dropdown} />
               {jenisSelected?.nama_jenis_barang ? (
                 <TouchableOpacity
                   activeOpacity={0.8}
@@ -277,6 +293,37 @@ class HomePurchaseScreen extends React.PureComponent {
             </View>
           </TouchableOpacity>
         </View>
+
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => this.setState({modalVisibleWarna: true})}
+          style={{...styles.searchWrapper2, marginLeft: scale(20)}}>
+          <View
+            style={{
+              width: warnaSelected ? scale(50) : scale(75),
+            }}>
+            <Text numberOfLines={1} textTransform="capitalize">
+              {warnaSelected ?? 'Warna'}
+            </Text>
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={Images.iconDropdown} style={styles.dropdown} />
+            {warnaSelected ? (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() =>
+                  this.setState({warnaSelected: undefined}, () => {
+                    setTimeout(() => {
+                      this.onRefresh(1);
+                    }, 500);
+                  })
+                }>
+                <Image source={Images.iconClose} style={styles.close} />
+              </TouchableOpacity>
+            ) : null}
+          </View>
+        </TouchableOpacity>
+
         <FlatList
           data={purchaseOrderLists}
           numColumns={3}
@@ -401,6 +448,14 @@ class HomePurchaseScreen extends React.PureComponent {
           modalVisible={this.state.modalKadarVisible}
           onHide={() => this.setState({modalKadarVisible: false})}
           onSelected={c => this.setState({kadarSelected: c}, this.onRefresh)}
+        />
+
+        <ModalSelectWarna
+          modalVisible={this.state.modalVisibleWarna}
+          onHide={() => this.setState({modalVisibleWarna: false})}
+          onSelected={c =>
+            this.setState({warnaSelected: c?.color}, () => this.onRefresh(1))
+          }
         />
       </View>
     );
