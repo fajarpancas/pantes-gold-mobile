@@ -27,6 +27,11 @@ import AuthModel from '../../models/AuthModel';
 import useAuthStore from '../../stores/auth/AuthStore';
 import {LoginParams} from '../../models/apimodel/ApiRequest';
 import {sessionStore} from '../../stores/session/SessionStore';
+import {
+  getReadableVersion,
+  getSystemVersion,
+  getVersion,
+} from 'react-native-device-info';
 
 type Props = NativeStackScreenProps<AuthStackParams, 'LoginScreen'>;
 
@@ -131,6 +136,9 @@ class LoginScreen extends PureComponent<Props> {
             </Text>
           </TouchableOpacity>
         </View>
+        <Text color="white" size={10} style={{marginTop: scale(30)}}>
+          Versi Aplikasi {getReadableVersion()}
+        </Text>
       </View>
     );
   }

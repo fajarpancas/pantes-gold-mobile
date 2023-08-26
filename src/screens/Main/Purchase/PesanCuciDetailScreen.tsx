@@ -297,8 +297,7 @@ const styles = StyleSheet.create({
   image: {
     width: scale(320),
     height: scale(200),
-    resizeMode: 'cover',
-    backgroundColor: Colors.outlineBase,
+    resizeMode: 'contain',
   },
   container: {
     flex: 1,

@@ -77,110 +77,114 @@ class CabangPesanCuciScreen extends React.PureComponent {
   };
 
   render(): React.ReactNode {
-    const {loading, cabang, cabangPesanCuci, loadingCabang} = this.props;
-    const {modalVisible, cabangSelected} = this.state;
-    const cabangPesanCuciLists = cabangPesanCuci?.data || [];
-    console.tron.error({cabangPesanCuciLists});
-    return (
-      <View style={styles.container}>
-        <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
+    try {
+      const {loading, cabang, cabangPesanCuci, loadingCabang} = this.props;
+      const {modalVisible, cabangSelected} = this.state;
+      const cabangPesanCuciLists = cabangPesanCuci?.data || [];
+      console.tron.error({cabangPesanCuciLists});
+      return (
+        <View style={styles.container}>
+          <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
 
-        <View style={styles.searchWrapper}>
-          <Text>
-            {cabangSelected ? cabangSelected?.nama_toko : 'Cari Cabang'}
-          </Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() =>
-                this.setState({modalVisible: true}, () =>
-                  this.props.getCabang(),
-                )
-              }>
-              <Image source={Images.iconFilter} style={styles.dropdown} />
-            </TouchableOpacity>
-            {cabangSelected?.kd_toko ? (
+          <View style={styles.searchWrapper}>
+            <Text>
+              {cabangSelected ? cabangSelected?.nama_toko : 'Cari Cabang'}
+            </Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() =>
-                  this.setState({cabangSelected: undefined}, () => {
-                    setTimeout(() => {
-                      this.onRefresh();
-                    }, 500);
-                  })
+                  this.setState({modalVisible: true}, () =>
+                    this.props.getCabang(),
+                  )
                 }>
-                <Image source={Images.iconClose} style={styles.close} />
+                <Image source={Images.iconFilter} style={styles.dropdown} />
               </TouchableOpacity>
-            ) : null}
+              {cabangSelected?.kd_toko ? (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() =>
+                    this.setState({cabangSelected: undefined}, () => {
+                      setTimeout(() => {
+                        this.onRefresh();
+                      }, 500);
+                    })
+                  }>
+                  <Image source={Images.iconClose} style={styles.close} />
+                </TouchableOpacity>
+              ) : null}
+            </View>
           </View>
-        </View>
-        <FlatList
-          data={cabangPesanCuciLists}
-          renderItem={({item, index}) => {
-            return (
-              <View
-                style={[
-                  styles.padding,
-                  index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
-                ]}>
-                <OrderCard
-                  item={item}
-                  onPress={() => {
-                    NavigationServices.navigate(
-                      'CabangPesanCuciDetailScreen',
-                      item,
-                    );
-                  }}
-                />
-              </View>
-            );
-          }}
-          onRefresh={() => this.onRefresh(1)}
-          numColumns={3}
-          onEndReachedThreshold={1}
-          onEndReached={(distance: any) => {
-            console.tron.log('onEndReached ', distance);
-            if (distance.distanceFromEnd > 110) {
-              this.onLoadMore();
-            }
-          }}
-          refreshing={loading}
-          contentContainerStyle={
-            cabangPesanCuciLists?.length
-              ? styles.paddingHorizontal
-              : styles.emptyContainer
-          }
-          ListEmptyComponent={() => {
-            if (!loading) {
+          <FlatList
+            data={cabangPesanCuciLists}
+            renderItem={({item, index}) => {
               return (
-                <View>
-                  <Spacer height={60} />
-                  <Image source={Images.iconEmpty} style={styles.emptyIcon} />
-                  <Text size={16} textAlign="center" lineHeight={21.86}>
-                    Data yang anda cari{'\n'}tidak ditemukan
-                  </Text>
+                <View
+                  style={[
+                    styles.padding,
+                    index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
+                  ]}>
+                  <OrderCard
+                    item={item}
+                    onPress={() => {
+                      NavigationServices.navigate(
+                        'CabangPesanCuciDetailScreen',
+                        item,
+                      );
+                    }}
+                  />
                 </View>
               );
+            }}
+            onRefresh={() => this.onRefresh(1)}
+            numColumns={3}
+            onEndReachedThreshold={1}
+            onEndReached={(distance: any) => {
+              console.tron.log('onEndReached ', distance);
+              if (distance.distanceFromEnd > 110) {
+                this.onLoadMore();
+              }
+            }}
+            refreshing={loading}
+            contentContainerStyle={
+              cabangPesanCuciLists?.length
+                ? styles.paddingHorizontal
+                : styles.emptyContainer
             }
-            return null;
-          }}
-          ListFooterComponent={this.renderLoading}
-        />
-        <ModalSelectCabang
-          cabang={cabang}
-          modalVisible={modalVisible}
-          onHide={() => this.setState({modalVisible: false})}
-          onSelected={c =>
-            this.setState({cabangSelected: c}, () => {
-              setTimeout(() => {
-                this.onRefresh();
-              }, 500);
-            })
-          }
-          loading={loadingCabang}
-        />
-      </View>
-    );
+            ListEmptyComponent={() => {
+              if (!loading) {
+                return (
+                  <View>
+                    <Spacer height={60} />
+                    <Image source={Images.iconEmpty} style={styles.emptyIcon} />
+                    <Text size={16} textAlign="center" lineHeight={21.86}>
+                      Data yang anda cari{'\n'}tidak ditemukan
+                    </Text>
+                  </View>
+                );
+              }
+              return null;
+            }}
+            ListFooterComponent={this.renderLoading}
+          />
+          <ModalSelectCabang
+            cabang={cabang}
+            modalVisible={modalVisible}
+            onHide={() => this.setState({modalVisible: false})}
+            onSelected={c =>
+              this.setState({cabangSelected: c}, () => {
+                setTimeout(() => {
+                  this.onRefresh();
+                }, 500);
+              })
+            }
+            loading={loadingCabang}
+          />
+        </View>
+      );
+    } catch {
+      <View />;
+    }
   }
 }
 

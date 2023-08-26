@@ -7,6 +7,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:555447790273:android:bf672bddd010a2eca14240",
+        "android_client_info": {
+          "package_name": "com.pantesrequest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "555447790273-17ik0u8docvjo3ln9rv7urvbkk1svlsu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pantesrequest",
+            "certificate_hash": "59ee85e111267bb745e7a6287792fe125bec31fc"
+          }
+        },
+        {
+          "client_id": "555447790273-21ho6o5s2chtmp7meflgbqvsuhcoro6i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTiQ7R5vi0QbgZWMdlnWdPOahGIj-CGxU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "555447790273-21ho6o5s2chtmp7meflgbqvsuhcoro6i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:555447790273:android:f6615e654dad2af3a14240",
         "android_client_info": {
           "package_name": "com.pantesrequest.staging"

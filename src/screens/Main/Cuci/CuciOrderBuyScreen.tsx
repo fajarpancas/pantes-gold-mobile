@@ -66,85 +66,89 @@ class CuciOrderBuyScreen extends React.PureComponent {
   };
 
   render(): React.ReactNode {
-    const {loading, orderCuciList} = this.props;
-    const orderCuciLists = orderCuciList?.data || [];
-    if (orderCuciList?.length === 0 && loading) {
+    try {
+      const {loading, orderCuciList} = this.props;
+      const orderCuciLists = orderCuciList?.data || [];
+      if (orderCuciList?.length === 0 && loading) {
+        return (
+          <View style={styles.container}>
+            <View style={styles.flexCenter}>
+              <ActivityIndicator size={'large'} color={Colors.primary} />
+              <Text color={Colors.primary}>Loading data</Text>
+            </View>
+          </View>
+        );
+      }
+
       return (
         <View style={styles.container}>
-          <View style={styles.flexCenter}>
-            <ActivityIndicator size={'large'} color={Colors.primary} />
-            <Text color={Colors.primary}>Loading data</Text>
+          <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
+          <Spacer height={30} />
+          <View style={{paddingHorizontal: scale(20)}}>
+            <Text size={16} family="bold">
+              Pesan Beli
+            </Text>
           </View>
-        </View>
-      );
-    }
-
-    return (
-      <View style={styles.container}>
-        <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
-        <Spacer height={30} />
-        <View style={{paddingHorizontal: scale(20)}}>
-          <Text size={16} family="bold">
-            Pesan Beli
-          </Text>
-        </View>
-        <Spacer height={20} />
-        <FlatList
-          data={orderCuciLists}
-          refreshing={loading}
-          onRefresh={() => this.onRefresh(1)}
-          renderItem={({item, index}) => {
-            return (
-              <View
-                style={[
-                  styles.padding,
-                  index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
-                ]}>
-                <OrderCard
-                  item={item}
-                  onPress={() =>
-                    NavigationServices.navigate('OrderDetailCuciScreen', item)
-                  }
-                />
-              </View>
-            );
-          }}
-          contentContainerStyle={
-            orderCuciLists?.length
-              ? styles.paddingHorizontal
-              : styles.emptyContainer
-          }
-          numColumns={3}
-          onEndReachedThreshold={1}
-          onEndReached={(distance: any) => {
-            console.tron.log('onEndReached ', distance);
-            if (distance.distanceFromEnd > 110) {
-              this.onLoadMore();
-            }
-          }}
-          ListEmptyComponent={() => {
-            if (!loading) {
+          <Spacer height={20} />
+          <FlatList
+            data={orderCuciLists}
+            refreshing={loading}
+            onRefresh={() => this.onRefresh(1)}
+            renderItem={({item, index}) => {
               return (
-                <View>
-                  <Spacer height={60} />
-                  <Image source={Images.iconEmpty} style={styles.emptyIcon} />
-                  <Text size={16} textAlign="center" lineHeight={21.86}>
-                    Belum ada pesanan yang anda buat
-                  </Text>
+                <View
+                  style={[
+                    styles.padding,
+                    index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
+                  ]}>
+                  <OrderCard
+                    item={item}
+                    onPress={() =>
+                      NavigationServices.navigate('OrderDetailCuciScreen', item)
+                    }
+                  />
                 </View>
               );
+            }}
+            contentContainerStyle={
+              orderCuciLists?.length
+                ? styles.paddingHorizontal
+                : styles.emptyContainer
             }
-            return null;
-          }}
-          ListFooterComponent={this.renderLoading}
-        />
-        <FloatingAdd
-          onPress={() => {
-            NavigationServices.navigate('AddOrderCuciScreen', {});
-          }}
-        />
-      </View>
-    );
+            numColumns={3}
+            onEndReachedThreshold={1}
+            onEndReached={(distance: any) => {
+              console.tron.log('onEndReached ', distance);
+              if (distance.distanceFromEnd > 110) {
+                this.onLoadMore();
+              }
+            }}
+            ListEmptyComponent={() => {
+              if (!loading) {
+                return (
+                  <View>
+                    <Spacer height={60} />
+                    <Image source={Images.iconEmpty} style={styles.emptyIcon} />
+                    <Text size={16} textAlign="center" lineHeight={21.86}>
+                      Belum ada pesanan yang anda buat
+                    </Text>
+                  </View>
+                );
+              }
+              return null;
+            }}
+            ListFooterComponent={this.renderLoading}
+          />
+          <FloatingAdd
+            onPress={() => {
+              NavigationServices.navigate('AddOrderCuciScreen', {});
+            }}
+          />
+        </View>
+      );
+    } catch {
+      <View />;
+    }
   }
 }
 

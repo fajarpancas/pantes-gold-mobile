@@ -78,23 +78,32 @@ class OrderBuyDetailScreen extends React.PureComponent {
     val3: string,
     val4: string,
     val5?: string,
+    valKet?: string,
   ) => {
     return (
       <View style={styles.row}>
         <View
-          style={[styles.borderRight, styles.alignCenter, {width: scale(40)}]}>
+          style={[styles.borderRight, styles.alignCenter, {width: scale(25)}]}>
           <Text>{val1}</Text>
         </View>
         <View
-          style={[styles.borderRight, styles.alignCenter, {width: scale(60)}]}>
+          style={[styles.borderRight, styles.alignCenter, {width: scale(30)}]}>
           <Text>{val2}</Text>
         </View>
         <View
-          style={[styles.borderRight, styles.alignCenter, {width: scale(119)}]}>
+          style={[styles.borderRight, styles.alignCenter, {width: scale(90)}]}>
           <Text>{val3}</Text>
         </View>
         <View
-          style={[styles.borderRight, styles.alignCenter, {width: scale(40)}]}>
+          style={[
+            styles.borderRight,
+            styles.alignCenter,
+            {width: scale(84), paddingHorizontal: scale(8)},
+          ]}>
+          <Text>{valKet}</Text>
+        </View>
+        <View
+          style={[styles.borderRight, styles.alignCenter, {width: scale(30)}]}>
           <Text>{val4}</Text>
         </View>
         <View
@@ -189,7 +198,8 @@ class OrderBuyDetailScreen extends React.PureComponent {
                   styles.backgroundGreen,
                   styles.borderRight,
                   styles.alignCenter,
-                  {width: scale(40)},
+                  styles.borderWhite,
+                  {width: scale(25)},
                 ]}>
                 <Text color={Colors.white}>No.</Text>
               </View>
@@ -198,16 +208,18 @@ class OrderBuyDetailScreen extends React.PureComponent {
                   styles.backgroundGreen,
                   styles.borderRight,
                   styles.alignCenter,
-                  {width: scale(60)},
+                  styles.borderWhite,
+                  {width: scale(30)},
                 ]}>
-                <Text color={Colors.white}>Id Pesan</Text>
+                <Text color={Colors.white}>Id</Text>
               </View>
               <View
                 style={[
                   styles.backgroundGreen,
                   styles.borderRight,
                   styles.alignCenter,
-                  {width: scale(119)},
+                  styles.borderWhite,
+                  {width: scale(90)},
                 ]}>
                 <Text color={Colors.white}>Cabang</Text>
               </View>
@@ -216,7 +228,18 @@ class OrderBuyDetailScreen extends React.PureComponent {
                   styles.backgroundGreen,
                   styles.borderRight,
                   styles.alignCenter,
-                  {width: scale(40)},
+                  styles.borderWhite,
+                  {width: scale(84)},
+                ]}>
+                <Text color={Colors.white}>Keterangan</Text>
+              </View>
+              <View
+                style={[
+                  styles.backgroundGreen,
+                  styles.borderRight,
+                  styles.alignCenter,
+                  styles.borderWhite,
+                  {width: scale(30)},
                 ]}>
                 <Text color={Colors.white}>Qty</Text>
               </View>
@@ -238,6 +261,7 @@ class OrderBuyDetailScreen extends React.PureComponent {
                   item?.nama_cabang,
                   item?.qty,
                   item?.qty_acc,
+                  item?.keterangan,
                 );
               })
             ) : (
@@ -305,8 +329,7 @@ const styles = StyleSheet.create({
   image: {
     width: scale(320),
     height: scale(200),
-    resizeMode: 'cover',
-    backgroundColor: Colors.outlineBase,
+    resizeMode: 'contain',
   },
   container: {
     flex: 1,
@@ -338,8 +361,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Colors.outlineBase,
   },
+  borderWhite: {
+    borderRightColor: Colors.white,
+  },
   borderRight: {
-    borderRightWidth: 1,
+    borderRightWidth: 0.6,
     borderRightColor: Colors.outlineBase,
   },
   alignCenter: {

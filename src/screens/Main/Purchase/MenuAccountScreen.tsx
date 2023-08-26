@@ -12,19 +12,23 @@ import Spacer from '../../../components/Spacer';
 
 class MenuAccountScreen extends React.PureComponent {
   render(): React.ReactNode {
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <View style={{width: scale(200)}}>
-          <Button
-            color="red"
-            title="Logout"
-            onPress={() => sessionStore.getState().setLogin(false)}
-          />
+    try {
+      return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{width: scale(200)}}>
+            <Button
+              color="red"
+              title="Logout"
+              onPress={() => sessionStore.getState().setLogin(false)}
+            />
+          </View>
+          <Spacer height={10} />
+          <Text>Versi Aplikasi {getReadableVersion()}</Text>
         </View>
-        <Spacer height={10} />
-        <Text>Versi Aplikasi {getReadableVersion()}</Text>
-      </View>
-    );
+      );
+    } catch {
+      return <View />;
+    }
   }
 }
 

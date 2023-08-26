@@ -6,6 +6,7 @@ import {
   StatusBar,
   StyleSheet,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import Colors from '../../../themes/Colors';
@@ -34,6 +35,9 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
       tgl_kirim: null,
       tanggalTerimaCabang: null,
       tanggalClose: null,
+      jenisKirim: 'full',
+      qtyKirimSebagian: 0,
+      notes: null,
     };
   }
 
@@ -85,6 +89,42 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
     }
 
     if (orderDetail?.status === 2) {
+      if (this.state.jenisKirim === 'full') {
+        if (!tglKirim) {
+          DropdownAlertHolder.showError('Gagal', 'Tanggal kirim harus diisi');
+        } else {
+          paramData = {
+            ...paramData,
+            tgl_kirim: `${dayjs(tglKirim).format('YYYY-MM-DD')} 00:00:00`,
+          };
+          submitCabangPesanCuci(paramData, () => {
+            this.onRefresh();
+            getCabangPesanCuci();
+          });
+        }
+      } else {
+        if (!tglKirim || !this.state.qtyKirimSebagian) {
+          DropdownAlertHolder.showError(
+            'Gagal',
+            'Tanggal kirim dan qty yang dikirim sebagian harus diisi',
+          );
+        } else {
+          paramData = {
+            ...paramData,
+            qty_kirim: this.state.qtyKirimSebagian,
+            notes: this.state.notes || '-',
+            tgl_kirim: `${dayjs(tglKirim).format('YYYY-MM-DD')} 00:00:00`,
+          };
+          submitCabangPesanCuci(paramData, () => {
+            this.onRefresh();
+            getCabangPesanCuci();
+            this.setState({tglKirim: null});
+          });
+        }
+      }
+    }
+
+    if (orderDetail?.status === -1) {
       if (!tglKirim) {
         DropdownAlertHolder.showError('Gagal', 'Tanggal kirim harus diisi');
       } else {
@@ -167,7 +207,7 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
                   paddingHorizontal: scale(15),
                   borderRadius: scale(8),
                   backgroundColor: orderDetail?.status
-                    ? STATUS[orderDetail?.status - 1]?.color
+                    ? STATUS[orderDetail?.status - 1]?.color || 'yellow'
                     : Colors.outlineBase,
                 }}>
                 <Text
@@ -179,7 +219,7 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
                   }
                   lineHeight={20}>
                   {orderDetail?.status
-                    ? STATUS[orderDetail?.status - 1]?.name
+                    ? STATUS[orderDetail?.status - 1]?.name || 'Kirim Sebagian'
                     : '-'}
                 </Text>
               </View>
@@ -312,24 +352,39 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
             <View style={styles.border} />
             <Spacer height={10} />
 
-            {orderDetail?.status > 1 ? (
+            {orderDetail?.timestamp_kirim_cabang_sebagian ? (
               <>
                 <View style={styles.rowBetween}>
-                  <Text family="bold">Tanggal Kirim</Text>
-                  {orderDetail?.status === 2 ? (
-                    <CustomDatePicker
-                      title="Pilih Tanggal Kirim"
-                      defaultValue={this.state.tglKirim}
-                      onSelectDate={d => this.setState({tglKirim: d})}
-                    />
-                  ) : (
-                    <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                      {dayjs(
-                        orderDetail?.timestamp_kirim_cabang,
-                        'YYYY-MM-DD',
-                      ).format('DD/MM/YYYY')}
+                  <Text family="bold">Tanggal Kirim sebagian</Text>
+                  <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                    {dayjs(
+                      orderDetail?.timestamp_kirim_cabang_sebagian,
+                      'YYYY-MM-DD',
+                    ).format('DD/MM/YYYY')}
+                  </Text>
+                </View>
+                <Spacer height={5} />
+                <View style={styles.border} />
+                <Spacer height={10} />
+                <View style={styles.rowBetween}>
+                  <Text family="bold">Qty yang dikirim sebagian</Text>
+                  <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                    {orderDetail?.qty_kirim_sebagian}
+                  </Text>
+                </View>
+                <Spacer height={5} />
+                <View style={styles.border} />
+                <Spacer height={10} />
+                <View style={styles.rowBetween}>
+                  <Text family="bold">Catatan kirim sebagian</Text>
+                  <View style={{width: scale(130), marginLeft: scale(50)}}>
+                    <Text
+                      textAlign="right"
+                      color={Colors.fontSemiBlack}
+                      lineHeight={20}>
+                      {orderDetail?.as_notes || '-'}
                     </Text>
-                  )}
+                  </View>
                 </View>
                 <Spacer height={5} />
                 <View style={styles.border} />
@@ -338,6 +393,173 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
             ) : (
               <View />
             )}
+
+            {orderDetail?.status > 1 ? (
+              <>
+                {orderDetail?.status === 2 ? (
+                  <>
+                    <View style={styles.rowBetween}>
+                      <Text family="bold">Jenis Kirim</Text>
+                      <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity
+                          onPress={() => this.setState({jenisKirim: 'full'})}
+                          style={{
+                            paddingHorizontal: scale(5),
+                            paddingVertical: scale(2),
+                            marginRight: scale(5),
+                            backgroundColor:
+                              this.state.jenisKirim === 'full'
+                                ? Colors.primary
+                                : 'transparent',
+                            borderColor: Colors.border,
+                            borderRadius: scale(5),
+                            borderWidth:
+                              this.state.jenisKirim === 'full' ? 0 : 1,
+                          }}>
+                          <Text
+                            color={
+                              this.state.jenisKirim === 'full'
+                                ? Colors.white
+                                : Colors.fontBlack
+                            }>
+                            Semua
+                          </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => this.setState({jenisKirim: 'half'})}
+                          style={{
+                            paddingHorizontal: scale(5),
+                            paddingVertical: scale(2),
+                            backgroundColor:
+                              this.state.jenisKirim === 'half'
+                                ? Colors.primary
+                                : 'transparent',
+                            borderColor: Colors.border,
+                            borderWidth:
+                              this.state.jenisKirim === 'half' ? 0 : 1,
+                            borderRadius: scale(5),
+                          }}>
+                          <Text
+                            color={
+                              this.state.jenisKirim === 'half'
+                                ? Colors.white
+                                : Colors.fontBlack
+                            }>
+                            Sebagian
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                    <Spacer height={5} />
+                    <View style={styles.border} />
+                    <Spacer height={10} />
+                  </>
+                ) : (
+                  <View />
+                )}
+                {orderDetail?.status === 2 ? (
+                  this.state.jenisKirim === 'half' ? (
+                    <>
+                      <View style={styles.rowBetween}>
+                        <Text family="bold">Qty yang dikirim</Text>
+                        <TextInput
+                          placeholder="0"
+                          placeholderTextColor={Colors.outlineBase}
+                          style={styles.textInput2}
+                          keyboardType="number-pad"
+                          onChangeText={text =>
+                            this.setState({qtyKirimSebagian: text})
+                          }
+                        />
+                      </View>
+                      <Spacer height={5} />
+                      <View style={styles.border} />
+                      <Spacer height={10} />
+                      <View style={styles.rowBetween}>
+                        <Text family="bold">Catatan</Text>
+                        <TextInput
+                          placeholder="Catatan"
+                          numberOfLines={3}
+                          placeholderTextColor={Colors.outlineBase}
+                          style={styles.textInput3}
+                          multiline
+                          onChangeText={text => this.setState({notes: text})}
+                        />
+                      </View>
+                      <Spacer height={5} />
+                      <View style={styles.border} />
+                      <Spacer height={10} />
+                      <View style={styles.rowBetween}>
+                        <Text family="bold">Tanggal Kirim</Text>
+                        <CustomDatePicker
+                          title="Pilih Tanggal Kirim"
+                          defaultValue={this.state.tglKirim}
+                          onSelectDate={d => this.setState({tglKirim: d})}
+                        />
+                      </View>
+                    </>
+                  ) : (
+                    <View style={styles.rowBetween}>
+                      <Text family="bold">Tanggal Kirim</Text>
+                      <CustomDatePicker
+                        title="Pilih Tanggal Kirim"
+                        defaultValue={this.state.tglKirim}
+                        onSelectDate={d => this.setState({tglKirim: d})}
+                      />
+                    </View>
+                  )
+                ) : (
+                  <>
+                    <View style={styles.rowBetween}>
+                      <Text family="bold">Tanggal Kirim Semua</Text>
+                      <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                        {dayjs(
+                          orderDetail?.timestamp_kirim_cabang,
+                          'YYYY-MM-DD',
+                        ).format('DD/MM/YYYY')}
+                      </Text>
+                    </View>
+                  </>
+                )}
+                <Spacer height={5} />
+                <View style={styles.border} />
+                <Spacer height={10} />
+              </>
+            ) : (
+              <View />
+            )}
+
+            {orderDetail?.status === -1 ? (
+              <>
+                <View style={styles.rowBetween}>
+                  <Text family="bold">Tanggal Kirim Semua</Text>
+                  <CustomDatePicker
+                    title="Pilih Tanggal Kirim"
+                    defaultValue={this.state.tglKirim}
+                    onSelectDate={d => this.setState({tglKirim: d})}
+                  />
+                </View>
+              </>
+            ) : (
+              <View />
+            )}
+
+            {orderDetail?.timestamp_terima_cabang ? (
+              <>
+                <View style={styles.rowBetween}>
+                  <Text family="bold">Tanggal Terima Cabang</Text>
+                  <Text color={Colors.fontSemiBlack} lineHeight={20}>
+                    {dayjs(
+                      orderDetail?.timestamp_terima_cabang,
+                      'YYYY-MM-DD',
+                    ).format('DD/MM/YYYY')}
+                  </Text>
+                </View>
+                <Spacer height={5} />
+                <View style={styles.border} />
+                <Spacer height={10} />
+              </>
+            ) : null}
 
             {orderDetail?.status > 4 && orderDetail?.status !== 6 ? (
               <>
@@ -350,12 +572,7 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
                       onSelectDate={d => this.setState({tanggalClose: d})}
                     />
                   ) : (
-                    <Text color={Colors.fontSemiBlack} lineHeight={20}>
-                      {dayjs(
-                        orderDetail?.timestamp_terima_cabang,
-                        'YYYY-MM-DD',
-                      ).format('DD/MM/YYYY')}
-                    </Text>
+                    <View />
                   )}
                 </View>
                 <Spacer height={5} />
@@ -392,7 +609,10 @@ class CabangPesanCuciDetailScreen extends React.PureComponent {
             )}
           </>
         ) : (
-          <View />
+          <View style={{alignSelf: 'center'}}>
+            <Text color={'grey'}>Menunggu konfirmasi toko / mall.</Text>
+            <Spacer height={20} />
+          </View>
         )}
       </View>
     );
@@ -408,8 +628,7 @@ const styles = StyleSheet.create({
   image: {
     width: scale(320),
     height: scale(200),
-    resizeMode: 'cover',
-    backgroundColor: Colors.outlineBase,
+    resizeMode: 'contain',
   },
   container: {
     flex: 1,
@@ -475,6 +694,17 @@ const styles = StyleSheet.create({
     borderColor: Colors.outlineBase,
     borderRadius: scale(8),
     color: Colors.fontSemiBlack,
+  },
+  textInput3: {
+    width: scale(200),
+    borderWidth: 1,
+    textAlign: 'left',
+    paddingLeft: scale(10),
+    paddingRight: scale(10),
+    borderColor: Colors.outlineBase,
+    borderRadius: scale(8),
+    color: Colors.fontSemiBlack,
+    textAlignVertical: 'top',
   },
 });
 

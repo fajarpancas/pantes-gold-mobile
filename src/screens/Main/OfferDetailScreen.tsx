@@ -3,6 +3,7 @@ import {
   Image,
   ScrollView,
   StyleSheet,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -28,15 +29,17 @@ class OfferDetailScreen extends React.PureComponent {
     this.state = {
       qty: 1,
       successModal: false,
+      desc: '',
     };
   }
 
   handleSubmit = params => {
-    const {qty} = this.state;
+    const {qty, desc} = this.state;
     this.props.createOffer(
       {
         id_penawaran: params.id_penawaran,
         qty,
+        keterangan: desc,
       },
       () => {
         this.props.getCartList();
@@ -60,6 +63,25 @@ class OfferDetailScreen extends React.PureComponent {
             <Text color={Colors.fontSemiBlack} lineHeight={20}>
               {params?.keterangan_produk}
             </Text>
+
+            <Spacer height={20} />
+            <Text family="bold">Keterangan (Tidak wajib)</Text>
+            <Spacer height={5} />
+            <TextInput
+              placeholder="Masukkan keterangan..."
+              placeholderTextColor={Colors.placeholder}
+              multiline
+              onChangeText={text => this.setState({desc: text})}
+              style={{
+                height: scale(80),
+                borderRadius: scale(12),
+                borderWidth: 1,
+                borderColor: Colors.outlineBase,
+                textAlignVertical: 'top',
+                paddingHorizontal: scale(12),
+                color: Colors.fontBlack,
+              }}
+            />
             {/* <Spacer height={20} />
             <Text family="bold">Deskripsi</Text>
             <Spacer height={5} />
@@ -122,7 +144,7 @@ const styles = StyleSheet.create({
   image: {
     width: scale(320),
     height: scale(200),
-    resizeMode: 'cover',
+    resizeMode: 'contain',
     backgroundColor: '#f2f2f2',
   },
   icAddRemove: {

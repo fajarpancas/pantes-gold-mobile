@@ -58,6 +58,9 @@ class HomePurchaseScreen extends React.PureComponent {
         getJenisBarang();
       }
     }, 300);
+    const date = new Date();
+    const stringDate = String(date);
+    console.tron.error({stringDate});
   }
 
   onRefresh = (page: number) => {
@@ -138,327 +141,335 @@ class HomePurchaseScreen extends React.PureComponent {
   };
 
   render(): React.ReactNode {
-    const {loading, purchaseOrder, cabang, jenisBarang} = this.props;
-    const {
-      modalVisible,
-      cabangSelected,
-      kadarSelected,
-      statusSelected,
-      jenisSelected,
-      warnaSelected,
-    } = this.state;
-    const purchaseOrderLists = purchaseOrder?.data || [];
+    try {
+      const {loading, purchaseOrder, cabang, jenisBarang} = this.props;
+      const {
+        modalVisible,
+        cabangSelected,
+        kadarSelected,
+        statusSelected,
+        jenisSelected,
+        warnaSelected,
+      } = this.state;
+      const purchaseOrderLists = purchaseOrder?.data || [];
 
-    return (
-      <View style={styles.container}>
-        <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
+      return (
+        <View style={styles.container}>
+          <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
 
-        <Spacer height={20} />
+          <Spacer height={20} />
 
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: scale(20),
-          }}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() =>
-              this.setState({modalVisible: true}, () => this.props.getCabang())
-            }
-            style={styles.searchWrapper2}>
-            <View
-              style={{
-                width: cabangSelected?.nama_toko ? scale(50) : scale(75),
-              }}>
-              <Text numberOfLines={1}>
-                {cabangSelected ? cabangSelected?.nama_toko : 'Cari Cabang'}
-              </Text>
-            </View>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image source={Images.iconDropdown} style={styles.dropdown} />
-              {cabangSelected?.kd_toko ? (
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() =>
-                    this.setState({cabangSelected: undefined}, () => {
-                      setTimeout(() => {
-                        this.onRefresh(1);
-                      }, 500);
-                    })
-                  }>
-                  <Image source={Images.iconClose} style={styles.close} />
-                </TouchableOpacity>
-              ) : null}
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => this.setState({modalVisibleJenis: true})}
-            style={styles.searchWrapper2}>
-            <View
-              style={{
-                width: jenisSelected?.nama_jenis_barang ? scale(50) : scale(75),
-              }}>
-              <Text numberOfLines={1}>
-                {jenisSelected
-                  ? jenisSelected?.nama_jenis_barang
-                  : 'Jenis Barang'}
-              </Text>
-            </View>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image source={Images.iconDropdown} style={styles.dropdown} />
-              {jenisSelected?.nama_jenis_barang ? (
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() =>
-                    this.setState({jenisSelected: undefined}, () => {
-                      setTimeout(() => {
-                        this.onRefresh(1);
-                      }, 500);
-                    })
-                  }>
-                  <Image source={Images.iconClose} style={styles.close} />
-                </TouchableOpacity>
-              ) : null}
-            </View>
-          </TouchableOpacity>
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: scale(20),
-          }}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => this.setState({modalStatusVisible: true})}
-            style={styles.searchWrapper2}>
-            <View
-              style={{
-                width:
-                  typeof statusSelected === 'number' ? scale(50) : scale(75),
-              }}>
-              <Text numberOfLines={1}>
-                {typeof statusSelected === 'number'
-                  ? STATUS[statusSelected]?.name
-                  : 'Status'}
-              </Text>
-            </View>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image source={Images.iconDropdown} style={styles.dropdown} />
-              {typeof statusSelected === 'number' ? (
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() =>
-                    this.setState({statusSelected: undefined}, () => {
-                      setTimeout(() => {
-                        this.onRefresh(1);
-                      }, 500);
-                    })
-                  }>
-                  <Image source={Images.iconClose} style={styles.close} />
-                </TouchableOpacity>
-              ) : null}
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => this.setState({modalKadarVisible: true})}
-            style={styles.searchWrapper2}>
-            <View
-              style={{
-                width: kadarSelected ? scale(50) : scale(75),
-              }}>
-              <Text numberOfLines={1} textTransform="capitalize">
-                {kadarSelected ? kadarSelected : 'Kadar'}
-              </Text>
-            </View>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image source={Images.iconDropdown} style={styles.dropdown} />
-              {kadarSelected ? (
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() =>
-                    this.setState({kadarSelected: undefined}, () => {
-                      setTimeout(() => {
-                        this.onRefresh(1);
-                      }, 500);
-                    })
-                  }>
-                  <Image source={Images.iconClose} style={styles.close} />
-                </TouchableOpacity>
-              ) : null}
-            </View>
-          </TouchableOpacity>
-        </View>
-
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => this.setState({modalVisibleWarna: true})}
-          style={{...styles.searchWrapper2, marginLeft: scale(20)}}>
           <View
             style={{
-              width: warnaSelected ? scale(50) : scale(75),
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginHorizontal: scale(20),
             }}>
-            <Text numberOfLines={1} textTransform="capitalize">
-              {warnaSelected ?? 'Warna'}
-            </Text>
-          </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image source={Images.iconDropdown} style={styles.dropdown} />
-            {warnaSelected ? (
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() =>
-                  this.setState({warnaSelected: undefined}, () => {
-                    setTimeout(() => {
-                      this.onRefresh(1);
-                    }, 500);
-                  })
-                }>
-                <Image source={Images.iconClose} style={styles.close} />
-              </TouchableOpacity>
-            ) : null}
-          </View>
-        </TouchableOpacity>
-
-        <FlatList
-          data={purchaseOrderLists}
-          numColumns={3}
-          renderItem={({item, index}) => {
-            return (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() =>
+                this.setState({modalVisible: true}, () =>
+                  this.props.getCabang(),
+                )
+              }
+              style={styles.searchWrapper2}>
               <View
-                style={[
-                  styles.padding,
-                  index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
-                ]}>
-                <OrderCard
-                  item={item}
-                  onPress={() => {
-                    NavigationServices.navigate('PurchaseOrderDetailScreen', {
-                      ...item,
-                      filter: {cabangSelected, statusSelected},
-                    });
-                  }}
-                />
+                style={{
+                  width: cabangSelected?.nama_toko ? scale(50) : scale(75),
+                }}>
+                <Text numberOfLines={1}>
+                  {cabangSelected ? cabangSelected?.nama_toko : 'Cari Cabang'}
+                </Text>
               </View>
-            );
-          }}
-          onRefresh={() => this.onRefresh(1)}
-          refreshing={loading}
-          contentContainerStyle={
-            purchaseOrderLists?.length
-              ? styles.paddingHorizontal
-              : styles.emptyContainer
-          }
-          onEndReachedThreshold={1}
-          onEndReached={(distance: any) => {
-            console.tron.log('onEndReached ', distance);
-            if (distance.distanceFromEnd > 110) {
-              this.onLoadMore();
-            }
-          }}
-          ListEmptyComponent={() => {
-            if (!loading) {
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Image source={Images.iconDropdown} style={styles.dropdown} />
+                {cabangSelected?.kd_toko ? (
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      this.setState({cabangSelected: undefined}, () => {
+                        setTimeout(() => {
+                          this.onRefresh(1);
+                        }, 500);
+                      })
+                    }>
+                    <Image source={Images.iconClose} style={styles.close} />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => this.setState({modalVisibleJenis: true})}
+              style={styles.searchWrapper2}>
+              <View
+                style={{
+                  width: jenisSelected?.nama_jenis_barang
+                    ? scale(50)
+                    : scale(75),
+                }}>
+                <Text numberOfLines={1}>
+                  {jenisSelected
+                    ? jenisSelected?.nama_jenis_barang
+                    : 'Jenis Barang'}
+                </Text>
+              </View>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Image source={Images.iconDropdown} style={styles.dropdown} />
+                {jenisSelected?.nama_jenis_barang ? (
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      this.setState({jenisSelected: undefined}, () => {
+                        setTimeout(() => {
+                          this.onRefresh(1);
+                        }, 500);
+                      })
+                    }>
+                    <Image source={Images.iconClose} style={styles.close} />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginHorizontal: scale(20),
+            }}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => this.setState({modalStatusVisible: true})}
+              style={styles.searchWrapper2}>
+              <View
+                style={{
+                  width:
+                    typeof statusSelected === 'number' ? scale(50) : scale(75),
+                }}>
+                <Text numberOfLines={1}>
+                  {typeof statusSelected === 'number'
+                    ? STATUS[statusSelected]?.name
+                    : 'Status'}
+                </Text>
+              </View>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Image source={Images.iconDropdown} style={styles.dropdown} />
+                {typeof statusSelected === 'number' ? (
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      this.setState({statusSelected: undefined}, () => {
+                        setTimeout(() => {
+                          this.onRefresh(1);
+                        }, 500);
+                      })
+                    }>
+                    <Image source={Images.iconClose} style={styles.close} />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => this.setState({modalKadarVisible: true})}
+              style={styles.searchWrapper2}>
+              <View
+                style={{
+                  width: kadarSelected ? scale(50) : scale(75),
+                }}>
+                <Text numberOfLines={1} textTransform="capitalize">
+                  {kadarSelected ? kadarSelected : 'Kadar'}
+                </Text>
+              </View>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Image source={Images.iconDropdown} style={styles.dropdown} />
+                {kadarSelected ? (
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      this.setState({kadarSelected: undefined}, () => {
+                        setTimeout(() => {
+                          this.onRefresh(1);
+                        }, 500);
+                      })
+                    }>
+                    <Image source={Images.iconClose} style={styles.close} />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => this.setState({modalVisibleWarna: true})}
+            style={{...styles.searchWrapper2, marginLeft: scale(20)}}>
+            <View
+              style={{
+                width: warnaSelected ? scale(50) : scale(75),
+              }}>
+              <Text numberOfLines={1} textTransform="capitalize">
+                {warnaSelected ?? 'Warna'}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image source={Images.iconDropdown} style={styles.dropdown} />
+              {warnaSelected ? (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() =>
+                    this.setState({warnaSelected: undefined}, () => {
+                      setTimeout(() => {
+                        this.onRefresh(1);
+                      }, 500);
+                    })
+                  }>
+                  <Image source={Images.iconClose} style={styles.close} />
+                </TouchableOpacity>
+              ) : null}
+            </View>
+          </TouchableOpacity>
+
+          <FlatList
+            data={purchaseOrderLists}
+            numColumns={3}
+            renderItem={({item, index}) => {
               return (
-                <View>
-                  <Spacer height={60} />
-                  <Image source={Images.iconEmpty} style={styles.emptyIcon} />
-                  <Text size={16} textAlign="center" lineHeight={21.86}>
-                    Data yang anda cari{'\n'}tidak ditemukan
-                  </Text>
+                <View
+                  style={[
+                    styles.padding,
+                    index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
+                  ]}>
+                  <OrderCard
+                    item={item}
+                    onPress={() => {
+                      NavigationServices.navigate('PurchaseOrderDetailScreen', {
+                        ...item,
+                        filter: {cabangSelected, statusSelected},
+                      });
+                    }}
+                  />
                 </View>
               );
+            }}
+            onRefresh={() => this.onRefresh(1)}
+            refreshing={loading}
+            contentContainerStyle={
+              purchaseOrderLists?.length
+                ? styles.paddingHorizontal
+                : styles.emptyContainer
             }
-            return null;
-          }}
-          ListFooterComponent={this.renderLoading}
-        />
-        <ModalSelectCabang
-          cabang={cabang}
-          modalVisible={modalVisible}
-          onHide={() => this.setState({modalVisible: false})}
-          onSelected={c =>
-            this.setState({cabangSelected: c}, () => {
-              setTimeout(() => {
-                this.onRefresh(1);
-              }, 500);
-            })
-          }
-        />
-        <ModalSelectJenisBarang
-          jenisBarang={jenisBarang || []}
-          modalVisible={this.state.modalVisibleJenis}
-          onHide={() => this.setState({modalVisibleJenis: false})}
-          onSelected={c =>
-            this.setState({jenisSelected: c}, () => this.onRefresh(1))
-          }
-        />
-        <Modal transparent visible={this.state.modalStatusVisible}>
-          <View style={styles.modalBackground} />
-          <View style={styles.modalContainer}>
-            <View style={styles.modalWrapper}>
-              <Text size={16} family="bold">
-                Pilih Status
-              </Text>
-              <Spacer height={10} />
-              <View style={{alignItems: 'center'}}>
-                {STATUS.map((s, index) => {
-                  const isSelected = index === statusSelected;
-                  return (
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.setState(
-                          {
-                            modalStatusVisible: false,
-                            statusSelected: index,
-                          },
-                          () => {
-                            this.onRefresh(1);
-                          },
-                        )
-                      }
-                      style={{
-                        backgroundColor: isSelected
-                          ? Colors.primary
-                          : Colors.white,
-                        borderColor: Colors.outlineBase,
-                        borderWidth: 1,
-                        width: scale(320),
-                        borderRadius: scale(8),
-                        marginVertical: scale(2),
-                        alignItems: 'center',
-                        paddingVertical: scale(10),
-                      }}>
-                      <Text color={isSelected ? Colors.white : Colors.black}>
-                        {s.name}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
+            onEndReachedThreshold={1}
+            onEndReached={(distance: any) => {
+              console.tron.log('onEndReached ', distance);
+              if (distance.distanceFromEnd > 110) {
+                this.onLoadMore();
+              }
+            }}
+            ListEmptyComponent={() => {
+              if (!loading) {
+                return (
+                  <View>
+                    <Spacer height={60} />
+                    <Image source={Images.iconEmpty} style={styles.emptyIcon} />
+                    <Text size={16} textAlign="center" lineHeight={21.86}>
+                      Data yang anda cari{'\n'}tidak ditemukan
+                    </Text>
+                  </View>
+                );
+              }
+              return null;
+            }}
+            ListFooterComponent={this.renderLoading}
+          />
+          <ModalSelectCabang
+            cabang={cabang}
+            modalVisible={modalVisible}
+            onHide={() => this.setState({modalVisible: false})}
+            onSelected={c =>
+              this.setState({cabangSelected: c}, () => {
+                setTimeout(() => {
+                  this.onRefresh(1);
+                }, 500);
+              })
+            }
+          />
+          <ModalSelectJenisBarang
+            jenisBarang={jenisBarang || []}
+            modalVisible={this.state.modalVisibleJenis}
+            onHide={() => this.setState({modalVisibleJenis: false})}
+            onSelected={c =>
+              this.setState({jenisSelected: c}, () => this.onRefresh(1))
+            }
+          />
+          <Modal transparent visible={this.state.modalStatusVisible}>
+            <View style={styles.modalBackground} />
+            <View style={styles.modalContainer}>
+              <View style={styles.modalWrapper}>
+                <Text size={16} family="bold">
+                  Pilih Status
+                </Text>
+                <Spacer height={10} />
+                <View style={{alignItems: 'center'}}>
+                  {STATUS.map((s, index) => {
+                    const isSelected = index === statusSelected;
+                    return (
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.setState(
+                            {
+                              modalStatusVisible: false,
+                              statusSelected: index,
+                            },
+                            () => {
+                              this.onRefresh(1);
+                            },
+                          )
+                        }
+                        style={{
+                          backgroundColor: isSelected
+                            ? Colors.primary
+                            : Colors.white,
+                          borderColor: Colors.outlineBase,
+                          borderWidth: 1,
+                          width: scale(320),
+                          borderRadius: scale(8),
+                          marginVertical: scale(2),
+                          alignItems: 'center',
+                          paddingVertical: scale(10),
+                        }}>
+                        <Text color={isSelected ? Colors.white : Colors.black}>
+                          {s.name}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
               </View>
             </View>
-          </View>
-        </Modal>
+          </Modal>
 
-        <ModalSelectKadar
-          kadar={KADAR}
-          modalVisible={this.state.modalKadarVisible}
-          onHide={() => this.setState({modalKadarVisible: false})}
-          onSelected={c => this.setState({kadarSelected: c}, this.onRefresh)}
-        />
+          <ModalSelectKadar
+            kadar={KADAR}
+            modalVisible={this.state.modalKadarVisible}
+            onHide={() => this.setState({modalKadarVisible: false})}
+            onSelected={c => this.setState({kadarSelected: c}, this.onRefresh)}
+          />
 
-        <ModalSelectWarna
-          modalVisible={this.state.modalVisibleWarna}
-          onHide={() => this.setState({modalVisibleWarna: false})}
-          onSelected={c =>
-            this.setState({warnaSelected: c?.color}, () => this.onRefresh(1))
-          }
-        />
-      </View>
-    );
+          <ModalSelectWarna
+            modalVisible={this.state.modalVisibleWarna}
+            onHide={() => this.setState({modalVisibleWarna: false})}
+            onSelected={c =>
+              this.setState({warnaSelected: c?.color}, () => this.onRefresh(1))
+            }
+          />
+        </View>
+      );
+    } catch {
+      return <View />;
+    }
   }
 }
 

@@ -99,8 +99,8 @@ android {
         applicationId "com.pantesrequest"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 5
-        versionName "1.0.7"
+        versionCode 7
+        versionName "1.0.9"
         multiDexEnabled true
     }
 
@@ -118,6 +118,12 @@ android {
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
+        }
+         release {
+            storeFile file('pantest_key.keystore')
+            storePassword 'pantestgold!!'
+            keyAlias 'pantest_alias'
+            keyPassword 'pantestgold!!'
         }
     }
     buildTypes {
@@ -145,7 +151,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             resValue "string", "app_name", "Pantes Request"
             resValue "string", "CodePushDeploymentKey", '"mKbsUbm9Gg2p2SnfEDCPAkIGRsNTATSaDOPKe"'
             buildConfigField "String", "BASE_URL", '"https://reqres.in/"'

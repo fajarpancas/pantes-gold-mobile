@@ -68,64 +68,68 @@ class MenuBuyScreen extends React.PureComponent {
   };
 
   render(): React.ReactNode {
-    const {pesanCuci, loading} = this.props;
-    const pesanCuciList = pesanCuci?.data || [];
+    try {
+      const {pesanCuci, loading} = this.props;
+      const pesanCuciList = pesanCuci?.data || [];
 
-    return (
-      <View style={styles.flexCenter}>
-        <FlatList
-          data={pesanCuciList}
-          renderItem={({item, index}) => (
-            <View
-              style={[
-                styles.padding,
-                index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
-              ]}>
-              <PesanCuciCard
-                item={item}
-                onPress={() =>
-                  NavigationServices.navigate('PesanCuciDetailScreen', item)
-                }
-              />
-            </View>
-          )}
-          contentContainerStyle={
-            pesanCuciList?.length
-              ? styles.paddingHorizontal
-              : styles.emptyContainer
-          }
-          refreshing={loading}
-          onRefresh={() => this.onRefresh(1)}
-          numColumns={3}
-          onEndReachedThreshold={1}
-          onEndReached={(distance: any) => {
-            console.tron.log('onEndReached ', distance);
-            if (distance.distanceFromEnd > 110) {
-              this.onLoadMore();
+      return (
+        <View style={styles.flexCenter}>
+          <FlatList
+            data={pesanCuciList}
+            renderItem={({item, index}) => (
+              <View
+                style={[
+                  styles.padding,
+                  index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
+                ]}>
+                <PesanCuciCard
+                  item={item}
+                  onPress={() =>
+                    NavigationServices.navigate('PesanCuciDetailScreen', item)
+                  }
+                />
+              </View>
+            )}
+            contentContainerStyle={
+              pesanCuciList?.length
+                ? styles.paddingHorizontal
+                : styles.emptyContainer
             }
-          }}
-          ListEmptyComponent={() => {
-            if (!loading) {
-              return (
-                <View>
-                  <Spacer height={60} />
-                  <Image source={Images.iconEmpty} style={styles.emptyIcon} />
-                  <Text size={16} textAlign="center" lineHeight={21.86}>
-                    Belum ada penawaran{'\n'}yang dibuat
-                  </Text>
-                </View>
-              );
-            }
-            return null;
-          }}
-          ListFooterComponent={this.renderLoading}
-        />
+            refreshing={loading}
+            onRefresh={() => this.onRefresh(1)}
+            numColumns={3}
+            onEndReachedThreshold={1}
+            onEndReached={(distance: any) => {
+              console.tron.log('onEndReached ', distance);
+              if (distance.distanceFromEnd > 110) {
+                this.onLoadMore();
+              }
+            }}
+            ListEmptyComponent={() => {
+              if (!loading) {
+                return (
+                  <View>
+                    <Spacer height={60} />
+                    <Image source={Images.iconEmpty} style={styles.emptyIcon} />
+                    <Text size={16} textAlign="center" lineHeight={21.86}>
+                      Belum ada penawaran{'\n'}yang dibuat
+                    </Text>
+                  </View>
+                );
+              }
+              return null;
+            }}
+            ListFooterComponent={this.renderLoading}
+          />
 
-        <FloatingAdd
-          onPress={() => NavigationServices.navigate('AddPesanCuci', {})}
-        />
-      </View>
-    );
+          <FloatingAdd
+            onPress={() => NavigationServices.navigate('AddPesanCuci', {})}
+          />
+        </View>
+      );
+    } catch {
+      return <View />;
+    }
   }
 }
 

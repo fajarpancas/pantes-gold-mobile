@@ -37,11 +37,14 @@ class OrderDetailScreen extends React.PureComponent {
   };
 
   getStyles = (status: number) => {
-    return {backgroundColor: STATUS[status - 1]?.color || Colors.outlineBase};
+    if (status > 0) {
+      return {backgroundColor: STATUS[status - 1]?.color || Colors.outlineBase};
+    }
+    return {backgroundColor: 'yellow'};
   };
 
   getItemStatus = (status: number) => {
-    return STATUS[status - 1]?.name;
+    return STATUS[status - 1]?.name || 'Kirim Sebagian';
   };
 
   submit = () => {
@@ -191,35 +194,40 @@ class OrderDetailScreen extends React.PureComponent {
           </View>
         </ScrollView>
 
-        <View>
-          {orderDetail?.status === 4 ? (
-            <View
-              style={{paddingHorizontal: scale(20), paddingBottom: scale(20)}}>
-              <Button
-                title="Submit Tanggal Terima"
-                loading={loading}
-                color={Colors.primary}
-                onPress={this.submit}
-              />
-            </View>
-          ) : (
-            <View
-              style={[
-                this.getStyles(orderDetail?.status),
-                styles.statusWrapper,
-              ]}>
-              <Text
-                family="bold"
-                color={
-                  STATUS[orderDetail?.status - 1]?.textColor ??
-                  Colors.fontSemiBlack
-                }
-                size={16}>
-                {this.getItemStatus(orderDetail?.status)}
-              </Text>
-            </View>
-          )}
-        </View>
+        {loading ? null : (
+          <View>
+            {orderDetail?.status === 4 ? (
+              <View
+                style={{
+                  paddingHorizontal: scale(20),
+                  paddingBottom: scale(20),
+                }}>
+                <Button
+                  title="Submit Tanggal Terima"
+                  loading={loading}
+                  color={Colors.primary}
+                  onPress={this.submit}
+                />
+              </View>
+            ) : (
+              <View
+                style={[
+                  this.getStyles(orderDetail?.status),
+                  styles.statusWrapper,
+                ]}>
+                <Text
+                  family="bold"
+                  color={
+                    STATUS[orderDetail?.status - 1]?.textColor ??
+                    Colors.fontSemiBlack
+                  }
+                  size={16}>
+                  {this.getItemStatus(orderDetail?.status)}
+                </Text>
+              </View>
+            )}
+          </View>
+        )}
       </View>
     );
   }

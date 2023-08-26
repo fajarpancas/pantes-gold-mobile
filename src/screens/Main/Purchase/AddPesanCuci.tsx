@@ -102,8 +102,8 @@ class AddPesanCuci extends React.PureComponent {
           compressImageMaxHeight: 720,
           compressImageMaxWidth: 720,
           cropping: true,
-          width: scale(640),
-          height: scale(370),
+          // width: scale(640),
+          // height: scale(370),
           includeBase64: true,
         },
         async (response: ImageResponse) => {
@@ -130,8 +130,8 @@ class AddPesanCuci extends React.PureComponent {
           compressImageMaxHeight: 720,
           compressImageMaxWidth: 720,
           cropping: true,
-          width: scale(640),
-          height: scale(370),
+          // width: scale(640),
+          // height: scale(370),
           includeBase64: true,
         },
         async (response: ImageResponse) => {

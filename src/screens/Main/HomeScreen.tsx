@@ -59,110 +59,123 @@ class HomeScreen extends React.PureComponent {
   };
 
   render(): React.ReactNode {
-    const {loading, homeData} = this.props;
-    if (loading) {
+    try {
+      const {loading, homeData} = this.props;
+      if (loading) {
+        return (
+          <View style={styles.container}>
+            <HeaderCabang />
+            <View style={styles.flexCenter}>
+              <ActivityIndicator size={'large'} color={Colors.primary} />
+              <Text color={Colors.primary}>Loading data</Text>
+            </View>
+          </View>
+        );
+      }
+
+      if (homeData?.penawaran?.length === 0 && homeData?.order?.length === 0) {
+        return (
+          <View style={styles.flexCenter}>
+            <Text color={Colors.primary}>Belum ada data</Text>
+          </View>
+        );
+      }
+
       return (
         <View style={styles.container}>
-          <HeaderCabang />
-          <View style={styles.flexCenter}>
-            <ActivityIndicator size={'large'} color={Colors.primary} />
-            <Text color={Colors.primary}>Loading data</Text>
-          </View>
+          <ScrollView
+            contentContainerStyle={{flexGrow: 1}}
+            refreshControl={
+              <RefreshControl onRefresh={this.onRefresh} refreshing={loading} />
+            }>
+            <StatusBar
+              backgroundColor={Colors.white}
+              barStyle={'dark-content'}
+            />
+
+            <HeaderCabang showLogout />
+            <Spacer height={30} />
+            {homeData?.order?.length ? (
+              <>
+                <View style={[styles.padding20, styles.flexRow]}>
+                  <Text size={16} family="bold">
+                    Pesanan
+                  </Text>
+                  <TouchableOpacity onPress={this.navigate} activeOpacity={0.8}>
+                    <Text size={12} family="semiBold" color={Colors.primary}>
+                      Lihat semua
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <Spacer height={10} />
+                <View style={styles.listWrapper}>
+                  {homeData?.order.map((item: Order, index: number) => {
+                    return (
+                      <View style={index !== 0 ? styles.paddingLeft10 : {}}>
+                        <OrderCard
+                          item={item}
+                          onPress={() =>
+                            NavigationServices.navigate(
+                              'OrderDetailScreen',
+                              item,
+                            )
+                          }
+                        />
+                      </View>
+                    );
+                  })}
+                </View>
+              </>
+            ) : (
+              <View />
+            )}
+
+            {homeData?.penawaran?.length ? (
+              <>
+                <Spacer height={25} />
+                <View style={[styles.padding20, styles.flexRow]}>
+                  <Text size={16} family="bold">
+                    Penawaran
+                  </Text>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      NavigationServices.navigate('OfferScreen', {})
+                    }>
+                    <Text size={12} family="semiBold" color={Colors.primary}>
+                      Lihat semua
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <Spacer height={10} />
+                <View style={styles.listWrapper}>
+                  {homeData?.penawaran.map((item: Penawaran, index: number) => {
+                    return (
+                      <View style={index !== 0 ? styles.paddingLeft10 : {}}>
+                        <OfferCard
+                          item={item}
+                          onPress={() =>
+                            NavigationServices.navigate(
+                              'OfferDetailScreen',
+                              item,
+                            )
+                          }
+                        />
+                      </View>
+                    );
+                  })}
+                </View>
+                <Spacer height={30} />
+              </>
+            ) : (
+              <View />
+            )}
+          </ScrollView>
         </View>
       );
+    } catch {
+      <View />;
     }
-
-    if (homeData?.penawaran?.length === 0 && homeData?.order?.length === 0) {
-      return (
-        <View style={styles.flexCenter}>
-          <Text color={Colors.primary}>Belum ada data</Text>
-        </View>
-      );
-    }
-
-    return (
-      <View style={styles.container}>
-        <ScrollView
-          contentContainerStyle={{flexGrow: 1}}
-          refreshControl={
-            <RefreshControl onRefresh={this.onRefresh} refreshing={loading} />
-          }>
-          <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
-
-          <HeaderCabang showLogout />
-          <Spacer height={30} />
-          {homeData?.order?.length ? (
-            <>
-              <View style={[styles.padding20, styles.flexRow]}>
-                <Text size={16} family="bold">
-                  Pesanan
-                </Text>
-                <TouchableOpacity onPress={this.navigate} activeOpacity={0.8}>
-                  <Text size={12} family="semiBold" color={Colors.primary}>
-                    Lihat semua
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <Spacer height={10} />
-              <View style={styles.listWrapper}>
-                {homeData?.order.map((item: Order, index: number) => {
-                  return (
-                    <View style={index !== 0 ? styles.paddingLeft10 : {}}>
-                      <OrderCard
-                        item={item}
-                        onPress={() =>
-                          NavigationServices.navigate('OrderDetailScreen', item)
-                        }
-                      />
-                    </View>
-                  );
-                })}
-              </View>
-            </>
-          ) : (
-            <View />
-          )}
-
-          {homeData?.penawaran?.length ? (
-            <>
-              <Spacer height={25} />
-              <View style={[styles.padding20, styles.flexRow]}>
-                <Text size={16} family="bold">
-                  Penawaran
-                </Text>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() =>
-                    NavigationServices.navigate('OfferScreen', {})
-                  }>
-                  <Text size={12} family="semiBold" color={Colors.primary}>
-                    Lihat semua
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <Spacer height={10} />
-              <View style={styles.listWrapper}>
-                {homeData?.penawaran.map((item: Penawaran, index: number) => {
-                  return (
-                    <View style={index !== 0 ? styles.paddingLeft10 : {}}>
-                      <OfferCard
-                        item={item}
-                        onPress={() =>
-                          NavigationServices.navigate('OfferDetailScreen', item)
-                        }
-                      />
-                    </View>
-                  );
-                })}
-              </View>
-              <Spacer height={30} />
-            </>
-          ) : (
-            <View />
-          )}
-        </ScrollView>
-      </View>
-    );
   }
 }
 

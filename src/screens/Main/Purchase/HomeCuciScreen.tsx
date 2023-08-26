@@ -87,141 +87,145 @@ class HomeCuciScreen extends React.PureComponent {
   };
 
   render(): React.ReactNode {
-    const {loading, pusatPesanCuci} = this.props;
-    const {modalVisible, statusSelected} = this.state;
-    const pusatPesanCuciLists = pusatPesanCuci?.data || [];
+    try {
+      const {loading, pusatPesanCuci} = this.props;
+      const {modalVisible, statusSelected} = this.state;
+      const pusatPesanCuciLists = pusatPesanCuci?.data || [];
 
-    return (
-      <View style={styles.container}>
-        <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
+      return (
+        <View style={styles.container}>
+          <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
 
-        <View style={styles.searchWrapper}>
-          <Text>
-            {typeof statusSelected === 'number'
-              ? STATUS[statusSelected]?.name
-              : 'Filter status'}
-          </Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => this.setState({modalVisible: true})}>
-              <Image source={Images.iconFilter} style={styles.dropdown} />
-            </TouchableOpacity>
-            {typeof statusSelected === 'number' ? (
+          <View style={styles.searchWrapper}>
+            <Text>
+              {typeof statusSelected === 'number'
+                ? STATUS[statusSelected]?.name
+                : 'Filter status'}
+            </Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={() =>
-                  this.setState({statusSelected: undefined}, () => {
-                    setTimeout(() => {
-                      this.onRefresh();
-                    }, 500);
-                  })
-                }>
-                <Image source={Images.iconClose} style={styles.close} />
+                onPress={() => this.setState({modalVisible: true})}>
+                <Image source={Images.iconFilter} style={styles.dropdown} />
               </TouchableOpacity>
-            ) : null}
-          </View>
-        </View>
-        <FlatList
-          data={pusatPesanCuciLists}
-          renderItem={({item, index}) => {
-            return (
-              <View
-                style={[
-                  styles.padding,
-                  index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
-                ]}>
-                <OrderCard
-                  item={item}
-                  onPress={() => {
-                    NavigationServices.navigate(
-                      'PusatPesanCuciDetailScreen',
-                      item,
-                    );
-                  }}
-                />
-              </View>
-            );
-          }}
-          onRefresh={() => this.onRefresh(1)}
-          numColumns={3}
-          onEndReachedThreshold={1}
-          onEndReached={(distance: any) => {
-            console.tron.log('onEndReached ', distance);
-            if (distance.distanceFromEnd > 110) {
-              this.onLoadMore();
-            }
-          }}
-          refreshing={loading}
-          contentContainerStyle={
-            pusatPesanCuciLists?.length
-              ? styles.paddingHorizontal
-              : styles.emptyContainer
-          }
-          ListEmptyComponent={() => {
-            if (!loading) {
-              return (
-                <View>
-                  <Spacer height={60} />
-                  <Image source={Images.iconEmpty} style={styles.emptyIcon} />
-                  <Text size={16} textAlign="center" lineHeight={21.86}>
-                    Data yang anda cari{'\n'}tidak ditemukan
-                  </Text>
-                </View>
-              );
-            }
-            return null;
-          }}
-          ListFooterComponent={this.renderLoading}
-        />
-        <Modal transparent visible={modalVisible}>
-          <View style={styles.modalBackground} />
-          <View style={styles.modalContainer}>
-            <View style={styles.modalWrapper}>
-              <Text size={16} family="bold">
-                Pilih Status
-              </Text>
-              <Spacer height={10} />
-              <View style={{alignItems: 'center'}}>
-                {STATUS.map((s, index) => {
-                  const isSelected = index === statusSelected;
-                  return (
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.setState(
-                          {
-                            modalVisible: false,
-                            statusSelected: index,
-                          },
-                          () => {
-                            this.onRefresh();
-                          },
-                        )
-                      }
-                      style={{
-                        backgroundColor: isSelected
-                          ? Colors.primary
-                          : Colors.white,
-                        borderColor: Colors.outlineBase,
-                        borderWidth: 1,
-                        width: scale(320),
-                        borderRadius: scale(8),
-                        marginVertical: scale(2),
-                        alignItems: 'center',
-                        paddingVertical: scale(10),
-                      }}>
-                      <Text color={isSelected ? Colors.white : Colors.black}>
-                        {s.name}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
+              {typeof statusSelected === 'number' ? (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() =>
+                    this.setState({statusSelected: undefined}, () => {
+                      setTimeout(() => {
+                        this.onRefresh();
+                      }, 500);
+                    })
+                  }>
+                  <Image source={Images.iconClose} style={styles.close} />
+                </TouchableOpacity>
+              ) : null}
             </View>
           </View>
-        </Modal>
-      </View>
-    );
+          <FlatList
+            data={pusatPesanCuciLists}
+            renderItem={({item, index}) => {
+              return (
+                <View
+                  style={[
+                    styles.padding,
+                    index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
+                  ]}>
+                  <OrderCard
+                    item={item}
+                    onPress={() => {
+                      NavigationServices.navigate(
+                        'PusatPesanCuciDetailScreen',
+                        item,
+                      );
+                    }}
+                  />
+                </View>
+              );
+            }}
+            onRefresh={() => this.onRefresh(1)}
+            numColumns={3}
+            onEndReachedThreshold={1}
+            onEndReached={(distance: any) => {
+              console.tron.log('onEndReached ', distance);
+              if (distance.distanceFromEnd > 110) {
+                this.onLoadMore();
+              }
+            }}
+            refreshing={loading}
+            contentContainerStyle={
+              pusatPesanCuciLists?.length
+                ? styles.paddingHorizontal
+                : styles.emptyContainer
+            }
+            ListEmptyComponent={() => {
+              if (!loading) {
+                return (
+                  <View>
+                    <Spacer height={60} />
+                    <Image source={Images.iconEmpty} style={styles.emptyIcon} />
+                    <Text size={16} textAlign="center" lineHeight={21.86}>
+                      Data yang anda cari{'\n'}tidak ditemukan
+                    </Text>
+                  </View>
+                );
+              }
+              return null;
+            }}
+            ListFooterComponent={this.renderLoading}
+          />
+          <Modal transparent visible={modalVisible}>
+            <View style={styles.modalBackground} />
+            <View style={styles.modalContainer}>
+              <View style={styles.modalWrapper}>
+                <Text size={16} family="bold">
+                  Pilih Status
+                </Text>
+                <Spacer height={10} />
+                <View style={{alignItems: 'center'}}>
+                  {STATUS.map((s, index) => {
+                    const isSelected = index === statusSelected;
+                    return (
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.setState(
+                            {
+                              modalVisible: false,
+                              statusSelected: index,
+                            },
+                            () => {
+                              this.onRefresh();
+                            },
+                          )
+                        }
+                        style={{
+                          backgroundColor: isSelected
+                            ? Colors.primary
+                            : Colors.white,
+                          borderColor: Colors.outlineBase,
+                          borderWidth: 1,
+                          width: scale(320),
+                          borderRadius: scale(8),
+                          marginVertical: scale(2),
+                          alignItems: 'center',
+                          paddingVertical: scale(10),
+                        }}>
+                        <Text color={isSelected ? Colors.white : Colors.black}>
+                          {s.name}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      );
+    } catch {
+      return <View />;
+    }
   }
 }
 

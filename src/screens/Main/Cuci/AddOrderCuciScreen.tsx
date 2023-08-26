@@ -59,7 +59,7 @@ class AddOrderCuciScreen extends React.PureComponent {
       weight: Yup.number()
         .min(0.0001, 'Nilai berat emas hanya boleh angka dan lebih dari 0')
         .required('Berat emas harus diisi'),
-      name: Yup.string().required('Nama barang harus dipilih'),
+      name: Yup.string().required('Nama barang harus diisi'),
       jenisBarang: Yup.object().required('Jenis barang harus dipilih'),
     });
   }
@@ -78,8 +78,8 @@ class AddOrderCuciScreen extends React.PureComponent {
           compressImageMaxHeight: 720,
           compressImageMaxWidth: 720,
           cropping: true,
-          width: scale(640),
-          height: scale(370),
+          // width: scale(640),
+          // height: scale(370),
           includeBase64: true,
         },
         async (response: ImageResponse) => {
@@ -106,15 +106,15 @@ class AddOrderCuciScreen extends React.PureComponent {
           compressImageMaxHeight: 720,
           compressImageMaxWidth: 720,
           cropping: true,
-          width: scale(640),
-          height: scale(370),
+          // width: scale(640),
+          // height: scale(370),
           includeBase64: true,
         },
         async (response: ImageResponse) => {
           this.setState({photo: response, photoError: false});
         },
         (error: any) => {
-          console.tron.error({e: error.message});
+          console.tron.error({er: error.message});
         },
       );
     }, 800);

@@ -19,6 +19,7 @@ import UserModel from '../../models/UserModel';
 import {connect} from '../../services/ZustandHelper';
 import useUserStore from '../../stores/user/UserStore';
 import {debounce} from 'debounce';
+import NavigationServices from '../../services/NavigationServices';
 
 class OfferScreen extends React.PureComponent {
   page = 1;
@@ -96,7 +97,13 @@ class OfferScreen extends React.PureComponent {
                   styles.padding,
                   index !== 0 && index % 3 !== 0 ? styles.paddingLeft10 : {},
                 ]}>
-                <OfferCard item={item} hideStatus />
+                <OfferCard
+                  item={item}
+                  hideStatus
+                  onPress={() =>
+                    NavigationServices.navigate('OfferDetailScreen', item)
+                  }
+                />
               </View>
             );
           }}
