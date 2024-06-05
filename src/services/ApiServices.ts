@@ -75,6 +75,7 @@ class ApiServices {
     this.getOrderCuciList = this.getOrderCuciList.bind(this);
     this.submitTerimaOrderCuci = this.submitTerimaOrderCuci.bind(this);
     this.handleResponseMonitoring = this.handleResponseMonitoring.bind(this);
+    this.api.addMonitor(this.handleResponseMonitoring);
   }
 
   setHeaders(headers: HEADERS) {
@@ -86,19 +87,22 @@ class ApiServices {
   }
 
   handleResponseMonitoring(response: ApiResponse<any>) {
-    const {problem, data} = response;
+    const {problem, status, data} = response;
 
-    console.tron.error({response});
     switch (problem) {
       case 'CLIENT_ERROR': {
-        if (data?.message === 'Token is Expired') {
+        if (status === 401 || data?.message === 'Token is Invalid') {
           sessionStore.getState().setLogin(false);
+          DropdownAlertHolder.showError(
+            'Token Expired',
+            'Silahkan login kembali',
+          );
+        } else {
+          DropdownAlertHolder.showError(
+            'Request Gagal',
+            data?.message || data?.error,
+          );
         }
-        console.tron.error({data});
-        DropdownAlertHolder.showError(
-          'Request Gagal',
-          data?.message || data?.error,
-        );
         break;
       }
       case 'CONNECTION_ERROR':
