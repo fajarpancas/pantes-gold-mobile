@@ -99,8 +99,8 @@ android {
         applicationId "com.pantesrequest"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 7
-        versionName "1.0.9"
+        versionCode 8
+        versionName "1.0.10"
         multiDexEnabled true
     }
 
@@ -119,7 +119,7 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
-         release {
+        release {
             storeFile file('pantest_key.keystore')
             storePassword 'pantestgold!!'
             keyAlias 'pantest_alias'

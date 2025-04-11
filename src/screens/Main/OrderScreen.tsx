@@ -322,13 +322,8 @@ class OrderScreen extends React.PureComponent {
             )
           }
           numColumns={3}
-          onEndReachedThreshold={1}
-          onEndReached={(distance: any) => {
-            console.tron.log('onEndReached ', distance);
-            if (distance.distanceFromEnd > 110) {
-              this.onLoadMore();
-            }
-          }}
+          onEndReachedThreshold={0.1}
+          onEndReached={this.onLoadMore}
           ListEmptyComponent={() => {
             if (!loading) {
               return (

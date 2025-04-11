@@ -6,7 +6,7 @@ if (__DEV__) {
   Reactotron?.clear();
 
   // https://github.com/infinitered/reactotron for more options!
-  Reactotron.configure({name: 'Pantes Request', host: '192.168.1.60'})
+  Reactotron.configure({name: 'Pantes Request', host: '192.168.27.126'})
     // Reactotron.configure({name: 'VirtualSpace'})
     .useReactNative()
     .connect();

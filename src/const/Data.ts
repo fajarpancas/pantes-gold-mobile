@@ -23,6 +23,7 @@ export const STATUS = [
   },
   {name: 'Terima', color: Colors.primary, textColor: Colors.white},
   {name: 'Close', color: 'red', textColor: Colors.white},
+  {name: 'Di Tolak', color: '#565F5F', textColor: Colors.white},
 ];
 
 export const WARNA = [
